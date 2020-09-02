@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/icon_awesome_home"
+        android:title="@string/BottomBarHome" />
+
+    <item
+        android:id="@+id/mapFragment"
+        android:icon="@drawable/icon_awesome_map_marked_alt"
+        android:title="@string/BottomBarMap" />
+
+    <item
+        android:id="@+id/creatFragment"
+        android:icon="@drawable/icon_join_group" />
+
+    <item
+        android:id="@+id/bellFragment"
+        android:icon="@drawable/icon_awesome_bell"
+        android:title="@string/BottomBarBell" />
+
+    <item
+        android:id="@+id/MemberFragment"
+        android:icon="@drawable/icon_ionic_md_person"
+        android:title="@string/BottomBarMember" />
+
+</menu>
