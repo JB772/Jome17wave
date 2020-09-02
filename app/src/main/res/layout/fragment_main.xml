@@ -4,18 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.mainFragment"
     android:background="@mipmap/xxxhdpi_background"
-    >
+    tools:context=".main.mainFragment">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/colorOrange"
-        app:labelVisibilityMode="labeled"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorDeepBlue"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/icon_awesome_plus"
+        app:fabCustomSize="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottombar" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.99"
+        app:maxImageSize="32dp" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="666dp"
+            android:background="@color/colorOrange"
+            app:itemIconTint="@color/bottombarcolor"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottombar">
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
