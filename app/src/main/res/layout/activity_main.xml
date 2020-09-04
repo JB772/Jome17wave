@@ -6,43 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <fragment
+        android:id="@+id/fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/navigation" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/colorOrange"
+        app:itemIconTint="@color/bottombarcolor"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <fragment
-            android:id="@+id/fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="670dp"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/navigation" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottomConstrain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigationView"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/colorOrange"
-                app:itemIconTint="@color/bottombarcolor"
-                app:labelVisibilityMode="labeled"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:menu="@menu/bottombar" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+        app:menu="@menu/bottombar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
