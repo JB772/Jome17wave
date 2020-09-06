@@ -9,11 +9,7 @@
         android:id="@+id/mainFragment"
         android:name="com.example.jome17wave.main.mainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment_to_memberFragment"
-            app:destination="@id/memberFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_main" />
     <fragment
         android:id="@+id/memberFragment"
         android:name="com.example.jome17wave.jome_member.MemberFragment"

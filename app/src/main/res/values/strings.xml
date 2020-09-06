@@ -6,4 +6,17 @@
     <string name="BottomBarMap">地圖</string>
     <string name="BottomBarBell">通知</string>
     <string name="BottomBarMember">會員中心</string>
+    <string name="M_Title">會員中心</string>
+    <string name="phoneModify">手機驗証</string>
+    <string name="modifyPw">修改密碼</string>
+    <string name="checkPw">確認密碼</string>
+    <string name="modifyNn">修改暱稱</string>
+    <string name="enterPw">請輸入密碼</string>
+    <string name="againPw">再次輸入密碼</string>
+    <string name="collectScore">目前累積評價</string>
+    <string name="count">次</string>
+    <string name="friend">好友</string>
+    <string name="Score">評分</string>
+    <string name="urGroup">你的揪團</string>
+    <string name="passRecord">過往記錄</string>
 </resources>
