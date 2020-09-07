@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_members"
+    app:startDestination="@id/memberProfileFragment">
+
+    <fragment
+        android:id="@+id/memberProfileFragment"
+        android:name="com.example.jome17wave.jome_member.MemberProfileFragment"
+        android:label="fragment_member_profile"
+        tools:layout="@layout/fragment_member_profile" >
+        <action
+            android:id="@+id/action_memberProfileFragment_to_friendsListFragment"
+            app:destination="@id/friendsListFragment" />
+        <action
+            android:id="@+id/action_memberProfileFragment_to_profileScoreFragment"
+            app:destination="@id/profileScoreFragment" />
+        <action
+            android:id="@+id/action_memberProfileFragment_to_selfGroupFragment"
+            app:destination="@id/selfGroupFragment" />
+        <action
+            android:id="@+id/action_memberProfileFragment_to_selfRecordFragment"
+            app:destination="@id/selfRecordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modifyProfileFragment"
+        android:name="com.example.jome17wave.jome_member.ModifyProfileFragment"
+        android:label="fragment_modify_profile"
+        tools:layout="@layout/fragment_modify_profile" />
+    <fragment
+        android:id="@+id/friendsListFragment"
+        android:name="com.example.jome17wave.jome_member.FriendsListFragment"
+        android:label="fragment_friends_list"
+        tools:layout="@layout/fragment_friends_list" />
+    <fragment
+        android:id="@+id/profileScoreFragment"
+        android:name="com.example.jome17wave.jome_member.ProfileScoreFragment"
+        android:label="fragment_profile_score"
+        tools:layout="@layout/fragment_profile_score" />
+    <fragment
+        android:id="@+id/selfGroupFragment"
+        android:name="com.example.jome17wave.jome_member.SelfGroupFragment"
+        android:label="fragment_self_group"
+        tools:layout="@layout/fragment_self_group" />
+    <fragment
+        android:id="@+id/selfRecordFragment"
+        android:name="com.example.jome17wave.jome_member.SelfRecordFragment"
+        android:label="fragment_self_record"
+        tools:layout="@layout/fragment_self_record" />
+</navigation>

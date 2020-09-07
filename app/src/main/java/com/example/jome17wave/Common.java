@@ -13,12 +13,18 @@ import android.widget.Toast;
 import java.util.Locale;
 
 public class Common {
+<<<<<<< HEAD
     private static final String TAG = "TAG_Common";
     //    public static String URL_SERVER = "http://192.168.196.189:8080/Spot_MySQL_Web/";
     public static String URL_SERVER = "http://10.0.2.2:8080/Jome17wave_web/";
 
 
 
+=======
+    private static final String TAG = "TAG Common";
+    public static String URL_SERVER = "http://10.0.2.2:8080/Jome17wave_web/";
+
+>>>>>>> justin_branch
     /**
      * 檢查是否有網路連線
      */
@@ -51,6 +57,7 @@ public class Common {
         return false;
     }
 
+<<<<<<< HEAD
     public static void showToast(Context context, int messageResId) {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }
@@ -60,3 +67,16 @@ public class Common {
     }
 }
 
+=======
+    /**
+     *
+     * Toast
+     *
+     */
+    public static void showToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+}
+>>>>>>> justin_branch
