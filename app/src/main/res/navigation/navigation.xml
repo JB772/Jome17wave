@@ -11,7 +11,7 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
-<<<<<<< HEAD
+
             android:id="@+id/action_mainFragment_to_mapFragment"
             app:destination="@id/mapsFragment" />
     </fragment>
@@ -28,7 +28,7 @@
         android:id="@+id/mapDetailFragment"
         android:name="com.example.jome17wave.jome_map.MapDetailFragment"
         android:label="fragment_map_detail"
-        tools:layout="@layout/fragment_map_detail" />
+        tools:layout="@layout/fragment_map_detail" >
 =======
             android:id="@+id/action_mainFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
