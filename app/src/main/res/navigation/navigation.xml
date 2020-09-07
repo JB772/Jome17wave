@@ -5,7 +5,7 @@
     android:id="@+id/navigation"
     app:startDestination="@id/mainFragment">
 
-<<<<<<< HEAD
+
         <fragment
             android:id="@+id/mainFragment"
             android:name="com.example.jome17wave.main.mainFragment"
@@ -83,78 +83,3 @@
 
 
 
-
-
-
-=======
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.jome17wave.main.mainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
-        <action
-
-            android:id="@+id/action_mainFragment_to_mapFragment"
-            app:destination="@id/mapsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/mapsFragment"
-        android:name="com.example.jome17wave.jome_map.MapFragment"
-        android:label="fragment_map"
-        tools:layout="@layout/fragment_map" >
-        <action
-            android:id="@+id/action_mapsFragment_to_mapDetailFragment"
-            app:destination="@id/mapDetailFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/mapDetailFragment"
-        android:name="com.example.jome17wave.jome_map.MapDetailFragment"
-        android:label="fragment_map_detail"
-        tools:layout="@layout/fragment_map_detail" >
-=======
-            android:id="@+id/action_mainFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/notificationFragment"
-        android:name="com.example.jome17wave.jome_message.NotificationFragment"
-        android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" >
-        <action
-            android:id="@+id/action_notificationFragment_to_friendInvitationFragment"
-            app:destination="@id/friendInvitationFragment" />
-        <action
-            android:id="@+id/action_notificationFragment_to_messageCenterFragment"
-            app:destination="@id/messageCenterFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/friendInvitationFragment"
-        android:name="com.example.jome17wave.jome_message.friendInvitationFragment"
-        android:label="fragment_friend_invitation"
-        tools:layout="@layout/fragment_friend_invitation" >
-        <action
-            android:id="@+id/action_friendInvitationFragment_to_findNewFriendFragment"
-            app:destination="@id/findNewFriendFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/findNewFriendFragment"
-        android:name="com.example.jome17wave.jome_message.findNewFriendFragment"
-        android:label="fragment_find_new_friend"
-        tools:layout="@layout/fragment_find_new_friend" />
-    <fragment
-        android:id="@+id/messageCenterFragment"
-        android:name="com.example.jome17wave.jome_message.messageCenterFragment"
-        android:label="fragment_message_center"
-        tools:layout="@layout/fragment_message_center" >
-        <action
-            android:id="@+id/action_messageCenterFragment_to_messageFragment"
-            app:destination="@id/messageFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/messageFragment"
-        android:name="com.example.jome17wave.jome_message.messageFragment"
-        android:label="fragment_message"
-        tools:layout="@layout/fragment_message" />
->>>>>>> Karena
-</navigation>
->>>>>>> 08bd34064e6b161e5729222300dcec74f21cdb4e

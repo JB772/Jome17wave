@@ -1,4 +1,4 @@
-package com.example.jome17wave.Task;
+package com.example.jome17wave.task;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,43 +18,44 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
-    private final static String TAG = "ImageTask";
+    private final static String TAG = "TAG_ImageTask";
     private String url;
     private int id, imageSize;
     private WeakReference<ImageView> imageViewWeakReference;
 
-    //取單張圖 → 建構子
-    public ImageTask(int id, String url, int imageSize) {
-        this(id, url, imageSize, null);
+    // 取單張圖片
+    public ImageTask(String url, int id, int imageSize) {
+        this(url, id, imageSize, null);
     }
 
-    //取多張圖 → 建構子
-    public ImageTask(int id, String url, int imageSize, ImageView imageView) {
-        this.id = id;
+    // 取完圖片後使用傳入的ImageView顯示，適用於顯示多張圖片
+    public ImageTask(String url, int id, int imageSize, ImageView imageView) {
         this.url = url;
+        this.id = id;
         this.imageSize = imageSize;
         this.imageViewWeakReference = new WeakReference<>(imageView);
     }
-
 
     @Override
     protected Bitmap doInBackground(Object... params) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getImage");
-        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("SURF_POINT_ID", id);
         jsonObject.addProperty("imageSize", imageSize);
         return getRemoteImage(url, jsonObject.toString());
     }
 
+    // 接到結果直接把圖show出來
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         ImageView imageView = imageViewWeakReference.get();
-        if (isCancelled() || imageView == null){
+        // 使用弱參照之前要先判斷是否為空值，檢查有沒有被資源回收
+        if (isCancelled() || imageView == null) {
             return;
         }
-        if (bitmap != null){
+        if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
-        }else {
+        } else {
             imageView.setImageResource(R.drawable.no_image);
         }
     }
@@ -70,19 +71,21 @@ public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
             connection.setRequestMethod("POST");
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
             bw.write(jsonOut);
-            Log.d(TAG, jsonOut);
+            Log.d(TAG, "output: " + jsonOut);
             bw.close();
 
             int responseCode = connection.getResponseCode();
-            if (responseCode == 200){
-                bitmap = BitmapFactory.decodeStream(new BufferedInputStream(connection.getInputStream()));
-            }else {
+
+            if (responseCode == 200) {
+                bitmap = BitmapFactory.decodeStream(
+                        new BufferedInputStream(connection.getInputStream()));
+            } else {
                 Log.d(TAG, "response code: " + responseCode);
             }
         } catch (IOException e) {
-            Log.d(TAG, e.toString());
-        }finally {
-            if (connection == null){
+            Log.e(TAG, e.toString());
+        } finally {
+            if (connection != null) {
                 connection.disconnect();
             }
         }
