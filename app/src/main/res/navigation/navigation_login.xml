@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_login"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.jome17wave.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_forgetPwFragment"
+            app:destination="@id/forgetPwFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerMemberFragment"
+            app:destination="@id/registerMemberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPwFragment"
+        android:name="com.example.jome17wave.ForgetPwFragment"
+        android:label="fragment_forget_pw"
+        tools:layout="@layout/fragment_forget_pw" />
+    <fragment
+        android:id="@+id/registerMemberFragment"
+        android:name="com.example.jome17wave.RegisterMemberFragment"
+        android:label="fragment_register_member"
+        tools:layout="@layout/fragment_register_member" />
+</navigation>

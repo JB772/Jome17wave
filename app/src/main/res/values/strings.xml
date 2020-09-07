@@ -19,4 +19,6 @@
     <string name="Score">評分</string>
     <string name="urGroup">你的揪團</string>
     <string name="passRecord">過往記錄</string>
+    <string name="etAccount">請輸入會員帳號</string>
+    <string name="loginTitle">JoMe17浪</string>
 </resources>
