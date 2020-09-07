@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/homeFragment"
+        android:id="@+id/mainFragment"
         android:icon="@drawable/icon_awesome_home"
         android:title="@string/BottomBarHome" />
 
     <item
-        android:id="@+id/mapFragment"
+        android:id="@+id/mapsFragment"
         android:icon="@drawable/icon_awesome_map_marked_alt"
         android:title="@string/BottomBarMap" />
 

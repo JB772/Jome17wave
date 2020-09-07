@@ -9,5 +9,23 @@
         android:id="@+id/mainFragment"
         android:name="com.example.jome17wave.main.mainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_mapFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.jome17wave.jome_map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapsFragment_to_mapDetailFragment"
+            app:destination="@id/mapDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapDetailFragment"
+        android:name="com.example.jome17wave.jome_map.MapDetailFragment"
+        android:label="fragment_map_detail"
+        tools:layout="@layout/fragment_map_detail" />
 </navigation>

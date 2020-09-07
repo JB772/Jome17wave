@@ -6,4 +6,8 @@
     <string name="BottomBarMap">地圖</string>
     <string name="BottomBarBell">通知</string>
     <string name="BottomBarMember">會員中心</string>
+    <string name="SearchViewText">請輸入浪點</string>
+    <string name="MapAppName">地圖</string>
+    <string name="textNoNetwork">no network connection available</string>
+    <string name="textNoMapsFound">no maps found</string>
 </resources>
