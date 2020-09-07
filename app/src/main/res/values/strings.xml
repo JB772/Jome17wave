@@ -6,4 +6,12 @@
     <string name="BottomBarMap">地圖</string>
     <string name="BottomBarBell">通知</string>
     <string name="BottomBarMember">會員中心</string>
+    <string name="thisWeekTitle">本週</string>
+    <string name="friendInvitationTitle">好友邀請</string>
+    <string name="EarlierTitle">更早以前</string>
+    <string name="findNewFriendTitle">找尋新朋友</string>
+    <string name="messageCenterTitle">訊息中心</string>
+    <string name="findCahtRoom">搜尋聊天室</string>
+    <string name="message">發送訊息....</string>
+    <string name="notification_center">動態中心</string>
 </resources>

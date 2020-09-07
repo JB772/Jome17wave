@@ -17,7 +17,7 @@
         android:title="" />
 
     <item
-        android:id="@+id/notifyFragment"
+        android:id="@+id/notificationFragment"
         android:icon="@drawable/icon_awesome_bell"
         android:title="@string/BottomBarBell" />
 
