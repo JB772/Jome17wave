@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/creatFragment"
-        android:icon="@drawable/icon_join_group"
+        android:icon="@drawable/icon_awesome_plus"
         android:title="" />
 
     <item
