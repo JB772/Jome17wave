@@ -22,7 +22,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+<<<<<<< HEAD
 
+<<<<<<< HEAD
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -35,6 +37,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAC-r1zWx-Dt5yemYUdgeldyLx4gB_qUbo" />
 
+=======
+>>>>>>> scott
+=======
+        <activity android:name=".jome_member.LoginActivity"></activity>
+
+>>>>>>> justin_branch
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

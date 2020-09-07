@@ -22,7 +22,7 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/colorOrange"
+        android:background="@color/colorYellow"
         app:itemIconTint="@color/bottombarcolor"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,3 +32,6 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
