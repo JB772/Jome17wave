@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.jome17wave.LoginFragment"
+        android:name="com.example.jome17wave.jome_loginRegister.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_forget_pw" />
     <fragment
         android:id="@+id/registerMemberFragment"
-        android:name="com.example.jome17wave.RegisterMemberFragment"
+        android:name="com.example.jome17wave.jome_loginRegister.RegisterMemberFragment"
         android:label="fragment_register_member"
         tools:layout="@layout/fragment_register_member" />
 </navigation>

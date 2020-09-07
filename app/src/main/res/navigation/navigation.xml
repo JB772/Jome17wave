@@ -82,7 +82,7 @@
             tools:layout="@layout/fragment_message" />
     <fragment
         android:id="@+id/memberFragment2"
-        android:name="com.example.jome17wave.MemberFragment"
+        android:name="com.example.jome17wave.jome_member.MemberFragment"
         android:label="fragment_member"
         tools:layout="@layout/fragment_member" />
 

@@ -1,6 +1,5 @@
 package com.example.jome17wave.jome_message;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jome17wave.MainActivity;
+import com.example.jome17wave.jome_loginRegister.MainActivity;
 import com.example.jome17wave.R;
 
 

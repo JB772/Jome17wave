@@ -1,6 +1,7 @@
 package com.example.jome17wave.jome_member;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_loginRegister.LoginActivity;
+import com.example.jome17wave.jome_loginRegister.MainActivity;
 
 public class MemberProfileFragment extends Fragment {
     private static final String TAG = "MemberProfileFragment";
@@ -69,6 +72,9 @@ public class MemberProfileFragment extends Fragment {
                     case R.id.btConnectUs:
                         break;
                     case R.id.btLogOut:
+                        Intent intentLoginActivity = new Intent();
+                        intentLoginActivity.setClass(MainActivity.this, LoginActivity.class);
+                        startActivity(intentLoginActivity);
                         break;
                     case R.id.clFriendList:
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_friendsListFragment);

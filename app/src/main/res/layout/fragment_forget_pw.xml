@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.8" />
 
     <ScrollView
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,18 +37,18 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/tvEmail"
+                    android:id="@+id/tvRegisterMail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="76dp"
                     android:text="@string/tvEmail"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/etEmail"
+                    app:layout_constraintBottom_toTopOf="@id/etRegisterMail"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <EditText
-                    android:id="@+id/etEmail"
+                    android:id="@+id/etRegisterMail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="76dp"
@@ -74,7 +74,7 @@
                     android:text="@string/tvVerifyCode"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@id/etVerifyCode"
-                    app:layout_constraintStart_toEndOf="@id/btVerifyCode"
+                    app:layout_constraintStart_toEndOf="@id/btRegisterVCode"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
@@ -91,10 +91,10 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@+id/btVerifyCode" />
+                    app:layout_constraintStart_toEndOf="@+id/btRegisterVCode" />
 
                 <ImageButton
-                    android:id="@+id/btVerifyCode"
+                    android:id="@+id/btRegisterVCode"
                     android:layout_width="78dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="76dp"
@@ -110,7 +110,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/tvForgetPw"
+                    android:id="@+id/tvrRegisterPw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="76dp"
@@ -118,12 +118,12 @@
                     android:text="@string/modifyPw"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/etForgetPw"
+                    app:layout_constraintBottom_toTopOf="@id/etRegisterPw"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/etForgetPw"
+                    android:id="@+id/etRegisterPw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="76dp"
@@ -142,7 +142,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/tvForgetCheckPw"
+                    android:id="@+id/tvCheckPw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="76dp"
@@ -150,12 +150,12 @@
                     android:text="@string/checkPw"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/etForgetCheckPw"
+                    app:layout_constraintBottom_toTopOf="@id/etRegisterCheckPw"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/etForgetCheckPw"
+                    android:id="@+id/etRegisterCheckPw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="76dp"
