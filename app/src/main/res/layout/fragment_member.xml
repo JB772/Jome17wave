@@ -2,13 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/memberFragment"
+    android:id="@+id/memberFragment2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".jome_member.MemberFragment">
+    android:layout_height="match_parent">
 
     <fragment
-        android:id="@+id/fragment2"
+        android:id="@+id/fragment4"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

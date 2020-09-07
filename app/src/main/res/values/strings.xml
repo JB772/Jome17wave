@@ -37,5 +37,9 @@
     <string name="passRecord">過往記錄</string>
     <string name="etAccount">請輸入會員帳號</string>
     <string name="loginTitle">JoMe17浪</string>
+    <string name="tvEmail">電子郵件</string>
+    <string name="tvEmailHint">Jomewave@mail.com</string>
+    <string name="tvVerifyCode">驗証碼</string>
+    <string name="etVeryfyCode">請輸入驗証碼</string>
 
 </resources>
