@@ -49,5 +49,6 @@
     <string name="RegisterNn">會員暱稱</string>
     <string name="Nickname">請輸入暱稱</string>
     <string name="PhoneHint">請輸入手機</string>
+    <string name="tvGender">性別</string>
 
 </resources>

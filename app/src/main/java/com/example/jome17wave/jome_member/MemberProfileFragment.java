@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
-import com.example.jome17wave.jome_loginRegister.MainActivity;
+import com.example.jome17wave.MainActivity;
 
 public class MemberProfileFragment extends Fragment {
     private static final String TAG = "MemberProfileFragment";
@@ -63,7 +63,6 @@ public class MemberProfileFragment extends Fragment {
         tvGroupRecord = view.findViewById(R.id.tvGroupRecord);
         tvJoinRecord = view.findViewById(R.id.tvJoinRecord);
 
-
         //設定click監聽器
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -72,8 +71,10 @@ public class MemberProfileFragment extends Fragment {
                     case R.id.btConnectUs:
                         break;
                     case R.id.btLogOut:
+                        //清空preferences檔
+                        // 轉跳到login頁面
                         Intent intentLoginActivity = new Intent();
-                        intentLoginActivity.setClass(MainActivity.this, LoginActivity.class);
+                        intentLoginActivity.setClass(activity, LoginActivity.class);
                         startActivity(intentLoginActivity);
                         break;
                     case R.id.clFriendList:
@@ -93,6 +94,7 @@ public class MemberProfileFragment extends Fragment {
                 }
             }
         };
+        btLogOut.setOnClickListener(onClickListener);
         clFriendList.setOnClickListener(onClickListener);
         clScore.setOnClickListener(onClickListener);
         clGroupRecord.setOnClickListener(onClickListener);

@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jome17wave.jome_loginRegister.MainActivity;
+import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
 
 

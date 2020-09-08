@@ -1,4 +1,4 @@
-package com.example.jome17wave.jome_loginRegister;
+package com.example.jome17wave;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
