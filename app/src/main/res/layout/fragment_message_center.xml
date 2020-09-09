@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/messageCenterLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:orientation="vertical"
-    tools:context=".jome_message.messageCenterFragment">
+    tools:context=".jome_message.MessageCenterFragment">
 
     <SearchView
         android:id="@+id/svmessageCenter"
@@ -20,7 +21,7 @@
         android:queryHint="@string/findCahtRoom" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rvFriendInvitation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="20dp"

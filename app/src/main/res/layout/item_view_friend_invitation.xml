@@ -26,22 +26,29 @@
         app:layout_constraintStart_toEndOf="@+id/ivProfileImg"
         app:layout_constraintTop_toTopOf="@+id/ivProfileImg" />
 
-    <ImageView
-        android:id="@+id/ivAgree"
+    <ImageButton
+        android:id="@+id/ibtAgree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivDecline"
-        app:layout_constraintEnd_toStartOf="@+id/ivDecline"
-        app:layout_constraintTop_toTopOf="@+id/ivDecline"
-        app:srcCompat="@drawable/icon_team_agree" />
+        android:background="#00000000"
+        app:layout_constraintBottom_toBottomOf="@+id/ibtDecline"
+        app:layout_constraintEnd_toStartOf="@+id/ibtDecline"
+        app:layout_constraintTop_toTopOf="@+id/ibtDecline"
+        app:srcCompat="@drawable/icon_team_agree"
+        tools:layout_editor_absoluteX="243dp"
+        tools:layout_editor_absoluteY="11dp"/>
 
-    <ImageView
-        android:id="@+id/ivDecline"
+    <ImageButton
+        android:id="@+id/ibtDecline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icon_team_decline" />
+        android:background="#00000000"
+        app:srcCompat="@drawable/icon_team_decline"
+        tools:layout_editor_absoluteX="243dp"
+        tools:layout_editor_absoluteY="11dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

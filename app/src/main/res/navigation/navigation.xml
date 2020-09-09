@@ -15,8 +15,13 @@
                 android:id="@+id/action_mainFragment_to_mapFragment"
                 app:destination="@id/mapsFragment" />
             <action
+<<<<<<< HEAD
                 android:id="@+id/action_mainFragment_to_memberFragment2"
                 app:destination="@id/memberFragment2" />
+=======
+                android:id="@+id/action_mainFragment_to_notificationFragment"
+                app:destination="@id/notificationFragment" />
+>>>>>>> Karena
         </fragment>
 
         <fragment
@@ -51,7 +56,7 @@
 
         <fragment
             android:id="@+id/friendInvitationFragment"
-            android:name="com.example.jome17wave.jome_message.friendInvitationFragment"
+            android:name="com.example.jome17wave.jome_message.FriendInvitationFragment"
             android:label="fragment_friend_invitation"
             tools:layout="@layout/fragment_friend_invitation" >
             <action
@@ -61,15 +66,15 @@
 
         <fragment
             android:id="@+id/findNewFriendFragment"
-            android:name="com.example.jome17wave.jome_message.findNewFriendFragment"
+            android:name="com.example.jome17wave.jome_message.FindNewFriendFragment"
             android:label="fragment_find_new_friend"
             tools:layout="@layout/fragment_find_new_friend" />
 
         <fragment
             android:id="@+id/messageCenterFragment"
-            android:name="com.example.jome17wave.jome_message.messageCenterFragment"
+            android:name="com.example.jome17wave.jome_message.MessageCenterFragment"
             android:label="fragment_message_center"
-            tools:layout="@layout/fragment_message_center" >
+            tools:layout="@layout/fragment_message_center">
             <action
                 android:id="@+id/action_messageCenterFragment_to_messageFragment"
                 app:destination="@id/messageFragment" />
@@ -77,7 +82,7 @@
 
         <fragment
             android:id="@+id/messageFragment"
-            android:name="com.example.jome17wave.jome_message.messageFragment"
+            android:name="com.example.jome17wave.jome_message.MessageFragment"
             android:label="fragment_message"
             tools:layout="@layout/fragment_message" />
     <fragment
