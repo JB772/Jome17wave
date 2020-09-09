@@ -37,5 +37,10 @@
     <string name="passRecord">過往記錄</string>
     <string name="etAccount">請輸入會員帳號</string>
     <string name="loginTitle">JoMe17浪</string>
+    <string name="northSide">北部浪點</string>
+    <string name="eastSide">東部浪點</string>
+    <string name="southSide">南部浪點</string>
+    <string name="westSide">西部浪點</string>
+    <string name="nearMember">附近用戶</string>
 
 </resources>
