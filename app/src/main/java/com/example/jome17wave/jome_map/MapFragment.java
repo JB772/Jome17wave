@@ -8,21 +8,28 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jome17wave.Common;
+import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.ImageTask;
@@ -46,7 +53,7 @@ import java.util.List;
 
 public class MapFragment extends Fragment {
     private static final String TAG = "TAG_MainFragment";
-    private Activity activity;
+    private MainActivity activity;
     private RecyclerView rvMap;
     private GoogleMap map;
     private CommonTask mapGetAllTask;
@@ -59,7 +66,8 @@ public class MapFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = getActivity();
+        activity = (MainActivity) getActivity();
+        setHasOptionsMenu(true);
         imageTasks = new ArrayList<>();
 
     }
@@ -68,13 +76,17 @@ public class MapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        getActivity().setTitle("地圖");
+//        getActivity().setTitle("地圖");
         return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle("地圖");
+        activity.setSupportActionBar(toolbar);
+
         MapView mapView = view.findViewById(R.id.mapView);
         rvMap = view.findViewById(R.id.rvMap);
 
@@ -86,31 +98,23 @@ public class MapFragment extends Fragment {
         // show出地圖Marker
         mapView.onCreate(savedInstanceState);
         mapView.onStart();
-        mapView.getMapAsync(new OnMapReadyCallback() {
+        mapView.getMapAsync( new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
 //                moveMap(new LatLng(24.9, 121.1));
                 maps = getMaps();
                 for (Map map: maps){
-                    Log.d(TAG,"Level"+map.getLevel());
+//                    Log.d(TAG,"Level"+map.getLevel());
                     LatLng latLng = new LatLng(map.getLatitude(), map.getLongitude());
                     addMarker(latLng, map.getName());
                 }
-
-//                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//                    @Override
-//                    public boolean onMarkerClick(Marker marker) {
-//                        map.addMarker(new MarkerOptions()
-//                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-//                        return false;
-//                    }
-//                });
             }
         });
 
+
         // 搜尋欄
-        SearchView searchView = view.findViewById(R.id.searchView);
+        final SearchView searchView = view.findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -125,6 +129,24 @@ public class MapFragment extends Fragment {
                     }
                     showMaps(searchMaps);
                 }
+
+                map.clear();
+//                maps = getMaps();
+                if (newText.isEmpty()){
+                    for (Map map: maps){
+                        LatLng latLng = new LatLng(map.getLatitude(), map.getLongitude());
+                        addMarker(latLng, map.getName());
+                    }
+                } else {
+//                    List<Map> searchMaps = new ArrayList<>();
+                    for (Map map : maps) {
+                        if (map.getName().toUpperCase().contains(newText.toUpperCase())) {
+//                            searchMaps.add(map);
+                            LatLng latLng = new LatLng(map.getLatitude(), map.getLongitude());
+                            addMarker(latLng, map.getName());
+                        }
+                    }
+                }
                 return true;
             }
 
@@ -134,6 +156,52 @@ public class MapFragment extends Fragment {
             }
 
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.surf_side_menu, menu);
+    }
+
+    // menu選擇浪點
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.northSide:
+                map.clear();
+                maps = getMaps();
+                for (int i = 0; i < 3; i++){
+                    LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
+                    addMarker(latLng, maps.get(i).getName());
+                }
+                break;
+            case R.id.eastSide:
+                map.clear();
+                maps = getMaps();
+                for (int i = 3; i < 6; i++) {
+                    LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
+                    addMarker(latLng, maps.get(i).getName());
+                }
+                break;
+            case R.id.southSide:
+                map.clear();
+                maps = getMaps();
+                for (int i = 6; i < 8; i++) {
+                    LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
+                    addMarker(latLng, maps.get(i).getName());
+                }
+                break;
+            case R.id.westSide:
+                map.clear();
+                maps = getMaps();
+                for (int i = 8; i < 10; i++) {
+                    LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
+                    addMarker(latLng, maps.get(i).getName());
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // 取得後端資料

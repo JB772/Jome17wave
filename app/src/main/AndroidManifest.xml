@@ -36,12 +36,18 @@
             android:value="AIzaSyAC-r1zWx-Dt5yemYUdgeldyLx4gB_qUbo" />
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> sam
 
         <activity android:name=".jome_member.LoginActivity"></activity>
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> justin_back
+=======
+>>>>>>> sam
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/northSide"
+        android:title="@string/northSide" />
+
+    <item
+        android:id="@+id/eastSide"
+        android:title="@string/eastSide" />
+
+    <item
+        android:id="@+id/southSide"
+        android:title="@string/southSide" />
+
+    <item
+        android:id="@+id/westSide"
+        android:title="@string/westSide" />
+
+    <item
+        android:id="@+id/nearMember"
+        android:title="@string/nearMember" />
+
+</menu>

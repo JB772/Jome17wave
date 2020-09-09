@@ -22,7 +22,11 @@
         android:title="@string/BottomBarBell" />
 
     <item
+<<<<<<< HEAD
         android:id="@+id/memberFragment2"
+=======
+        android:id="@+id/memberFragment"
+>>>>>>> sam
         android:icon="@drawable/icon_ionic_md_person"
         android:title="@string/BottomBarMember" />
 

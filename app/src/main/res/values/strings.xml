@@ -37,6 +37,7 @@
     <string name="passRecord">過往記錄</string>
     <string name="etAccount">請輸入會員帳號</string>
     <string name="loginTitle">JoMe17浪</string>
+<<<<<<< HEAD
     <string name="tvEmail">電子郵件</string>
     <string name="tvEmailHint">Jomewave@mail.com</string>
     <string name="tvVerifyCode">驗証碼</string>
@@ -50,5 +51,12 @@
     <string name="Nickname">請輸入暱稱</string>
     <string name="PhoneHint">請輸入手機</string>
     <string name="tvGender">性別</string>
+=======
+    <string name="northSide">北部浪點</string>
+    <string name="eastSide">東部浪點</string>
+    <string name="southSide">南部浪點</string>
+    <string name="westSide">西部浪點</string>
+    <string name="nearMember">附近用戶</string>
+>>>>>>> sam
 
 </resources>
