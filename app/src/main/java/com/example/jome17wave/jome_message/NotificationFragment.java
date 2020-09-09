@@ -1,11 +1,6 @@
 package com.example.jome17wave.jome_message;
-
-<<<<<<< HEAD
-=======
 import android.annotation.SuppressLint;
->>>>>>> Karena
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
