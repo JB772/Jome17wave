@@ -1,4 +1,4 @@
-package com.example.jome17wave.jome_member;
+package com.example.jome17wave.jome_loginRegister;
 
 import androidx.appcompat.app.AppCompatActivity;
 

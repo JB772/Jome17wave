@@ -1,6 +1,5 @@
 package com.example.jome17wave.jome_message;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;

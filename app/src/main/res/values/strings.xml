@@ -37,5 +37,18 @@
     <string name="passRecord">過往記錄</string>
     <string name="etAccount">請輸入會員帳號</string>
     <string name="loginTitle">JoMe17浪</string>
+    <string name="tvEmail">電子郵件</string>
+    <string name="tvEmailHint">Jomewave@mail.com</string>
+    <string name="tvVerifyCode">驗証碼</string>
+    <string name="etVeryfyCode">請輸入驗証碼</string>
+    <string name="tvPhVerifyCode">手機驗証碼</string>
+    <string name="tvCellPhone">手機</string>
+    <string name="enterVerifyCode">請輸入驗証碼</string>
+    <string name="RegisterMail">會員帳號</string>
+    <string name="RegisterPw">會員密碼</string>
+    <string name="RegisterNn">會員暱稱</string>
+    <string name="Nickname">請輸入暱稱</string>
+    <string name="PhoneHint">請輸入手機</string>
+    <string name="tvGender">性別</string>
 
 </resources>

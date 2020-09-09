@@ -14,6 +14,9 @@
             <action
                 android:id="@+id/action_mainFragment_to_mapFragment"
                 app:destination="@id/mapsFragment" />
+            <action
+                android:id="@+id/action_mainFragment_to_memberFragment2"
+                app:destination="@id/memberFragment2" />
         </fragment>
 
         <fragment
@@ -77,6 +80,11 @@
             android:name="com.example.jome17wave.jome_message.messageFragment"
             android:label="fragment_message"
             tools:layout="@layout/fragment_message" />
+    <fragment
+        android:id="@+id/memberFragment2"
+        android:name="com.example.jome17wave.jome_member.MemberFragment"
+        android:label="fragment_member"
+        tools:layout="@layout/fragment_member" />
 
 </navigation>
 

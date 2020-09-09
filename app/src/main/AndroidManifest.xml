@@ -35,10 +35,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAC-r1zWx-Dt5yemYUdgeldyLx4gB_qUbo" />
 
+<<<<<<< HEAD
 
         <activity android:name=".jome_member.LoginActivity"></activity>
 
 
+=======
+>>>>>>> justin_back
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -49,6 +52,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <activity android:name=".jome_loginRegister.LoginActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
