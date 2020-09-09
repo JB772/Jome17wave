@@ -1,20 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg"
-    android:orientation="vertical"
-    tools:context=".jome_message.friendInvitationFragment">
+    android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        android:paddingStart="20dp"
-        android:paddingTop="31dp"
-        android:paddingEnd="20dp"
-        tools:ignore="MissingConstraints" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
 
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_width="match_parent"
+                android:background="@color/colorYellow"
+                app:titleTextColor="@color/colorDeepBlue"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" >
+            </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg"
+            android:orientation="vertical"
+            tools:context=".jome_message.FriendInvitationFragment">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFriendInvitation"
+                android:layout_width="409dp"
+                android:layout_height="729dp"
+                android:paddingStart="20dp"
+                android:paddingTop="31dp"
+                android:paddingEnd="20dp"
+                tools:ignore="MissingConstraints" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

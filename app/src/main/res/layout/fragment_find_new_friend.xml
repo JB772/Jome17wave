@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:orientation="vertical"
-    tools:context=".jome_message.findNewFriendFragment">
+    tools:context=".jome_message.FindNewFriendFragment">
 
     <SearchView
         android:id="@+id/svFindNewFriend"
@@ -22,7 +22,7 @@
     </SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rvFriendInvitation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="20dp"

@@ -37,5 +37,9 @@
     <string name="passRecord">過往記錄</string>
     <string name="etAccount">請輸入會員帳號</string>
     <string name="loginTitle">JoMe17浪</string>
+    <string name="no_network_connection_available">沒有網路連線</string>
+    <string name="no_notifications_found">沒有任何通知訊息</string>
+    <string name="friend_Invitation">好友邀請</string>
+    <string name="no_invitations_found">沒有任何好友邀請</string>
 
 </resources>
