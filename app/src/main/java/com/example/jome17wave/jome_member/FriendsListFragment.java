@@ -6,7 +6,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +30,7 @@ public class FriendsListFragment extends Fragment {
     private Activity activity;
     private RecyclerView rvMFriendsList;
     private SearchView sVFriendList;
+    private ConstraintLayout itemFriendCL;
     private List<Friend> friends;
 
 
@@ -110,6 +113,7 @@ public class FriendsListFragment extends Fragment {
                 ibtMessage = itemView.findViewById(R.id.ibtMessage);
                 ibtDelete = itemView.findViewById(R.id.ibtDelete);
                 ibtDelete.setVisibility(View.GONE);
+                itemFriendCL = itemView.findViewById(R.id.itemFriendCL);
             }
         }
 
@@ -130,6 +134,15 @@ public class FriendsListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //轉到聊天室
+                }
+            });
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("friend", friend);
+                    Navigation.findNavController(rvMFriendsList)
+                            .navigate(R.id.action_friendsListFragment_to_friendSelfDataFragment, bundle);
                 }
             });
         }

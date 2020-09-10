@@ -59,4 +59,8 @@
     <string name="no_notifications_found">沒有任何通知訊息</string>
     <string name="friend_Invitation">好友邀請</string>
     <string name="no_invitations_found">沒有任何好友邀請</string>
+    <string name="firendCount">好友人數</string>
+    <string name="averageScore">平均星等</string>
+    <string name="assembleConut">揪團次數</string>
+    <string name="jointCount">入團次數</string>
 </resources>

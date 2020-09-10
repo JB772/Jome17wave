@@ -1,6 +1,8 @@
 package com.example.jome17wave.jome_member;
 
-public class Friend {
+import java.io.Serializable;
+
+public class Friend implements Serializable {
     //    private Bitmap imageFriend;
     private int imageFriendId;
     private String nameFriend;
