@@ -41,7 +41,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8">
+        app:layout_constraintVertical_bias="0.9">
 
         <LinearLayout
             android:id="@+id/Quadrant1"
@@ -50,7 +50,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_quadrant1"
             android:orientation="vertical"
-            android:padding="4sp"
+            android:padding="16sp"
             app:layout_constraintBottom_toTopOf="@id/Quadrant4"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -82,7 +82,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_quadrant2"
             android:orientation="vertical"
-            android:padding="4sp"
+            android:padding="16sp"
             app:layout_constraintBottom_toTopOf="@id/Quadrant3"
             app:layout_constraintEnd_toStartOf="@id/Quadrant1"
             app:layout_constraintStart_toStartOf="parent">
@@ -113,7 +113,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_quadrant3"
             android:orientation="vertical"
-            android:padding="4sp"
+            android:padding="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/Quadrant4"
             app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +145,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_quadrant4"
             android:orientation="vertical"
-            android:padding="4sp"
+            android:padding="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

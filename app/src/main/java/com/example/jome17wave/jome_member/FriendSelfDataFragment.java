@@ -51,7 +51,7 @@ public class FriendSelfDataFragment extends Fragment {
             if (friend != null) {
                 imageFProfile.setImageResource(friend.getImageFriendId());
                 tvFDataName.setText(friend.getNameFriend());
-                tvAverageScore.setText("0 顆星");
+                tvAverageScore.setText("0 分");
                 tvAssembleCount.setText("0 次");
                 tvJointCount.setText("0 次");
                 tvFriendCount.setText("0 人");
