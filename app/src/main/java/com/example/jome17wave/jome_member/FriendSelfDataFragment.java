@@ -4,10 +4,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,6 +30,7 @@ public class FriendSelfDataFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MainActivity)getActivity();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -38,6 +44,12 @@ public class FriendSelfDataFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+//        toolbar.setTitle();
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         imageFProfile = view.findViewById(R.id.imageFProfile);
         tvFDataName = view.findViewById(R.id.tvFDataName);
         tvAverageScore = view.findViewById(R.id.tvAverageScore);;
@@ -57,6 +69,21 @@ public class FriendSelfDataFragment extends Fragment {
                 tvFriendCount.setText("0 人");
             }
         }
+    }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.member_center_tool_bar, menu);
+        menu.findItem(R.id.member_settin_item).setVisible(false);
+        menu.findItem(R.id.member_check_item).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            Navigation.findNavController(imageFProfile).popBackStack();
+        }
+        return true;
     }
 }
