@@ -142,7 +142,7 @@ public class FriendsListFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("friend", friend);
                     Navigation.findNavController(rvMFriendsList)
-                            .navigate(R.id.action_friendsListFragment_to_friendSelfDataFragment, bundle);
+                            .navigate(R.id.action_friendsListFragment_to_turnOtherMemberFragment, bundle);
                 }
             });
         }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/otherMemberFragment"
-        android:name="com.example.jome17wave.OtherMemberFragment"
+        android:name="com.example.jome17wave.jome_member.OtherMemberFragment"
         android:label="fragment_other_member"
         tools:layout="@layout/fragment_other_member" />
 </navigation>
