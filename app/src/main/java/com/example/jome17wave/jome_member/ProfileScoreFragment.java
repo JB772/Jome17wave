@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.jome17wave.MainActivity;
@@ -35,7 +37,8 @@ import java.util.List;
 public class ProfileScoreFragment extends Fragment {
     private static final String TAG = "ProfileScoreFragment";
     private MainActivity activity;
-    private TextView star5Count, star4Count, star3Count, star2Count, star1Count;
+    private ImageView imageStar5, imageStar4, imageStar3, imageStar2, imageStar1;
+    private TextView tvDisplayScoreCount;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,11 +62,19 @@ public class ProfileScoreFragment extends Fragment {
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        star5Count = view.findViewById(R.id.star5Count);
-        star4Count = view.findViewById(R.id.star4Count);
-        star3Count = view.findViewById(R.id.star3Count);
-        star2Count = view.findViewById(R.id.star2Count);
-        star1Count = view.findViewById(R.id.star1Count);
+
+        imageStar5 = view.findViewById(R.id.imageStar5);
+        imageStar4 = view.findViewById(R.id.imageStar4);
+        imageStar3 = view.findViewById(R.id.imageStar3);
+        imageStar2 = view.findViewById(R.id.imageStar2);
+        imageStar1 = view.findViewById(R.id.imageStar1);
+        tvDisplayScoreCount = view.findViewById(R.id.tvDisplayScoreCount);
+        imageStar5.setVisibility(View.GONE);
+        imageStar4.setVisibility(View.GONE);
+        imageStar3.setVisibility(View.GONE);
+        imageStar2.setVisibility(View.GONE);
+        imageStar1.setVisibility(View.GONE);
+        tvDisplayScoreCount.setVisibility(View.GONE);
 
         PieChart scorePieChart = view.findViewById(R.id.scorePieChart);
         /* 設定可否旋轉 */
@@ -74,14 +85,45 @@ public class ProfileScoreFragment extends Fragment {
         scorePieChart.setCenterTextSize(25);
 
         Description description = new Description();
-//        description.setText("Car Sales in Taiwan");
+        description.setText("評價統計圖");
         description.setTextSize(25);
         scorePieChart.setDescription(description);
         
         scorePieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                
+                PieEntry scorePieEntry = (PieEntry) e;
+                imageStar5.setVisibility(View.GONE);
+                imageStar4.setVisibility(View.GONE);
+                imageStar3.setVisibility(View.GONE);
+                imageStar2.setVisibility(View.GONE);
+                imageStar1.setVisibility(View.GONE);
+                tvDisplayScoreCount.setVisibility(View.GONE);
+                switch (scorePieEntry.getLabel()){
+                    case "5Star":
+                        imageStar5.setVisibility(View.VISIBLE);
+                        tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
+                        break;
+                    case "4Star":
+                        imageStar4.setVisibility(View.VISIBLE);
+                        tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
+                        break;
+                    case "3Star":
+                        imageStar3.setVisibility(View.VISIBLE);
+                        tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
+                        break;
+                    case "2Star":
+                        imageStar2.setVisibility(View.VISIBLE);
+                        tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
+                        break;
+                    case "1Star":
+                        imageStar1.setVisibility(View.VISIBLE);
+                        tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
+                        break;
+                    default:
+                        break;
+                }
+                tvDisplayScoreCount.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -119,18 +161,18 @@ public class ProfileScoreFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home){
-            Navigation.findNavController(star5Count).popBackStack();
+            Navigation.findNavController(tvDisplayScoreCount).popBackStack();
         }
         return true;
     }
 
     public List<PieEntry> getScoreEntries() {
         List<PieEntry> scoreEntries = new ArrayList<>();
-        scoreEntries.add(new PieEntry(10, "5Star"));
-        scoreEntries.add(new PieEntry(8, "4Star"));
+        scoreEntries.add(new PieEntry(100, "5Star"));
+        scoreEntries.add(new PieEntry(80, "4Star"));
         scoreEntries.add(new PieEntry(5, "3Star"));
         scoreEntries.add(new PieEntry(2, "2Star"));
-        scoreEntries.add(new PieEntry(1 , "1Star"));
+        scoreEntries.add(new PieEntry(10 , "1Star"));
         return scoreEntries;
     }
 

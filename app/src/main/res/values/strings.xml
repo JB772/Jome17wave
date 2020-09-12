@@ -63,4 +63,5 @@
     <string name="averageScore">平均星等</string>
     <string name="assembleConut">揪團次數</string>
     <string name="jointCount">入團次數</string>
+    <string name="ScorePieChart">累積評價</string>
 </resources>

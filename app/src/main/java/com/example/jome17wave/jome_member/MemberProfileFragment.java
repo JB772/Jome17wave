@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -22,7 +23,7 @@ import com.example.jome17wave.MainActivity;
 
 public class MemberProfileFragment extends Fragment {
     private static final String TAG = "MemberProfileFragment";
-    private Activity activity;
+    private MainActivity activity;
     //    private ImageButton btModifyMember;
     private ImageButton btConnectUs;
     private ImageButton btLogOut;
@@ -39,8 +40,8 @@ public class MemberProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = getActivity();
-//    actionBar = ((AppCompatActivity)activity).getActionBar();
+        activity = (MainActivity) getActivity();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -52,6 +53,12 @@ public class MemberProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle("累積評價");
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         btConnectUs = view.findViewById(R.id.btConnectUs);
         btLogOut = view.findViewById(R.id.btLogOut);
         clFriendList = view.findViewById(R.id.clFriendList);
