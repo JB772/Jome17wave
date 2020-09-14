@@ -12,9 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jome17wave.R;
@@ -24,7 +28,7 @@ import com.example.jome17wave.MainActivity;
 public class MemberProfileFragment extends Fragment {
     private static final String TAG = "MemberProfileFragment";
     private MainActivity activity;
-    //    private ImageButton btModifyMember;
+    private ImageView igMember;
     private ImageButton btConnectUs;
     private ImageButton btLogOut;
     private ConstraintLayout clFriendList;
@@ -54,11 +58,11 @@ public class MemberProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle("累積評價");
+        toolbar.setTitle(R.string.BottomBarMember);
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        igMember = view.findViewById(R.id.igMember);
         btConnectUs = view.findViewById(R.id.btConnectUs);
         btLogOut = view.findViewById(R.id.btLogOut);
         clFriendList = view.findViewById(R.id.clFriendList);
@@ -106,6 +110,28 @@ public class MemberProfileFragment extends Fragment {
         clScore.setOnClickListener(onClickListener);
         clGroupRecord.setOnClickListener(onClickListener);
         clJoinRecord.setOnClickListener(onClickListener);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.member_center_tool_bar, menu);
+        menu.findItem(R.id.member_check_item).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Navigation.findNavController(igMember).popBackStack();
+                break;
+            case R.id.member_settin_item:
+                Navigation.findNavController(igMember).navigate(R.id.action_memberProfileFragment_to_modifyProfileFragment);
+                break;
+            default:
+                break;
+        }
+        return true;
 
     }
 }

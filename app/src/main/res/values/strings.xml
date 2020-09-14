@@ -64,4 +64,6 @@
     <string name="assembleConut">揪團次數</string>
     <string name="jointCount">入團次數</string>
     <string name="ScorePieChart">累積評價</string>
+    <string name="successModify">修改資料成功</string>
+    <string name="memberModify">修改資料</string>
 </resources>

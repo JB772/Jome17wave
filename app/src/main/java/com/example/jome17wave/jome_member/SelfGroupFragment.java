@@ -1,60 +1,45 @@
 package com.example.jome17wave.jome_member;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_group.Group;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SelfGroupFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.zip.Inflater;
+
 public class SelfGroupFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public SelfGroupFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment selfGroupFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SelfGroupFragment newInstance(String param1, String param2) {
-        SelfGroupFragment fragment = new SelfGroupFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private static final String TAG = "SelfGroupFragment";
+    private MainActivity activity;
+    private RecyclerView rvSelfGroup;
+    private List<Group> groups;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        activity = (MainActivity)getActivity();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -62,5 +47,114 @@ public class SelfGroupFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_self_group, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        rvSelfGroup = view.findViewById(R.id.rvSelfGroup);
+        rvSelfGroup.setLayoutManager(new LinearLayoutManager(activity));
+        groups = getGroups();
+        rvSelfGroup.setAdapter(new SelfGroupAdapter(activity, groups));
+    }
+
+
+
+    private class SelfGroupAdapter extends RecyclerView.Adapter<SelfGroupAdapter.MyViewHolder> {
+        Context context;
+        List<Group> groups;
+
+        public SelfGroupAdapter(Context context, List<Group> groups) {
+            this.context = context;
+            this.groups = groups;
+        }
+
+        public void  setGroups(List<Group> groups){
+            this.groups = groups;
+        }
+
+        @Override
+        public int getItemCount() {
+            return groups.size();
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            ImageView igJSuccess;
+            ImageView igJLose;
+            ImageView igAlreadyEnd;
+            ImageView igWillStart;
+            TextView tvRecordResult;
+            public MyViewHolder(@NonNull View itemView) {
+                super(itemView);
+                igJSuccess = itemView.findViewById(R.id.igJSuccess);
+                igJLose = itemView.findViewById(R.id.igJLose);
+                igAlreadyEnd = itemView.findViewById(R.id.igAlreadyEnd);
+                igWillStart = itemView.findViewById(R.id.igWillStart);
+                igJSuccess.setVisibility(View.GONE);
+                igJLose.setVisibility(View.GONE);
+                igAlreadyEnd.setVisibility(View.GONE);
+                igWillStart.setVisibility(View.GONE);
+                tvRecordResult = itemView.findViewById(R.id.tvRecordResult);
+            }
+        }
+
+        @NonNull
+        @Override
+        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(context).inflate(R.layout.item_view_member_record, parent, false);
+            return new MyViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int position) {
+            final Group group = groups.get(position);
+            viewHolder.tvRecordResult.setText(group.getName() + group.getAssembleTime().toString());
+            if (group.getRole() == 1){
+                switch (group.getStatus()){
+                    case 0:
+                        viewHolder.setIsRecyclable(false);
+                    case 1:
+                        viewHolder.igWillStart.setVisibility(View.VISIBLE);
+                        break;
+                    case 2:
+                        viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        break;
+                }
+            }else {
+                viewHolder.itemView.setVisibility(View.GONE);
+            }
+        }
+    }
+    private List<Group> getGroups() {
+        List<Group> getGroupsList = new ArrayList<>();
+        getGroupsList.add(new Group("陽光沙灘", new Date(), 2, 1, 1));
+        getGroupsList.add(new Group("沙灘比基尼", new Date(), 2, 1, 1));
+        getGroupsList.add(new Group("沙灘比丘尼", new Date(), 1, 1, 1));
+        getGroupsList.add(new Group("小熊維尼", new Date(), 2, 1, 1));
+        getGroupsList.add(new Group("測試不該出現", new Date(), 2, 1, 2));
+        return getGroupsList;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.member_center_tool_bar, menu);
+        menu.findItem(R.id.member_settin_item).setVisible(false);
+        menu.findItem(R.id.member_check_item).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            Navigation.findNavController(rvSelfGroup).popBackStack();
+        }
+        return true;
     }
 }

@@ -1,46 +1,40 @@
 package com.example.jome17wave.jome_group;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Group implements Serializable {
     private int id ;
     private String name ;
-    private int assembleTime;
-    private int endGroup;
-    private int signupendTime;
-    private int modify;
-    private int surfpoints;
-    private int grouplimit;
+    private Date assembleTime;
+    private int surfPoints;
+    private int groupLimit;
     private int genders;
     private String notice;
-    private double image;
     private int status;
+    private int attendStatus;
+    private int role;
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+//    private int endGroup;
+//    private int assembleTime;
+//    private int signupendTime;
+//    private int modify;
+//    private double image;
 
 
-    public Group(int id, String name, int assembleTime, int endGroup, int signupendTime,  int modify, int surfpoints,
-                 int grouplimit, int genders, String notice, double image, int status) {
-        super();
-        this.id = id;
+    public Group(String name, Date assembleTime, int status, int attendStatus, int role) {
         this.name = name;
         this.assembleTime = assembleTime;
-        this.endGroup = endGroup;
-        this.signupendTime = signupendTime;
-        this.modify = modify;
-        this.surfpoints = surfpoints;
-        this.grouplimit = grouplimit;
-        this.genders = genders;
-        this.notice = notice;
-        this.image = image;
         this.status = status;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.attendStatus = attendStatus;
+        this.role = role;
     }
 
     public String getName() {
@@ -51,76 +45,12 @@ public class Group implements Serializable {
         this.name = name;
     }
 
-    public int getAssembleTime() {
+    public Date getAssembleTime() {
         return assembleTime;
     }
 
-    public void setAssembleTime(int assembleTime) {
+    public void setAssembleTime(Date assembleTime) {
         this.assembleTime = assembleTime;
-    }
-
-    public int getEndGroup() {
-        return endGroup;
-    }
-
-    public void setEndGroup(int endGroup) {
-        this.endGroup = endGroup;
-    }
-
-    public int getSignupendTime() {
-        return signupendTime;
-    }
-
-    public void setSignupendTime(int signupendTime) {
-        this.signupendTime = signupendTime;
-    }
-
-    public int getModify() {
-        return modify;
-    }
-
-    public void setModify(int modify) {
-        this.modify = modify;
-    }
-
-    public int getSurfpoints() {
-        return surfpoints;
-    }
-
-    public void setSurfpoints(int surfpoints) {
-        this.surfpoints = surfpoints;
-    }
-
-    public int getGrouplimit() {
-        return grouplimit;
-    }
-
-    public void setGrouplimit(int grouplimit) {
-        this.grouplimit = grouplimit;
-    }
-
-    public int getGenders() {
-        return genders;
-    }
-
-    public void setGenders(int genders) {
-        this.genders = genders;
-    }
-
-    public String getNotice() {
-        return notice;
-    }
-
-    public void setNotice(String notice) {
-        this.notice = notice;
-    }
-
-    public double getImage() {
-        return image;
-    }
-
-    public void setImage(double image) {
-        this.image = image;
     }
 
     public int getStatus() {
@@ -130,5 +60,32 @@ public class Group implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public int getAttendStatus() {
+        return attendStatus;
+    }
+
+    public void setAttendStatus(int attendStatus) {
+        this.attendStatus = attendStatus;
+    }
+
+    //    public Group(int id, String name, int assembleTime, int endGroup, int signupendTime,  int modify, int surfpoints,
+//                 int grouplimit, int genders, String notice, double image, int status) {
+//        super();
+//        this.id = id;
+//        this.name = name;
+//        this.assembleTime = assembleTime;
+//        this.endGroup = endGroup;
+//        this.signupendTime = signupendTime;
+//        this.modify = modify;
+//        this.surfpoints = surfpoints;
+//        this.grouplimit = grouplimit;
+//        this.genders = genders;
+//        this.notice = notice;
+//        this.image = image;
+//        this.status = status;
+//    }
+
+
 }
 
