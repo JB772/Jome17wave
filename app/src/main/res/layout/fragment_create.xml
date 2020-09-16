@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/no_image" />
+
+    <ImageView
+        android:id="@+id/imgselct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_awesome_camera"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="260dp"/>
+
+    <ImageView
+    android:id="@+id/Title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/icon_material_title"
+    android:layout_marginTop="160dp"
+    android:layout_marginLeft="70dp"/>
+
+    <EditText
+        android:id="@+id/editTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="150dp"
+        android:layout_marginStart="30dp"
+        android:layout_centerHorizontal="true"
+        android:hint="給揪團一個標題吧！" />
+
+    <ImageView
+        android:id="@+id/Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_date_range"
+        android:layout_below="@id/Title"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="68dp"/>
+
+
+    <EditText
+        android:id="@+id/editDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@id/editTitle"
+        android:layout_marginLeft="100dp"
+        android:hint="日期"/>
+
+
+    <ImageView
+        android:id="@+id/Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_access_time"
+        android:layout_below="@id/Date"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="66dp"/>
+
+
+    <EditText
+        android:id="@+id/edDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@id/editDate"
+        android:layout_marginLeft="100dp"
+        android:hint="時間"/>
+
+    <ImageView
+        android:id="@+id/Location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_map_marker_alt"
+        android:layout_below="@id/Time"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="68dp"/>
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edDate"
+        android:text="地點"
+        android:textSize="18sp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="20dp"/>
+        <Spinner
+            android:id="@+id/LocationChoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edDate"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="20dp"
+            />
+
+    <ImageView
+        android:id="@+id/Gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_friend_add"
+        android:layout_below="@id/Location"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="60dp"/>
+
+    <TextView
+        android:id="@+id/tvGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLocation"
+        android:text="性別"
+        android:textSize="18sp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="30dp"/>
+        <Spinner
+        android:id="@+id/GenderChoice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LocationChoice"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="30dp"
+        />
+        <TextView
+            android:id="@+id/tvPersonnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="人數＿＿人"
+            android:textSize="18sp"
+            android:layout_below="@id/LocationChoice"
+            android:layout_marginLeft="280dp"
+            android:layout_marginTop="30dp"/>
+    <EditText
+        android:id="@+id/edMemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:inputType="textCapSentences|textMultiLine"
+        android:layout_below="@id/Gender"
+        android:minHeight="100dp"
+        android:gravity="start"
+        android:hint="給團友的話（限50字）"/>
+
+    <button
+
+
+</RelativeLayout>
