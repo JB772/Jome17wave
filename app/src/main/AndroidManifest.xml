@@ -25,12 +25,16 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> Karena
 
         <activity android:name=".jome_member.LoginActivity"></activity>
 
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> justin_new_branch
 =======
@@ -38,6 +42,8 @@
 
 
 >>>>>>> sam
+=======
+>>>>>>> Karena
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

@@ -18,10 +18,17 @@
                 android:id="@+id/action_mainFragment_to_memberFragment2"
                 app:destination="@id/memberFragment2" />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                 android:id="@+id/action_mainFragment_to_notificationFragment"
                 app:destination="@id/notificationFragment" />
 >>>>>>> sam
+=======
+            <action
+                android:id="@+id/action_mainFragment_to_notificationFragment"
+                app:destination="@id/notificationFragment" />
+
+>>>>>>> Karena
         </fragment>
 
         <fragment

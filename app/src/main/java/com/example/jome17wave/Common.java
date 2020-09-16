@@ -18,9 +18,12 @@ public class Common {
     //    public static String URL_SERVER = "http://192.168.196.189:8080/Spot_MySQL_Web/";
     public static String URL_SERVER = "http://10.0.2.2:8080/Jome17wave_Web/";
 <<<<<<< HEAD
+<<<<<<< HEAD
     public final static String PREF_FILE = "preference";
 =======
 >>>>>>> sam
+=======
+>>>>>>> Karena
 
 
 

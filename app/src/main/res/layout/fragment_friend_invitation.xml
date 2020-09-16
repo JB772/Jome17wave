@@ -40,7 +40,7 @@
             tools:context=".jome_message.FriendInvitationFragment">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvFriendInvitation"
+                android:id="@+id/rvFriendInvitation2"
                 android:layout_width="409dp"
                 android:layout_height="729dp"
                 android:paddingStart="20dp"

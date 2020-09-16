@@ -9,7 +9,7 @@
     tools:context=".jome_message.MessageCenterFragment">
 
     <SearchView
-        android:id="@+id/svmessageCenter"
+        android:id="@+id/svMessageCenter"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginStart="20dp"
@@ -21,7 +21,7 @@
         android:queryHint="@string/findCahtRoom" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFriendInvitation"
+        android:id="@+id/rvMessageCenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="20dp"
