@@ -66,4 +66,6 @@
     <string name="ScorePieChart">累積評價</string>
     <string name="successModify">修改資料成功</string>
     <string name="memberModify">修改資料</string>
+    <string name="unuseAcOrPw">帳號或密碼不可空白</string>
+    <string name="logiDeline">登入失敗</string>
 </resources>

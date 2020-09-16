@@ -60,7 +60,7 @@ public class MemberProfileFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.BottomBarMember);
         activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         igMember = view.findViewById(R.id.igMember);
         btConnectUs = view.findViewById(R.id.btConnectUs);
