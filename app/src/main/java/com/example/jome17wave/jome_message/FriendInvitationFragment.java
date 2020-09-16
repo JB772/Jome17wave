@@ -19,7 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,8 +34,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
 public class FriendInvitationFragment extends Fragment {
@@ -72,7 +71,7 @@ public class FriendInvitationFragment extends Fragment {
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //左上角返回箭頭
 
-        rvFriendInvitation = view.findViewById(R.id.rvFriendInvitation);
+        rvFriendInvitation = view.findViewById(R.id.rvFriendInvitation2);
         rvFriendInvitation.setLayoutManager(new LinearLayoutManager(activity));
         invitations = getInvitations();
         showInvitation(invitations);
@@ -86,7 +85,8 @@ public class FriendInvitationFragment extends Fragment {
         if (invitations == null || invitations.isEmpty()){
             Common.showToast(activity, R.string.no_invitations_found);
         }
-        FriendInvitationFragment.FriendInvitationAdapter friendInvitationAdapter = (FriendInvitationFragment.FriendInvitationAdapter) rvFriendInvitation.getAdapter();
+        FriendInvitationFragment.FriendInvitationAdapter friendInvitationAdapter =
+                (FriendInvitationFragment.FriendInvitationAdapter) rvFriendInvitation.getAdapter();
 
         // 如果bookAdapter不存在就建立新的，否則續用舊有的
         if (friendInvitationAdapter == null){
@@ -99,24 +99,45 @@ public class FriendInvitationFragment extends Fragment {
 
     @SuppressLint("LongLogTag")
     private List<FriendInvitation> getInvitations() {
-        List<FriendInvitation> invitations = null;
-        if (Common.networkConnected(activity)){
-            String url = Common.URL_SERVER + "FriendInvitationServlet";
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "getAll");
-            String jsonOut = jsonObject.toString();
-            invitationGetAllTask = new CommonTask(url, jsonOut);
-            try {
-                String jsonIn = invitationGetAllTask.execute().get();
-                Type listType = new TypeToken<FriendInvitation>(){}.getType();
-                invitations = new Gson().fromJson(jsonIn, listType);
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-            }
-        }else {
-            Common.showToast(activity, R.string.no_network_connection_available);
-        }
+        List<FriendInvitation> invitations = new ArrayList<>();
+        List<FriendInvitation> testInvitations = new ArrayList<>();
+        testInvitations.add(
+                new FriendInvitation(1, 2, 3, "王小美", new Date(System.currentTimeMillis())));
+        testInvitations.add(
+                new FriendInvitation(2, 3, 3, "李阿智", new Date(System.currentTimeMillis())));
+        testInvitations.add(
+                new FriendInvitation(3, 4, 3, "廖凡凡", new Date(System.currentTimeMillis())));
+        testInvitations.add(
+                new FriendInvitation(1, 5, 3, "孫美美", new Date(System.currentTimeMillis())));
+        testInvitations.add(
+                new FriendInvitation(1, 2, 3, "王小美", new Date(System.currentTimeMillis())));
+        testInvitations.add(
+                new FriendInvitation(2, 3, 3, "李阿智", new Date(System.currentTimeMillis())));
+        testInvitations.add(
+                new FriendInvitation(3, 4, 3, "廖凡凡", new Date(System.currentTimeMillis())));
+        testInvitations.add(
+                new FriendInvitation(1, 5, 3, "孫美美", new Date(System.currentTimeMillis())));
+
+        invitations = testInvitations;
         return invitations;
+//        List<FriendInvitation> invitations = null;
+//        if (Common.networkConnected(activity)){
+//            String url = Common.URL_SERVER + "FriendInvitationServlet";
+//            JsonObject jsonObject = new JsonObject();
+//            jsonObject.addProperty("action", "getAll");
+//            String jsonOut = jsonObject.toString();
+//            invitationGetAllTask = new CommonTask(url, jsonOut);
+//            try {
+//                String jsonIn = invitationGetAllTask.execute().get();
+//                Type listType = new TypeToken<FriendInvitation>(){}.getType();
+//                invitations = new Gson().fromJson(jsonIn, listType);
+//            } catch (Exception e) {
+//                Log.e(TAG, e.toString());
+//            }
+//        }else {
+//            Common.showToast(activity, R.string.no_network_connection_available);
+//        }
+//        return invitations;
     }
 
 
@@ -140,10 +161,6 @@ public class FriendInvitationFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
 
     public class FriendInvitationAdapter extends RecyclerView.Adapter<FriendInvitationFragment.MyViewHolder> {
         private  List<FriendInvitation> invitations;
@@ -172,13 +189,15 @@ public class FriendInvitationFragment extends Fragment {
             ImageTask imageTask = new ImageTask(url, id, imageSize, holder.ivProfileImg);
             imageTask.execute();
             imageTasks.add(imageTask);
-            holder.tvName.setText(friendInvitation.getInviteMId());
+            holder.tvName.setText(friendInvitation.getAcceptMName());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("LongLogTag")
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("friendInvitation",friendInvitation);
 //                    Navigation.findNavController(view, R.id.action) // 未指定頁面
+                    Log.d(TAG, "尚未指定轉跳頁面");
                 }
             });
 
@@ -230,6 +249,22 @@ public class FriendInvitationFragment extends Fragment {
 
 
 
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (invitationGetAllTask != null){
+            invitationGetAllTask.cancel(true);
+            invitationGetAllTask = null;
+        }
+
+        if (imageTasks != null && imageTasks.size() > 0){
+            for (ImageTask imageTask : imageTasks){
+                imageTask.cancel(true);
+            }
+            imageTasks.clear();
         }
     }
 }

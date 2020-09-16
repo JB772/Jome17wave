@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Notify implements Serializable {
-    private int notificationId, type;
+    private int type, notificationId;
     private String notificationBody;
     private Date buildDate;
 
     public Notify() {
     }
 
-    public Notify(int notificationId, int type, String notificationBody, Date buildDate) {
-        this.notificationId = notificationId;
+    public Notify(int type, int notificationId, String notificationBody, Date buildDate) {
         this.type = type;
+        this.notificationId = notificationId;
         this.notificationBody = notificationBody;
         this.buildDate = buildDate;
     }

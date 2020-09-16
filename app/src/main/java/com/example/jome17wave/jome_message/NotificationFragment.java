@@ -1,9 +1,8 @@
 package com.example.jome17wave.jome_message;
 
-<<<<<<< HEAD
-=======
 import android.annotation.SuppressLint;
->>>>>>> Karena
+
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,11 +29,9 @@ import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.task.CommonTask;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -81,7 +78,7 @@ public class NotificationFragment extends Fragment {
         btFriendInvitation = view.findViewById(R.id.btFriendInvitation);
         tvFriendInvitationTitle = view.findViewById(R.id.tvFriendInvitationTitle);
         tvFriendInvitationDescription = view.findViewById(R.id.tvFriendInvitationDescription);
-        rvNotification = view.findViewById(R.id.rvFriendInvitation);
+        rvNotification = view.findViewById(R.id.rvNotification);
 
 //        btFriendInvitation.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -124,15 +121,20 @@ public class NotificationFragment extends Fragment {
 //        })
     }
 
+    @SuppressLint("LongLogTag")
     private void showNotification(List<Notify> notificationList) {
         if (notifications == null || notifications.isEmpty()){
             Common.showToast(activity, R.string.no_notifications_found);
         }
+        Log.d(TAG, "showNotification");
         NotificationAdapter notificationAdapter = (NotificationAdapter) rvNotification.getAdapter();
+        Log.d(TAG, "getAdapter");
         // 如果bookAdapter不存在就建立新的，否則續用舊有的
         if (notificationAdapter == null){
+            Log.d(TAG, "notificationAdapter == null");
             rvNotification.setAdapter(new NotificationAdapter(activity, notifications));
         }else {
+            Log.d(TAG, "notificationAdapter == null else");
             notificationAdapter.setNotifications(notifications);
             notificationAdapter.notifyDataSetChanged();
         }
@@ -140,31 +142,74 @@ public class NotificationFragment extends Fragment {
 
     @SuppressLint("LongLogTag")
     private List<Notify> getNotifications() {
-            List<Notify> notifications = null;
-            if (Common.networkConnected(activity)){
-                String url = Common.URL_SERVER + "NotificationServlet";
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("action", "getAll");
-                String jsonOut = jsonObject.toString();
-                notificationGetAllTask = new CommonTask(url, jsonOut);
-                try {
-                    String jsonIn = notificationGetAllTask.execute().get();
-                    Type listType = new TypeToken<Notify>() {}.getType();
-                    notifications = new Gson().fromJson(jsonIn, listType);
-                } catch (Exception e) {
-                    Log.e(TAG, e.toString());
-                }
-            }else {
-                Common.showToast(activity, R.string.no_network_connection_available);
-            }
-            return  notifications;
+        List<Notify> notifications = new ArrayList<>();
+        List<Notify> testNotifications = new ArrayList<>();
+        testNotifications.add(
+                new Notify(-1,1,"", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,2,"成功加入 夏天來囉... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,3,"失敗加入 一起去衝浪... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,4,"魯夫 要求加入 陽光沙灘... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(3,5,"衝浪消暑... 已結束，你喜歡嗎？", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(-2,6,"", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,2,"成功加入 夏天來囉... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,3,"失敗加入 一起去衝浪... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,4,"魯夫 要求加入 陽光沙灘... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(3,5,"衝浪消暑... 已結束，你喜歡嗎？", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,2,"成功加入 夏天來囉... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,3,"失敗加入 一起去衝浪... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,4,"魯夫 要求加入 陽光沙灘... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(3,5,"衝浪消暑... 已結束，你喜歡嗎？", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,2,"成功加入 夏天來囉... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,3,"失敗加入 一起去衝浪... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(1,4,"魯夫 要求加入 陽光沙灘... 的揪團", new Date(System.currentTimeMillis())));
+        testNotifications.add(
+                new Notify(3,5,"衝浪消暑... 已結束，你喜歡嗎？", new Date(System.currentTimeMillis())));
+
+        notifications = testNotifications;
+        return notifications;
+//            List<Notify> notifications = null;
+//            if (Common.networkConnected(activity)){
+//                String url = Common.URL_SERVER + "NotificationServlet";
+//                JsonObject jsonObject = new JsonObject();
+//                jsonObject.addProperty("action", "getAll");
+//                String jsonOut = jsonObject.toString();
+//                notificationGetAllTask = new CommonTask(url, jsonOut);
+//                try {
+//                    String jsonIn = notificationGetAllTask.execute().get();
+//                    Type listType = new TypeToken<Notify>() {}.getType();
+//                    notifications = new Gson().fromJson(jsonIn, listType);
+//                } catch (Exception e) {
+//                    Log.e(TAG, e.toString());
+//                }
+//            }else {
+//                Common.showToast(activity, R.string.no_network_connection_available);
+//            }
+//            return  notifications;
     }
 
-    private class NotificationAdapter extends RecyclerView.Adapter<MyViewHolder> {
+    private class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.MyViewHolder> {
         private LayoutInflater layoutInflater;
         private List<Notify> notifications;
 
-        public NotificationAdapter(MainActivity activity, List<Notify> notifications) {
+        NotificationAdapter(Context context, List<Notify> notifications) {
+            layoutInflater = LayoutInflater.from(context);
+            this.notifications = notifications;
         }
 
         void setNotifications(List<Notify> notifications){
@@ -182,14 +227,14 @@ public class NotificationFragment extends Fragment {
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             final Notify notification = notifications.get(position);
             String url = Common.URL_SERVER + "NotificationServlet";
-            int id = notification.getNotificationId();
+            int type = notification.getType();
 //            holder.tvNotificationBody.setText(notification.getNotificationBody().toString());
 //            holder.tvTitle.setText("本週");
 
-            if (id < 0){
+            if (type < 0){
                 holder.constraintLayoutTitle.setVisibility(View.VISIBLE);
                 holder.constrainLayoutNotification.setVisibility(View.GONE);
-                if (id == -1){
+                if (type == -1){
                     holder.tvTitle.setText("本週");
                 }else {
                     holder.tvTitle.setText("更早之前");
@@ -198,6 +243,7 @@ public class NotificationFragment extends Fragment {
             }else{
                 holder.constraintLayoutTitle.setVisibility(View.GONE);
                 holder.constrainLayoutNotification.setVisibility(View.VISIBLE);
+                holder.ivNotification.setImageResource(R.drawable.add_requst_icon);
                 holder.tvNotificationBody.setText(notification.getNotificationBody());
             }
 
@@ -218,29 +264,28 @@ public class NotificationFragment extends Fragment {
             return notifications == null ? 0 :notifications.size();
         }
 
-    }
-
-    private class MyViewHolder extends RecyclerView.ViewHolder {
-        private ConstraintLayout constraintLayoutTitle, constrainLayoutNotification;
-        private TextView tvTitle, tvNotificationBody;
-        private ImageView ivNotification;
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            constraintLayoutTitle = itemView.findViewById(R.id.constrainLayoutTitle);
-            constrainLayoutNotification = itemView.findViewById(R.id.constrainLayoutNotification);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvNotificationBody = itemView.findViewById(R.id.tvNotificationBody);
-            ivNotification = itemView.findViewById(R.id.ivNotification);
+        class MyViewHolder extends RecyclerView.ViewHolder {
+            private ConstraintLayout constraintLayoutTitle, constrainLayoutNotification;
+            private TextView tvTitle, tvNotificationBody;
+            private ImageView ivNotification;
+            public MyViewHolder(View itemView) {
+                super(itemView);
+                constraintLayoutTitle = itemView.findViewById(R.id.constrainLayoutTitle);
+                constrainLayoutNotification = itemView.findViewById(R.id.constrainLayoutNotification);
+                tvTitle = itemView.findViewById(R.id.tvTitle);
+                tvNotificationBody = itemView.findViewById(R.id.tvNotificationBody);
+                ivNotification = itemView.findViewById(R.id.ivNotification);
 
 
 
+            }
         }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (notificationGetAllTask != null){
+        if (notificationGetAllTask != null) {
             notificationGetAllTask.cancel(true);
             notificationGetAllTask = null;
         }

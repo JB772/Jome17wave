@@ -5,16 +5,17 @@ import java.util.Date;
 
 public class FriendInvitation implements Serializable {
     private int uId, inviteMId, acceptMId, friendStatus;
+    private String acceptMName;
     private Date motifyDate;
 
     public FriendInvitation() {
     }
 
-    public FriendInvitation(int uId, int inviteMId, int acceptMId, int friendStatus, Date motifyDate) {
+    public FriendInvitation(int uId, int acceptMId, int friendStatus, String acceptMName, Date motifyDate) {
         this.uId = uId;
-        this.inviteMId = inviteMId;
         this.acceptMId = acceptMId;
         this.friendStatus = friendStatus;
+        this.acceptMName = acceptMName;
         this.motifyDate = motifyDate;
     }
 
@@ -56,5 +57,13 @@ public class FriendInvitation implements Serializable {
 
     public void setMotifyDate(Date motifyDate) {
         this.motifyDate = motifyDate;
+    }
+
+    public String getAcceptMName() {
+        return acceptMName;
+    }
+
+    public void setAcceptMName(String acceptMName) {
+        this.acceptMName = acceptMName;
     }
 }

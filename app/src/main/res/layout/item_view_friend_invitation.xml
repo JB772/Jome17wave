@@ -6,25 +6,33 @@
     android:layout_height="44dp"
     android:layout_marginBottom="4dp">
 
-    <ImageView
-        android:id="@+id/ivProfileImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvProfileImg"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:cardCornerRadius="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/add_comment_icon" />
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/ivProfileImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/iu2" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivProfileImg"
-        app:layout_constraintStart_toEndOf="@+id/ivProfileImg"
-        app:layout_constraintTop_toTopOf="@+id/ivProfileImg" />
+        app:layout_constraintBottom_toBottomOf="@+id/cvProfileImg"
+        app:layout_constraintStart_toEndOf="@+id/cvProfileImg"
+        app:layout_constraintTop_toTopOf="@+id/cvProfileImg"
+        app:layout_constraintVertical_bias="0.533" />
 
     <ImageButton
         android:id="@+id/ibtAgree"

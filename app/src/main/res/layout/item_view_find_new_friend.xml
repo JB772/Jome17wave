@@ -27,10 +27,11 @@
         app:layout_constraintTop_toTopOf="@+id/ivProfileImg" />
 
 
-    <ImageView
-        android:id="@+id/ivAddFriend"
+    <ImageButton
+        android:id="@+id/ibtAddFriend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#00000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

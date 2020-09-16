@@ -36,6 +36,6 @@ public class MessageCenterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        svmessageCenter = view.findViewById(R.id.svmessageCenter);
+        svmessageCenter = view.findViewById(R.id.svMessageCenter);
     }
 }

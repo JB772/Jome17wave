@@ -15,13 +15,12 @@
                 android:id="@+id/action_mainFragment_to_mapFragment"
                 app:destination="@id/mapsFragment" />
             <action
-<<<<<<< HEAD
                 android:id="@+id/action_mainFragment_to_memberFragment2"
                 app:destination="@id/memberFragment2" />
-=======
+            <action
                 android:id="@+id/action_mainFragment_to_notificationFragment"
                 app:destination="@id/notificationFragment" />
->>>>>>> Karena
+
         </fragment>
 
         <fragment
