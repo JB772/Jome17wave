@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:id="@+id/appbar"-->
+
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="match_parent">-->
+
+
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            android:layout_width="match_parent"/>-->
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
+
+<!--    -->
+
+
+
+
+<!--</androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".jome_member.OtherMemberFragment">
+
+    <ImageView
+    android:id="@+id/imageFProfile"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintVertical_bias="0.2"
+    tools:src="@tools:sample/avatars" />
+
+    <TextView
+    android:id="@+id/tvFDataName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/Nickname"
+    android:textSize="18sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.5" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/countCL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.9">
+
+    <LinearLayout
+        android:id="@+id/Quadrant1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_quadrant1"
+        android:orientation="vertical"
+        android:padding="16sp"
+        app:layout_constraintBottom_toTopOf="@id/Quadrant4"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/frindeData1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="4sp"
+            android:text="@string/averageScore"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorDeepBlue"/>
+
+        <TextView
+            android:id="@+id/tvAverageScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:text="@string/averageScore"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/Quadrant2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_quadrant2"
+        android:orientation="vertical"
+        android:padding="16sp"
+        app:layout_constraintBottom_toTopOf="@id/Quadrant3"
+        app:layout_constraintEnd_toStartOf="@id/Quadrant1"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/frindeData2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="4sp"
+            android:text="@string/firendCount"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorDeepBlue"/>
+
+        <TextView
+            android:id="@+id/tvFriendCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:text="@string/firendCount"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Quadrant3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_quadrant3"
+        android:orientation="vertical"
+        android:padding="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Quadrant4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9">
+
+        <TextView
+            android:id="@+id/frindeData3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="4sp"
+            android:text="@string/assembleConut"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorDeepBlue"/>
+
+        <TextView
+            android:id="@+id/tvAssembleCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:text="@string/assembleConut"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Quadrant4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_quadrant4"
+        android:orientation="vertical"
+        android:padding="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9">
+
+        <TextView
+            android:id="@+id/frindeData4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/jointCount"
+            android:textSize="16sp"
+            android:padding="4sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorDeepBlue"/>
+
+        <TextView
+            android:id="@+id/tvJointCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/jointCount"
+            android:layout_gravity="center"
+            android:textSize="24sp"
+            android:padding="8dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+    android:id="@+id/imageButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/message_selector"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.7"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintVertical_bias="0.4" />
+
+    <ImageButton
+    android:id="@+id/imageButton2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_selector"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.3"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintVertical_bias="0.4" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

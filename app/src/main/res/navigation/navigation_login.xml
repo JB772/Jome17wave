@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgetPwFragment"
-        android:name="com.example.jome17wave.ForgetPwFragment"
+        android:name="com.example.jome17wave.jome_loginRegister.ForgetPwFragment"
         android:label="fragment_forget_pw"
         tools:layout="@layout/fragment_forget_pw" />
     <fragment
