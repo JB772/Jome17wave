@@ -1,20 +1,10 @@
 package com.example.jome17wave.jome_message;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import android.annotation.SuppressLint;
-=======
-
-
-import android.annotation.SuppressLint;
-=======
-
 import android.annotation.SuppressLint;
 
+import android.annotation.SuppressLint;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
->>>>>>> Karena
-
->>>>>>> sam
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

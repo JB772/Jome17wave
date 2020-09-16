@@ -155,7 +155,7 @@
         android:gravity="start"
         android:hint="給團友的話（限50字）"/>
 
-    <button
+    <button></button>
 
 
 </RelativeLayout>

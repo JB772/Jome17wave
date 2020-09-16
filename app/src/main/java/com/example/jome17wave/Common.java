@@ -2,6 +2,8 @@ package com.example.jome17wave;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -10,6 +12,8 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.jome17wave.jome_loginRegister.LoginActivity;
+
 import java.util.Locale;
 
 public class Common {
@@ -17,14 +21,7 @@ public class Common {
     private static final String TAG = "TAG_Common";
     //    public static String URL_SERVER = "http://192.168.196.189:8080/Spot_MySQL_Web/";
     public static String URL_SERVER = "http://10.0.2.2:8080/Jome17wave_Web/";
-<<<<<<< HEAD
-<<<<<<< HEAD
     public final static String PREF_FILE = "preference";
-=======
->>>>>>> sam
-=======
->>>>>>> Karena
-
 
 
     /**
@@ -59,12 +56,32 @@ public class Common {
         return false;
     }
 
-
     public static void showToast(Context context, int messageResId) {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }
 
+    //檢驗是否登入，用在頁面onStart
+    public static void loginCheck(Activity activity, int REQ_LOGIN){
+        Intent loginIntend = new Intent(activity, LoginActivity.class);
+        activity.startActivityForResult(loginIntend, REQ_LOGIN);
+    }
 
+    //取用偏好設定檔
+    public static SharedPreferences usePreferences(Activity activity, String prefName){
+         SharedPreferences preferences = activity.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+         return preferences;
+/**                            .edit()                   開始編輯
+ *                           .putBoolean(key, value)
+ *                           .putString(key, value)
+ *                           .putString(key, value)
+ *                               ...
+ *                           .apply();                 完成編輯
+ */
+
+/**
+ *                           .getString(key, value)     取用偏好設定檔
+ */
+    }
 }
 
 
