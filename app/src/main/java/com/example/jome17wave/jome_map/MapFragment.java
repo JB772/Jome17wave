@@ -87,7 +87,7 @@ public class MapFragment extends Fragment {
         toolbar.setTitle("地圖");
         activity.setSupportActionBar(toolbar);
 
-        MapView mapView = view.findViewById(R.id.mapView);
+        final MapView mapView = view.findViewById(R.id.mapView);
         rvMap = view.findViewById(R.id.rvMap);
 
         // RecyclerView
@@ -105,10 +105,37 @@ public class MapFragment extends Fragment {
 //                moveMap(new LatLng(24.9, 121.1));
                 maps = getMaps();
                 for (Map map: maps){
-//                    Log.d(TAG,"Level"+map.getLevel());
+                    Log.d(TAG,"Level"+map.getLevel());
                     LatLng latLng = new LatLng(map.getLatitude(), map.getLongitude());
                     addMarker(latLng, map.getName());
                 }
+
+//                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                    @Override
+//                    public boolean onMarkerClick(Marker marker) {
+//                        if (marker == null) {
+//                            showMaps(maps);
+//                        } else {
+//                            List<Map> clickMaps = new ArrayList<>();
+//                            for (Map map : maps) {
+//                                if (map.equals(maps)) {
+//                                    clickMaps.add(map);
+//                                }
+//                            }
+//                            showMaps(clickMaps);
+//                        }
+//                        for (Map map: maps){
+//                            String newText;
+//                            switch (map.getName()){
+//                                case "1":
+//                                     newText = map.getName();
+//                                    break;
+//                            }
+//
+//                        }
+//                        return false;
+//                    }
+//                });
             }
         });
 
@@ -199,6 +226,15 @@ public class MapFragment extends Fragment {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
                 }
+                break;
+            case R.id.allSurfPoint:
+                maps = getMaps();
+                for (Map map: maps){
+                    Log.d(TAG,"Level"+map.getLevel());
+                    LatLng latLng = new LatLng(map.getLatitude(), map.getLongitude());
+                    addMarker(latLng, map.getName());
+                }
+            default:
                 break;
         }
         return super.onOptionsItemSelected(item);

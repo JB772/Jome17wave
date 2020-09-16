@@ -37,8 +37,7 @@
     <string name="passRecord">過往記錄</string>
     <string name="etAccount">請輸入會員帳號</string>
     <string name="loginTitle">JoMe17浪</string>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     <string name="tvEmail">電子郵件</string>
     <string name="tvEmailHint">Jomewave@mail.com</string>
     <string name="tvVerifyCode">驗証碼</string>
@@ -52,18 +51,17 @@
     <string name="Nickname">請輸入暱稱</string>
     <string name="PhoneHint">請輸入手機</string>
     <string name="tvGender">性別</string>
-=======
+
     <string name="northSide">北部浪點</string>
     <string name="eastSide">東部浪點</string>
     <string name="southSide">南部浪點</string>
     <string name="westSide">西部浪點</string>
-    <string name="nearMember">附近用戶</string>
->>>>>>> sam
-=======
+    <string name="allSurfPoint">全台浪點</string>
+
     <string name="no_network_connection_available">沒有網路連線</string>
     <string name="no_notifications_found">沒有任何通知訊息</string>
     <string name="friend_Invitation">好友邀請</string>
     <string name="no_invitations_found">沒有任何好友邀請</string>
->>>>>>> Karena
+
 
 </resources>

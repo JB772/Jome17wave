@@ -18,7 +18,7 @@
         android:title="@string/westSide" />
 
     <item
-        android:id="@+id/nearMember"
-        android:title="@string/nearMember" />
+        android:id="@+id/allSurfPoint"
+        android:title="@string/allSurfPoint" />
 
 </menu>

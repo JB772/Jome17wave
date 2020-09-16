@@ -11,12 +11,16 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -29,7 +33,8 @@ public class MapDetailFragment extends Fragment {
     private MainActivity activity;
     private TextView tvName, tvType, tvTidal, tvDirection, tvLevel;
     private NavController navController;
-    private ImageView imageView18, imageView19;
+    private WebView webView;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +48,26 @@ public class MapDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 //        activity.setTitle("浪點資訊");
-        return inflater.inflate(R.layout.fragment_map_detail, container, false);
+        final View view = inflater.inflate(R.layout.fragment_map_detail, container, false);
+        webView = view.findViewById(R.id.webView);
+        webView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    webView = view.findViewById(R.id.webView);
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_BACK:
+                            if (webView.canGoBack()) {
+                                webView.goBack();
+                                return true;
+                            }
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+        return view;
     }
 
     @Override
@@ -72,6 +96,27 @@ public class MapDetailFragment extends Fragment {
         tvDirection.setText(map.getDirection());
         tvLevel.setText(map.getLevel());
 
+        webView = view.findViewById(R.id.webView);
+        handleViews();
+        webView.loadUrl("https://www.windy.com/?23.403,120.910,7");
+//        webView.loadUrl("https://safesee.cwb.gov.tw/");
+
+    }
+
+    private void handleViews() {
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -85,4 +130,5 @@ public class MapDetailFragment extends Fragment {
         }
         return true;
     }
+
 }
