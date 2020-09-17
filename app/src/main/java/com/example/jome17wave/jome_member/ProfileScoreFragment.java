@@ -57,10 +57,10 @@ public class ProfileScoreFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        Toolbar toolbar = view.findViewById(R.id.toolbar);
-//        toolbar.setTitle("累積評價");
-//        activity.setSupportActionBar(toolbar);
-//        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle("評價");
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         imageStar5 = view.findViewById(R.id.imageStar5);
@@ -86,7 +86,7 @@ public class ProfileScoreFragment extends Fragment {
 
         Description description = new Description();
         description.setText("評價統計圖");
-        description.setTextSize(25);
+        description.setTextSize(20);
         scorePieChart.setDescription(description);
         
         scorePieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -143,7 +143,7 @@ public class ProfileScoreFragment extends Fragment {
 
         /* 使用官訂顏色範本，顏色不能超過5種，否則官定範本要加顏色 */
         //setColors可以自己建立int[]來放顏色的id
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        pieDataSet.setColors(ColorTemplate.PASTEL_COLORS);
         PieData pieData = new PieData(pieDataSet);
         scorePieChart.setData(pieData);
         scorePieChart.invalidate();

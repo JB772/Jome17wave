@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class Common {
@@ -60,10 +63,19 @@ public class Common {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }
 
-    //檢驗是否登入，用在頁面onStart
+    public static String getDateTimeId(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHssSS");
+        String dateTimeId = String.valueOf(sdf.format(new Date()));
+        return dateTimeId;
+    }
+
+//    檢驗是否登入，用在頁面onStart
     public static void loginCheck(Activity activity, int REQ_LOGIN){
         Intent loginIntend = new Intent(activity, LoginActivity.class);
         activity.startActivityForResult(loginIntend, REQ_LOGIN);
+/**
+ *      private static final int REQ_LOGIN = 2;
+ */
     }
 
     //取用偏好設定檔

@@ -68,11 +68,12 @@
     <string name="ScorePieChart">累積評價</string>
     <string name="successModify">修改資料成功</string>
     <string name="memberModify">修改資料</string>
-    <string name="unuseAcOrPw">帳號或密碼不可空白</string>
+    <string name="unuseAcOrPw">輸入欄位不可空白</string>
     <string name="logiDeline">登入失敗</string>
     <string name="no_information_found">找不到相關訊息</string>
     <string name="friend_invitation_fail">好友邀請失敗</string>
     <string name="friend_invitation_successfully">已發送好友邀請</string>
     <string name="accountNotExist">帳號不存在</string>
     <string name="passwordIsError">密碼錯誤</string>
+    <string name="successRegister">註冊成功，請重新登入</string>
 </resources>

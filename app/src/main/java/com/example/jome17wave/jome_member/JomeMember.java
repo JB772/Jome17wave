@@ -1,7 +1,7 @@
 package com.example.jome17wave.jome_member;
 
 public class JomeMember {
-    private int member_id;
+    private String member_id;
     private byte[] image;
     private String account;
     private String password;
@@ -21,11 +21,21 @@ public class JomeMember {
         this.password = password;
     }
 
-    public int getMember_id() {
+    public JomeMember(String member_id ,String account, String password, int gender, String phone_number, String nickname) {
+        this.member_id = member_id;
+        this.account = account;
+        this.password = password;
+        this.gender = gender;
+        this.phone_number = phone_number;
+        this.nickname = nickname;
+    }
+
+
+    public String getMember_id() {
         return member_id;
     }
 
-    public void setMember_id(int member_id) {
+    public void setMember_id(String member_id) {
         this.member_id = member_id;
     }
 
