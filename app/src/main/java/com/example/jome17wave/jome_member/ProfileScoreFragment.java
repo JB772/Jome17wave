@@ -57,10 +57,10 @@ public class ProfileScoreFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle("累積評價");
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Toolbar toolbar = view.findViewById(R.id.toolbar);
+//        toolbar.setTitle("累積評價");
+//        activity.setSupportActionBar(toolbar);
+//        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         imageStar5 = view.findViewById(R.id.imageStar5);
