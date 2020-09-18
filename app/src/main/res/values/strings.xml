@@ -59,6 +59,10 @@
 
     <string name="nearMember">附近用戶</string>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> sam
     <string name="allSurfPoint">全台浪點</string>
 
 
@@ -80,6 +84,9 @@
     <string name="no_information_found">找不到相關訊息</string>
     <string name="friend_invitation_fail">好友邀請失敗</string>
     <string name="friend_invitation_successfully">已發送好友邀請</string>
+<<<<<<< HEAD
 
+=======
+>>>>>>> sam
 
 </resources>

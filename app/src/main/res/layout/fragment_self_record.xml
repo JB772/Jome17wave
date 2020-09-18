@@ -11,7 +11,10 @@
         android:id="@+id/appbar"
 
         android:layout_height="wrap_content"
+<<<<<<< HEAD
 
+=======
+>>>>>>> sam
         android:layout_width="match_parent">
 
 
@@ -68,6 +71,7 @@
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
+<<<<<<< HEAD
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvJoinRecord"
         android:layout_width="0dp"
@@ -78,3 +82,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+=======
+
+>>>>>>> sam
