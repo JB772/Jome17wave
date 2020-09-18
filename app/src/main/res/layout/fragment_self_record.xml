@@ -12,9 +12,12 @@
 
         android:layout_height="wrap_content"
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> sam
+=======
+>>>>>>> Karena
         android:layout_width="match_parent">
 
 
@@ -70,6 +73,7 @@
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+<<<<<<< HEAD
 
 <<<<<<< HEAD
     <androidx.recyclerview.widget.RecyclerView
@@ -85,3 +89,5 @@
 =======
 
 >>>>>>> sam
+=======
+>>>>>>> Karena

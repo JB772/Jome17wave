@@ -156,6 +156,7 @@
         android:hint="給團友的話（限50字）"/>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     <ImageButton
         android:id="@+id/bt_add"
         android:layout_width="150dp"
@@ -170,6 +171,8 @@
 =======
     <button></button>
 >>>>>>> sam
+=======
+>>>>>>> Karena
 
 
 </RelativeLayout>

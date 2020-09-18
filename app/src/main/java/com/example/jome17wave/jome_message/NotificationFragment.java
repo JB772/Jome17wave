@@ -134,9 +134,7 @@ public class NotificationFragment extends Fragment {
         if (notifications == null || notifications.isEmpty()){
             Common.showToast(activity, R.string.no_notifications_found);
         }
-        Log.d(TAG, "showNotification");
         NotificationAdapter notificationAdapter = (NotificationAdapter) rvNotification.getAdapter();
-        Log.d(TAG, "getAdapter");
         // 如果bookAdapter不存在就建立新的，否則續用舊有的
         if (notificationAdapter == null){
             Log.d(TAG, "notificationAdapter == null");
