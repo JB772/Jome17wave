@@ -1,7 +1,9 @@
 package com.example.jome17wave.jome_map;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +39,7 @@ import com.example.jome17wave.task.ImageTask;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -52,6 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapFragment extends Fragment {
+    private static final int PER_ACCESS_LOCATION = 0;
     private static final String TAG = "TAG_MainFragment";
     private MainActivity activity;
     private RecyclerView rvMap;
@@ -102,40 +107,27 @@ public class MapFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
-//                moveMap(new LatLng(24.9, 121.1));
+                showMyLocation();
+
+                final List<Marker> mapMarkers = new ArrayList<>();
+
                 maps = getMaps();
                 for (Map map: maps){
                     Log.d(TAG,"Level"+map.getLevel());
                     LatLng latLng = new LatLng(map.getLatitude(), map.getLongitude());
-                    addMarker(latLng, map.getName());
+                    Marker mapMarker = addMarker(latLng, map.getName());
+                    mapMarkers.add(mapMarker);
                 }
 
-//                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//                    @Override
-//                    public boolean onMarkerClick(Marker marker) {
-//                        if (marker == null) {
-//                            showMaps(maps);
-//                        } else {
-//                            List<Map> clickMaps = new ArrayList<>();
-//                            for (Map map : maps) {
-//                                if (map.equals(maps)) {
-//                                    clickMaps.add(map);
-//                                }
-//                            }
-//                            showMaps(clickMaps);
-//                        }
-//                        for (Map map: maps){
-//                            String newText;
-//                            switch (map.getName()){
-//                                case "1":
-//                                     newText = map.getName();
-//                                    break;
-//                            }
-//
-//                        }
-//                        return false;
-//                    }
-//                });
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        int index = mapMarkers.indexOf(marker);
+                        Log.d(TAG, String.valueOf(index));
+                        rvMap.smoothScrollToPosition(index);
+                        return true;
+                    }
+                });
             }
         });
 
@@ -341,19 +333,18 @@ public class MapFragment extends Fragment {
                 }
             });
         }
-
-
     }
 
-    private void addMarker(LatLng latLng, String title) {
+    private Marker addMarker(LatLng latLng, String title) {
         Address address = reverseGeocode(latLng.latitude, latLng.longitude);
 //        String title = address.getThoroughfare();
         String snippet = address.getAddressLine(0);
-        map.addMarker(new MarkerOptions()
+        Marker marker = map.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title(title)
                 .snippet(snippet));
         moveMap(latLng);
+        return marker;
     }
 
     private void moveMap(LatLng latLng) {
@@ -383,6 +374,35 @@ public class MapFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
+        askAccessLocationPermission();
     }
+
+    // 詢問使否取用位置
+    private void askAccessLocationPermission() {
+        String[] permissions = {
+                Manifest.permission.ACCESS_FINE_LOCATION
+        };
+
+        int result = ActivityCompat.checkSelfPermission(activity, permissions[0]);
+        if(result == PackageManager.PERMISSION_DENIED){
+            requestPermissions(permissions, PER_ACCESS_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        showMyLocation();
+    }
+
+    // show出使用者現在位置
+    private void showMyLocation() {
+        if (ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            map.setMyLocationEnabled(true);
+        }
+    }
+
 }
