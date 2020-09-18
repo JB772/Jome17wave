@@ -1,20 +1,17 @@
 package com.example.jome17wave.jome_message;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import android.annotation.SuppressLint;
-=======
-
 
 import android.annotation.SuppressLint;
-=======
+
+
+
+import android.annotation.SuppressLint;
+
 
 import android.annotation.SuppressLint;
 
 import android.content.Context;
 import android.os.Bundle;
->>>>>>> Karena
 
->>>>>>> sam
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -137,9 +134,7 @@ public class NotificationFragment extends Fragment {
         if (notifications == null || notifications.isEmpty()){
             Common.showToast(activity, R.string.no_notifications_found);
         }
-        Log.d(TAG, "showNotification");
         NotificationAdapter notificationAdapter = (NotificationAdapter) rvNotification.getAdapter();
-        Log.d(TAG, "getAdapter");
         // 如果bookAdapter不存在就建立新的，否則續用舊有的
         if (notificationAdapter == null){
             Log.d(TAG, "notificationAdapter == null");

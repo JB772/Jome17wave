@@ -26,43 +26,120 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
+        android:background="@drawable/bg"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg"
             android:orientation="vertical"
-            tools:context=".jome_message.FindNewFriendFragment">
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
-            <SearchView
-                android:id="@+id/svFindNewFriend"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constrainLayoutSearch"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="15dp"
-                android:background="@color/colorWhite"
-                android:iconifiedByDefault="false"
-                android:queryHint="@string/findNewFriendTitle">
+                android:layout_height="match_parent">
 
-            </SearchView>
+                <Button
+                    android:id="@+id/btSearch"
+                    android:layout_width="64dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/colorDeepBlue"
+                    android:text="@string/search"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/etFindNewFriend"
+                    app:layout_constraintStart_toEndOf="@+id/etFindNewFriend"
+                    app:layout_constraintTop_toTopOf="@+id/etFindNewFriend" />
 
-            <androidx.recyclerview.widget.RecyclerView
+                <EditText
+                    android:id="@+id/etFindNewFriend"
+                    android:layout_width="250dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="80dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/colorWhite"
+                    android:ems="10"
+                    android:hint="@string/input_account"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.260"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutProfile"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="20dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="20dp" />
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvOtherProfileImg"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:cardCornerRadius="100dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.2">
+
+                    <ImageView
+                        android:id="@+id/ivOtherProfileImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvOtherName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="使用者名稱"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="@+id/cvOtherProfileImg"
+                    app:layout_constraintStart_toStartOf="@+id/cvOtherProfileImg"
+                    app:layout_constraintTop_toBottomOf="@+id/cvOtherProfileImg" />
+
+                <Button
+                    android:id="@+id/btAddNewFriend"
+                    android:layout_width="145dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/bt_other_member_profile"
+                    android:text="@string/add_friend"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="@+id/tvOtherName"
+                    app:layout_constraintStart_toStartOf="@+id/tvOtherName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvOtherName" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
 
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+<!--<androidx.core.widget.NestedScrollView-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+
+
+<!--app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">-->
+
+
+<!--</androidx.core.widget.NestedScrollView>-->
