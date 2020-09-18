@@ -11,7 +11,7 @@
         android:id="@+id/appbar"
 
         android:layout_height="wrap_content"
-<<<<<<< HEAD
+
         android:layout_width="match_parent">
 
 
@@ -66,13 +66,7 @@
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-=======
-        android:layout_marginBottom="40dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/rvFrieandInvitation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvJoinRecord"
@@ -84,4 +78,3 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> Karena
