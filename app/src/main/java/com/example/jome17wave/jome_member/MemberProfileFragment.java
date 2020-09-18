@@ -2,6 +2,7 @@ package com.example.jome17wave.jome_member;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
 import com.example.jome17wave.MainActivity;
@@ -83,10 +86,16 @@ public class MemberProfileFragment extends Fragment {
                         break;
                     case R.id.btLogOut:
                         //清空preferences檔
-                        // 轉跳到login頁面
-                        Intent intentLoginActivity = new Intent();
-                        intentLoginActivity.setClass(activity, LoginActivity.class);
-                        startActivity(intentLoginActivity);
+                        boolean preferencesClear = false;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                            preferencesClear = activity.deleteSharedPreferences(Common.PREF_FILE);
+                        }
+                        // 確認preferences刪除後，轉跳到login頁面
+                        if (preferencesClear == true){
+                            Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
+//                        intentLoginActivity.setClass(activity, LoginActivity.class);
+                            startActivity(intentLoginActivity);
+                        }
                         break;
                     case R.id.clFriendList:
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_friendsListFragment);

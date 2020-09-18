@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class OtherMemberFragment extends Fragment {
     private MainActivity activity;
     private ImageView imageFProfile;
     private TextView tvFDataName ,tvAverageScore, tvFriendCount,tvAssembleCount, tvJointCount;
+    private ImageButton ibtFriendStory, ibtOtherMessage, ibtFriendAdd, ibtFriendPandding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,9 @@ public class OtherMemberFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ibtFriendStory = view.findViewById(R.id.ibtFriendStory);
 
 
 
@@ -67,6 +70,19 @@ public class OtherMemberFragment extends Fragment {
                 tvFriendCount.setText("0 人");
             }
         }
+        View.OnClickListener btonclick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.ibtFriendStory:
+                        Navigation.findNavController(view).navigate(R.id.action_otherMemberFragment_to_OMemberStoryFragment);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        ibtFriendStory.setOnClickListener(btonclick);
     }
 
 

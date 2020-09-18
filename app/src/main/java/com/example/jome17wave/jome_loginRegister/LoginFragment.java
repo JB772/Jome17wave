@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_member.JomeMember;
 import com.example.jome17wave.task.CommonTask;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,6 +40,8 @@ public class LoginFragment extends Fragment {
     private EditText etLoginPw;
     private CommonTask loginTask;
     private SharedPreferences preferences;
+    private int loginResultCode;
+    private String loginMember;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,7 @@ public class LoginFragment extends Fragment {
         etLoginAc = view.findViewById(R.id.etLoginAc);
         etLoginPw = view.findViewById(R.id.etLoginPw);
 
-        View.OnClickListener btOnclick = new View.OnClickListener() {
+        final View.OnClickListener btOnclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
@@ -82,7 +85,6 @@ public class LoginFragment extends Fragment {
                         Log.d(TAG, "FbLogin");
                         break;
                     case R.id.ibtLogin:
-                        Log.d(TAG, "11111111111");
                         String account = etLoginAc.getText().toString().trim();
                         String password = etLoginPw.getText().toString().trim();
                         if (account.length()<=0 || password.length() <=0){
@@ -97,12 +99,24 @@ public class LoginFragment extends Fragment {
                                             .putBoolean("login", true)
                                             .putString("account", account)
                                             .putString("password", password)
+                                            .putString("loginMember", loginMember)
                                             .apply();
                             //將登入回驗碼改為ok
                             activity.setResult(Activity.RESULT_OK);
                             activity.finish();
                         }else {
-                            Common.showToast(activity, R.string.logiDeline);
+
+                            switch (loginResultCode){
+                                case 0:
+                                    Common.showToast(activity, R.string.accountNotExist);
+                                    break;
+                                case -1:
+                                    Common.showToast(activity,R.string.passwordIsError);
+                                    break;
+                                default:
+                                    Common.showToast(activity, R.string.logiDeline);
+                                    break;
+                            }
                         }
                         break;
                     default:
@@ -129,7 +143,11 @@ public class LoginFragment extends Fragment {
         try {
             String jsonIn = loginTask.execute().get();
             jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
-            isAccountValid = jsonObject.get("isAccountValid").getAsBoolean();
+            loginResultCode = jsonObject.get("loginResultCode").getAsInt();
+            if (loginResultCode == 1){
+                loginMember = jsonObject.get("loginMember").getAsString();
+                isAccountValid = true;
+            }
         } catch (InterruptedException e) {
             Log.d(TAG, e.toString());
         } catch (ExecutionException e) {

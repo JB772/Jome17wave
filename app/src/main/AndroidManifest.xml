@@ -26,6 +26,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 
@@ -43,6 +44,11 @@
 
 
 >>>>>>> Karena
+=======
+        <activity android:name=".jome_loginRegister.LoginActivity"></activity>
+
+
+>>>>>>> justin_branch
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

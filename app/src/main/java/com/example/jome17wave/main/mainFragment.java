@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
@@ -45,11 +46,7 @@ public class mainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        login();
+//        Common.loginCheck(activity, REQ_LOGIN);
     }
 
-    private void login() {
-        Intent loginintent = new Intent(activity, LoginActivity.class);
-        startActivityForResult(loginintent, REQ_LOGIN);
-    }
 }

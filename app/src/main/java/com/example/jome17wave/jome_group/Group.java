@@ -1,5 +1,7 @@
 package com.example.jome17wave.jome_group;
 
+import com.example.jome17wave.Common;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -86,6 +88,9 @@ public class Group implements Serializable {
 //        this.status = status;
 //    }
 
-
+    @Override
+    public String toString() {
+        return Common.getYYYYmmDDhhMM(assembleTime) + name ;
+    }
 }
 

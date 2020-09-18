@@ -157,6 +157,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <ImageButton
         android:id="@+id/bt_add"
         android:layout_width="150dp"
@@ -173,6 +174,9 @@
 >>>>>>> sam
 =======
 >>>>>>> Karena
+=======
+    <button></button>
+>>>>>>> justin_branch
 
 
 </RelativeLayout>
