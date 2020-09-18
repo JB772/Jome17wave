@@ -9,5 +9,14 @@
         android:id="@+id/otherMemberFragment"
         android:name="com.example.jome17wave.jome_member.OtherMemberFragment"
         android:label="fragment_other_member"
-        tools:layout="@layout/fragment_other_member" />
+        tools:layout="@layout/fragment_other_member" >
+        <action
+            android:id="@+id/action_otherMemberFragment_to_OMemberStoryFragment"
+            app:destination="@id/OMemberStoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/OMemberStoryFragment"
+        android:name="com.example.jome17wave.jome_member.OMemberStoryFragment"
+        android:label="fragment_o_member_story"
+        tools:layout="@layout/fragment_o_member_story" />
 </navigation>

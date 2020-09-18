@@ -1,18 +1,11 @@
 package com.example.jome17wave.jome_member;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -20,6 +13,16 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
 
 import java.util.ArrayList;
@@ -27,7 +30,7 @@ import java.util.List;
 
 public class FriendsListFragment extends Fragment {
     private static final String TAG ="FriendsListFragment";
-    private Activity activity;
+    private MainActivity activity;
     private RecyclerView rvMFriendsList;
     private SearchView sVFriendList;
     private ConstraintLayout itemFriendCL;
@@ -37,7 +40,8 @@ public class FriendsListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = getActivity();
+        activity = (MainActivity) getActivity();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -50,6 +54,11 @@ public class FriendsListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle("好友列表");
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         sVFriendList = view.findViewById(R.id.sVFriendList);
         sVFriendList.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -153,14 +162,22 @@ public class FriendsListFragment extends Fragment {
         testFriends.add(new Friend(R.drawable.no_image, "Kitty"));
         testFriends.add(new Friend(R.drawable.no_image, "Ocean"));
         testFriends.add(new Friend(R.drawable.no_image, "WANG"));
-//        friends.add(new Friend(R.drawable.no_image, "Ivy"));
-//        friends.add(new Friend(R.drawable.no_image, "Ivy"));
-//        friends.add(new Friend(R.drawable.no_image, "Ivy"));
-//        friends.add(new Friend(R.drawable.no_image, "Ivy"));
-//        friends.add(new Friend(R.drawable.no_image, "Ivy"));
-//        friends.add(new Friend(R.drawable.no_image, "Ivy"));
-//        friends.add(new Friend(R.drawable.no_image, "Ivy"));
         return testFriends;
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.member_center_tool_bar, menu);
+        menu.findItem(R.id.member_check_item).setVisible(false);
+        menu.findItem(R.id.member_settin_item).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            Navigation.findNavController(rvMFriendsList).popBackStack();
+        }
+        return true;
+    }
 }

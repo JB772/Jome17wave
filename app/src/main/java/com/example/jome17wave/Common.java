@@ -63,8 +63,14 @@ public class Common {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }
 
+    public static String getYYYYmmDDhhMM(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String formatTime = String.valueOf(sdf.format(date));
+        return formatTime;
+    }
+
     public static String getDateTimeId(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHssSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmSSSS");
         String dateTimeId = String.valueOf(sdf.format(new Date()));
         return dateTimeId;
     }

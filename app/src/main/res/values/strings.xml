@@ -6,13 +6,10 @@
     <string name="BottomBarMap">地圖</string>
     <string name="BottomBarBell">通知</string>
     <string name="BottomBarMember">會員中心</string>
-
-
     <string name="SearchViewText">請輸入浪點</string>
     <string name="MapAppName">地圖</string>
     <string name="textNoNetwork">no network connection available</string>
     <string name="textNoMapsFound">no maps found</string>
-
     <string name="thisWeekTitle">本週</string>
     <string name="friendInvitationTitle">好友邀請</string>
     <string name="EarlierTitle">更早以前</string>
@@ -21,7 +18,6 @@
     <string name="findCahtRoom">搜尋聊天室</string>
     <string name="message">發送訊息....</string>
     <string name="notification_center">動態中心</string>
-
     <string name="M_Title">會員中心</string>
     <string name="phoneModify">手機驗証</string>
     <string name="modifyPw">修改密碼</string>
@@ -37,7 +33,6 @@
     <string name="passRecord">過往記錄</string>
     <string name="etAccount">請輸入會員帳號</string>
     <string name="loginTitle">JoMe17浪</string>
-
     <string name="tvEmail">電子郵件</string>
     <string name="tvEmailHint">Jomewave@mail.com</string>
     <string name="tvVerifyCode">驗証碼</string>
