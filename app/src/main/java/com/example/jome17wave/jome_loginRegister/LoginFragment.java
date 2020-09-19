@@ -19,10 +19,8 @@ import android.widget.ImageButton;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
-import com.example.jome17wave.jome_member.JomeMember;
 import com.example.jome17wave.task.CommonTask;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.util.concurrent.ExecutionException;

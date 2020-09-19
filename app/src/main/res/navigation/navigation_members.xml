@@ -35,11 +35,7 @@
         android:id="@+id/friendsListFragment"
         android:name="com.example.jome17wave.jome_member.FriendsListFragment"
         android:label="fragment_friends_list"
-        tools:layout="@layout/fragment_friends_list" >
-        <action
-            android:id="@+id/action_friendsListFragment_to_turnOtherMemberFragment"
-            app:destination="@id/turnOtherMemberFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_friends_list" />
     <fragment
         android:id="@+id/profileScoreFragment"
         android:name="com.example.jome17wave.jome_member.ProfileScoreFragment"

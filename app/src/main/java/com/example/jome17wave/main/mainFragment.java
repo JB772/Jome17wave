@@ -46,7 +46,7 @@ public class mainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        Common.loginCheck(activity, REQ_LOGIN);
+        Common.loginCheck(activity, REQ_LOGIN);
     }
 
 }

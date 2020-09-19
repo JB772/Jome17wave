@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.jome17wave.R;
 import com.google.gson.JsonObject;
 
 import java.io.BufferedInputStream;
@@ -17,22 +16,22 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
-    private final static String TAG = "TAG_ImageTask";
+public class MemberImageTask extends AsyncTask<Object, Integer, Bitmap> {
+    private final static String TAG = "TAG_MemberImageTask";
     private String url, member_Id;
     private int id, imageSize;
     private WeakReference<ImageView> imageViewWeakReference;
 
     // 取單張圖片
-    public ImageTask(String url, int id, int imageSize) {
-        this(url, id, imageSize, null);
+    public MemberImageTask(String url, String member_Id, int imageSize) {
+        this(url, member_Id, imageSize, null);
     }
 
 
     // 取完圖片後使用傳入的ImageView顯示，適用於顯示多張圖片
-    public ImageTask(String url, int id, int imageSize, ImageView imageView) {
+    public MemberImageTask(String url, String member_Id, int imageSize, ImageView imageView) {
         this.url = url;
-        this.id = id;
+        this.member_Id = member_Id;
         this.imageSize = imageSize;
         this.imageViewWeakReference = new WeakReference<>(imageView);
     }
@@ -41,24 +40,9 @@ public class ImageTask extends AsyncTask<Object, Integer, Bitmap> {
     protected Bitmap doInBackground(Object... params) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getImage");
-        jsonObject.addProperty("SURF_POINT_ID", id);
+        jsonObject.addProperty("MEMBER_ID", member_Id);
         jsonObject.addProperty("imageSize", imageSize);
         return getRemoteImage(url, jsonObject.toString());
-    }
-
-    // 接到結果直接把圖show出來
-    @Override
-    protected void onPostExecute(Bitmap bitmap) {
-        ImageView imageView = imageViewWeakReference.get();
-        // 使用弱參照之前要先判斷是否為空值，檢查有沒有被資源回收
-        if (isCancelled() || imageView == null) {
-            return;
-        }
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-        } else {
-            imageView.setImageResource(R.drawable.no_image);
-        }
     }
 
     private Bitmap getRemoteImage(String url, String jsonOut) {

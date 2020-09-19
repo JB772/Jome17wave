@@ -24,17 +24,11 @@ public class Common {
     private static final String TAG = "TAG_Common";
     //    public static String URL_SERVER = "http://192.168.196.189:8080/Spot_MySQL_Web/";
     public static String URL_SERVER = "http://10.0.2.2:8080/Jome17wave_Web/";
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
->>>>>>> Karena
     public final static String PREF_FILE = "preference";
 
 
-=======
-    public final static String PREF_FILE = "preference";
->>>>>>> justin_branch
+
 
 
     /**
@@ -73,8 +67,8 @@ public class Common {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }
 
-    public static String getYYYYmmDDhhMM(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public static String getYYYYmmDD(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formatTime = String.valueOf(sdf.format(date));
         return formatTime;
     }

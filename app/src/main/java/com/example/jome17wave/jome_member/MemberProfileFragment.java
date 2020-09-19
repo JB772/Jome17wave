@@ -1,8 +1,7 @@
 package com.example.jome17wave.jome_member;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,11 +24,15 @@ import android.widget.TextView;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
 import com.example.jome17wave.MainActivity;
+import com.example.jome17wave.task.MemberImageTask;
+import com.google.gson.Gson;
 
 public class MemberProfileFragment extends Fragment {
     private static final String TAG = "MemberProfileFragment";
+    private static final int REQ_LOGIN = 2;
     private MainActivity activity;
     private ImageView igMember;
     private ImageButton btConnectUs;
@@ -76,7 +79,8 @@ public class MemberProfileFragment extends Fragment {
         tvScore = view.findViewById(R.id.tvScore);
         tvGroupRecord = view.findViewById(R.id.tvGroupRecord);
         tvJoinRecord = view.findViewById(R.id.tvJoinRecord);
-
+        //貼照片及資料
+//        showMember();
         //設定click監聽器
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -119,6 +123,44 @@ public class MemberProfileFragment extends Fragment {
         clScore.setOnClickListener(onClickListener);
         clGroupRecord.setOnClickListener(onClickListener);
         clJoinRecord.setOnClickListener(onClickListener);
+    }
+
+    public void showMember(){
+        String url = Common.URL_SERVER + "jome_member/LoginServlet";
+        if (Common.usePreferences(activity, Common.PREF_FILE).equals(null)){
+            jomeMember = new JomeMember();
+        }else {
+            String jsonMember = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+            Log.d(TAG, jsonMember);
+            jomeMember = new Gson().fromJson(jsonMember, JomeMember.class);
+        }
+        String memberID = jomeMember.getMember_id();
+        int imageSize = getResources().getDisplayMetrics().widthPixels / 4;
+        Bitmap bitmap = null;
+        //檢查連線取照片
+        if(Common.networkConnected(activity)){
+            try {
+                bitmap = new MemberImageTask(url, memberID, imageSize).execute().get();
+            } catch (Exception e) {
+                Log.d(TAG, e.toString());
+            }
+
+            if (bitmap == null){
+                igMember.setImageResource(R.drawable.no_image);
+            }else {
+                igMember.setImageBitmap(bitmap);
+            }
+        }
+
+        tvFriendList.setText(jomeMember.getFriendCount());
+        tvScore.setText(String.valueOf(jomeMember.getScoreAverage()));
+        tvGroupRecord.setText(jomeMember.getGroupCount());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Common.loginCheck(activity, REQ_LOGIN);
     }
 
     @Override

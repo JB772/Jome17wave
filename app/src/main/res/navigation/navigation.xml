@@ -17,28 +17,9 @@
             <action
                 android:id="@+id/action_mainFragment_to_memberFragment2"
                 app:destination="@id/memberFragment2" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> Karena
-=======
-
->>>>>>> justin_branch
             <action
                 android:id="@+id/action_mainFragment_to_notificationFragment"
                 app:destination="@id/notificationFragment" />
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> sam
-=======
->>>>>>> Karena
-=======
->>>>>>> justin_branch
         </fragment>
 
         <fragment

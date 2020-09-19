@@ -58,6 +58,7 @@ public class SelfRecordFragment extends Fragment {
         toolbar.setTitle("");
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         rvSelfRecord = view.findViewById(R.id.rvSelfRecord);
         rvSelfRecord.setLayoutManager(new LinearLayoutManager(activity));
         groups = getGroups();

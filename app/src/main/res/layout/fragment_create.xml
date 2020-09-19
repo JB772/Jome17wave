@@ -154,10 +154,6 @@
         android:minHeight="100dp"
         android:gravity="start"
         android:hint="給團友的話（限50字）"/>
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     <ImageButton
         android:id="@+id/bt_add"
         android:layout_width="150dp"
@@ -166,17 +162,4 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/bt_check_add"
         android:layout_below="@+id/edMemo"/>
-
-
-
-=======
-    <button></button>
->>>>>>> sam
-=======
->>>>>>> Karena
-=======
-    <button></button>
->>>>>>> justin_branch
-
-
 </RelativeLayout>

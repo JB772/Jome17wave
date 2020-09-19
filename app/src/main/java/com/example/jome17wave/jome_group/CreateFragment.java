@@ -66,8 +66,8 @@ public class CreateFragment extends Fragment {
         super.onCreate(savedInstanceState);
         activity = (MainActivity) getActivity();
 
-        editTitle = (EditText) findViewById(R.id.title);
-        editDate = (EditText) findViewById(R.id.Date);
+        editTitle = activity.findViewById(R.id.title);
+        editDate = activity.findViewById(R.id.Date);
     }
 
     @Nullable
@@ -82,16 +82,19 @@ public class CreateFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ivPicture = view.findViewById(R.id.ivPicture);
         btPickPicture = view.findViewById(R.id.btPickPicture);
-        btPickPicture.setOnClickListener((v)){
-            Intent intent = new Intent(Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            if (intent.resolveActivity(activity.getPackageManager()) != null) {
-                startActivityForResult(intent, REQ_PICK_PICTURE);
-            } else {
-                Toast.makeText(activity, "no image pick found",
-                        Toast.LENGTH_SHORT).show();
+        btPickPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                if (intent.resolveActivity(activity.getPackageManager()) != null) {
+                    startActivityForResult(intent, REQ_PICK_PICTURE);
+                } else {
+                    Toast.makeText(activity, "no image pick found",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
-        }
+        });
     }
 
 
@@ -168,7 +171,7 @@ public class CreateFragment extends Fragment {
         if (requestCode == PER_EXTERNAL_STORAGE) {
             // 如果user不同意將資料儲存至外部儲存體的公開檔案，就將儲存按鈕設為disable
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                Toast.makeText(activity, R.string.textShouldGrant, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(activity, R.string.textShouldGrant, Toast.LENGTH_SHORT).show();
                 btPickPicture.setEnabled(false);
             } else {
                 btPickPicture.setEnabled(true);
