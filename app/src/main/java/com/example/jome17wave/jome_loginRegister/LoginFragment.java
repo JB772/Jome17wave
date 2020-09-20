@@ -105,14 +105,11 @@ public class LoginFragment extends Fragment {
                         }else {
 
                             switch (loginResultCode){
-                                case 0:
-                                    Common.showToast(activity, R.string.accountNotExist);
-                                    break;
                                 case -1:
-                                    Common.showToast(activity,R.string.passwordIsError);
+                                    Common.showToast(activity,R.string.logiDeline);
                                     break;
                                 default:
-                                    Common.showToast(activity, R.string.logiDeline);
+                                    Common.showToast(activity, R.string.accountNotExist);
                                     break;
                             }
                         }
