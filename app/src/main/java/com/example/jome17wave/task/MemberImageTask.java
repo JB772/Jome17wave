@@ -18,20 +18,20 @@ import java.net.URL;
 
 public class MemberImageTask extends AsyncTask<Object, Integer, Bitmap> {
     private final static String TAG = "TAG_MemberImageTask";
-    private String url, member_Id;
+    private String url, memberId;
     private int id, imageSize;
     private WeakReference<ImageView> imageViewWeakReference;
 
     // 取單張圖片
-    public MemberImageTask(String url, String member_Id, int imageSize) {
-        this(url, member_Id, imageSize, null);
+    public MemberImageTask(String url, String memberId, int imageSize) {
+        this(url, memberId, imageSize, null);
     }
 
 
     // 取完圖片後使用傳入的ImageView顯示，適用於顯示多張圖片
-    public MemberImageTask(String url, String member_Id, int imageSize, ImageView imageView) {
+    public MemberImageTask(String url, String memberId, int imageSize, ImageView imageView) {
         this.url = url;
-        this.member_Id = member_Id;
+        this.memberId = memberId;
         this.imageSize = imageSize;
         this.imageViewWeakReference = new WeakReference<>(imageView);
     }
@@ -40,7 +40,7 @@ public class MemberImageTask extends AsyncTask<Object, Integer, Bitmap> {
     protected Bitmap doInBackground(Object... params) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("action", "getImage");
-        jsonObject.addProperty("MEMBER_ID", member_Id);
+        jsonObject.addProperty("MEMBER_ID", memberId);
         jsonObject.addProperty("imageSize", imageSize);
         return getRemoteImage(url, jsonObject.toString());
     }

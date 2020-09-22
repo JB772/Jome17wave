@@ -75,4 +75,9 @@
     <string name="passwordIsError">密碼錯誤</string>
     <string name="successRegister">註冊成功，請重新登入</string>
     <string name="allSurfPoint">全台浪點</string>
+    <string name="notVerify">尚未驗証</string>
+    <string name="hasVerify">完成驗証</string>
+    <string name="male">男性</string>
+    <string name="female">女性</string>
+    <string name="thirdsex">第三性</string>
 </resources>
