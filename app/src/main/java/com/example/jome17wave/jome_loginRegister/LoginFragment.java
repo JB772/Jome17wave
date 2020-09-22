@@ -109,7 +109,7 @@ public class LoginFragment extends Fragment {
                                     Common.showToast(activity,R.string.logiDeline);
                                     break;
                                 default:
-                                    Common.showToast(activity, R.string.accountNotExist);
+                                    Common.showToast(activity, R.string.logiDeline);
                                     break;
                             }
                         }

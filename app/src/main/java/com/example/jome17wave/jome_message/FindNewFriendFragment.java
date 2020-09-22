@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
-import com.example.jome17wave.jome_member.JomeMember;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.ImageTask;
 import com.google.gson.Gson;

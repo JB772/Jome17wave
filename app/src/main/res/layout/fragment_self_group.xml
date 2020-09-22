@@ -10,13 +10,6 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> Karena
-=======
->>>>>>> justin_branch
         android:layout_width="match_parent">
 
             <androidx.appcompat.widget.Toolbar
@@ -67,7 +60,3 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-<<<<<<< HEAD
-=======
-
->>>>>>> justin_branch
