@@ -123,9 +123,9 @@ public class MapFragment extends Fragment {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         int index = mapMarkers.indexOf(marker);
-                        Log.d(TAG, String.valueOf(index));
+//                        Log.d(TAG, String.valueOf(index));
                         rvMap.smoothScrollToPosition(index);
-                        return true;
+                        return false;
                     }
                 });
             }
@@ -193,6 +193,7 @@ public class MapFragment extends Fragment {
                 for (int i = 0; i < 3; i++){
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
+                    rvMap.smoothScrollToPosition(i);
                 }
                 break;
             case R.id.eastSide:
@@ -201,6 +202,7 @@ public class MapFragment extends Fragment {
                 for (int i = 3; i < 6; i++) {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
+                    rvMap.smoothScrollToPosition(i);
                 }
                 break;
             case R.id.southSide:
@@ -209,6 +211,7 @@ public class MapFragment extends Fragment {
                 for (int i = 6; i < 8; i++) {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
+                    rvMap.smoothScrollToPosition(i);
                 }
                 break;
             case R.id.westSide:
@@ -217,6 +220,7 @@ public class MapFragment extends Fragment {
                 for (int i = 8; i < 10; i++) {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
+                    rvMap.smoothScrollToPosition(i);
                 }
                 break;
             case R.id.allSurfPoint:
@@ -225,6 +229,7 @@ public class MapFragment extends Fragment {
                     Log.d(TAG,"Level"+map.getLevel());
                     LatLng latLng = new LatLng(map.getLatitude(), map.getLongitude());
                     addMarker(latLng, map.getName());
+                    rvMap.smoothScrollToPosition(0);
                 }
             default:
                 break;
@@ -255,6 +260,7 @@ public class MapFragment extends Fragment {
         }
         return maps;
     }
+
 
     // 資料show在RecyclerView
     private void showMaps(List<Map> maps) {

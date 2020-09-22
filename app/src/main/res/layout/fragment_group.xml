@@ -18,7 +18,7 @@
         tools:layout_editor_absoluteY="101dp" />
 
     <SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/SearchView"
         android:layout_width="0dp"
         android:layout_height="52dp"
         android:layout_marginTop="8dp"
