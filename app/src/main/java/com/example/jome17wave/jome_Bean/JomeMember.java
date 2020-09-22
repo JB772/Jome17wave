@@ -1,17 +1,21 @@
-package com.example.jome17wave.jome_member;
+package com.example.jome17wave.jome_Bean;
 
 public class JomeMember {
-    private String member_id;
-    private byte[] image;
-    private String account;
-    private String password;
-    private int gender;
-    private int account_status;
-    private String phone_number;
-    private String nickname;
-    private double latitude;
-    private double longitude;
-    private String token_id;
+    private String member_id = "";
+    private byte[] image = null;
+    private String account = "";
+    private String password = "";
+    private int gender = -1;
+    private int account_status = -1;
+    private String phone_number = "";
+    private String nickname = "";
+    private double latitude = 0.0;
+    private double longitude = 0.0;
+    private String token_id = "";
+    //畫面所需欄位
+    private Integer friendCount = 0;
+    private Double scoreAverage = 0.0;
+    private Integer groupCount = 0;
 
     public JomeMember() {
     }
@@ -117,5 +121,29 @@ public class JomeMember {
 
     public void setToken_id(String token_id) {
         this.token_id = token_id;
+    }
+
+    public Integer getFriendCount() {
+        return friendCount;
+    }
+
+    public void setFriendCount(Integer friendCount) {
+        this.friendCount = friendCount;
+    }
+
+    public Double getScoreAverage() {
+        return scoreAverage;
+    }
+
+    public void setScoreAverage(Double scoreAverage) {
+        this.scoreAverage = scoreAverage;
+    }
+
+    public Integer getGroupCount() {
+        return groupCount;
+    }
+
+    public void setGroupCount(Integer groupCount) {
+        this.groupCount = groupCount;
     }
 }

@@ -1,8 +1,9 @@
 package com.example.jome17wave.jome_member;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,23 +26,32 @@ import android.widget.TextView;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
 import com.example.jome17wave.MainActivity;
+import com.example.jome17wave.task.MemberImageTask;
+import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Writer;
 
 public class MemberProfileFragment extends Fragment {
     private static final String TAG = "MemberProfileFragment";
+    private static final int REQ_LOGIN = 2;
     private MainActivity activity;
+    private Bitmap bitmap = null;
     private ImageView igMember;
-    private ImageButton btConnectUs;
-    private ImageButton btLogOut;
-    private ConstraintLayout clFriendList;
-    private ConstraintLayout clScore;
-    private ConstraintLayout clGroupRecord;
-    private ConstraintLayout clJoinRecord;
-    private TextView tvFriendList;
-    private TextView tvScore;
-    private TextView tvGroupRecord;
-    private TextView tvJoinRecord;
+    private ImageButton btConnectUs, btLogOut;
+    private ConstraintLayout clFriendList, clScore, clGroupRecord, clJoinRecord;
+    private TextView tvFriendList, tvScore, tvGroupRecord, tvJoinRecord;
     private JomeMember jomeMember;
 
     @Override
@@ -76,7 +86,8 @@ public class MemberProfileFragment extends Fragment {
         tvScore = view.findViewById(R.id.tvScore);
         tvGroupRecord = view.findViewById(R.id.tvGroupRecord);
         tvJoinRecord = view.findViewById(R.id.tvJoinRecord);
-
+        //貼照片及資料
+        showMember();
         //設定click監聽器
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -87,13 +98,14 @@ public class MemberProfileFragment extends Fragment {
                     case R.id.btLogOut:
                         //清空preferences檔
                         boolean preferencesClear = false;
+                        boolean imageProfileClear = false;
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                             preferencesClear = activity.deleteSharedPreferences(Common.PREF_FILE);
+                            imageProfileClear = activity.deleteFile( "imageProfile");
                         }
                         // 確認preferences刪除後，轉跳到login頁面
-                        if (preferencesClear == true){
+                        if (preferencesClear == true && imageProfileClear == true){
                             Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
-//                        intentLoginActivity.setClass(activity, LoginActivity.class);
                             startActivity(intentLoginActivity);
                         }
                         break;
@@ -121,6 +133,55 @@ public class MemberProfileFragment extends Fragment {
         clJoinRecord.setOnClickListener(onClickListener);
     }
 
+    public void showMember(){
+        String url = Common.URL_SERVER + "jome_member/LoginServlet";
+        int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+        if (Common.usePreferences(activity, Common.PREF_FILE).equals(null)){
+            jomeMember = new JomeMember();
+        }else {
+            String jsonMember = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+            jomeMember = new Gson().fromJson(jsonMember, JomeMember.class);
+        }
+        String memberID = jomeMember.getMember_id();
+
+
+        //先檢查手機有沒有存大頭貼，如果沒有再檢查連線取照片
+        bitmap = loadFile_getFilesDir("imageProfile");
+        if ( bitmap == null){
+            if(Common.networkConnected(activity)){
+                try {
+                    bitmap = new MemberImageTask(url, memberID, imageSize).execute().get();
+                } catch (Exception e) {
+                    Log.d(TAG, e.toString());
+                }
+                if (bitmap == null){
+                    igMember.setImageResource(R.drawable.no_image);
+                }else {
+                    igMember.setImageBitmap(bitmap);
+                    saveFile_getFilesDir("imageProfile", bitmap);
+                }
+            }else {
+                igMember.setImageResource(R.drawable.no_image);
+            }
+        }else {
+            igMember.setImageBitmap(bitmap);
+        }
+
+
+//        tvFriendList.setText(jomeMember.getFriendCount());
+//        tvScore.setText(String.valueOf(jomeMember.getScoreAverage()));
+//        tvGroupRecord.setText(jomeMember.getGroupCount());
+        tvFriendList.setText(R.string.common_google_play_services_updating_text);
+        tvScore.setText("");
+        tvGroupRecord.setText(R.string.allSurfPoint);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Common.loginCheck(activity, REQ_LOGIN);
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -135,12 +196,46 @@ public class MemberProfileFragment extends Fragment {
                 Navigation.findNavController(igMember).popBackStack();
                 break;
             case R.id.member_settin_item:
+                //轉到修改頁面
                 Navigation.findNavController(igMember).navigate(R.id.action_memberProfileFragment_to_modifyProfileFragment);
                 break;
             default:
                 break;
         }
         return true;
+    }
 
+    private void saveFile_getFilesDir(String fileName, Bitmap bitmap){
+        File file = new File(activity.getFilesDir(), fileName);
+        Log.d(TAG, "getFilesDir() path: " + file.getPath());
+        try (ObjectOutputStream ojOutStream = new ObjectOutputStream(new FileOutputStream(file))){
+            ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baOutputStream);
+            byte[] imageProfile = baOutputStream.toByteArray();
+            ojOutStream.writeObject(imageProfile);
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, e.toString());
+        } catch (IOException e) {
+            Log.d(TAG, e.toString());
+        }
+    }
+
+    private Bitmap loadFile_getFilesDir(String fileName){
+        File file = new File(activity.getFilesDir(), fileName);
+        try (ObjectInputStream ojInputStream = new ObjectInputStream(new FileInputStream(file))){
+            Log.d(TAG, "getFilesDir() path:"+file.getPath());
+            byte[] imageByte = (byte[]) ojInputStream.readObject();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+
+            return bitmap;
+
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, e.toString());
+        } catch (IOException e) {
+            Log.d(TAG, e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.d(TAG, e.toString());
+        }
+        return null;
     }
 }

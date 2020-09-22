@@ -113,7 +113,7 @@ public class SelfGroupFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int position) {
             final Group group = groups.get(position);
-            viewHolder.tvRecordResult.setText(group.getName() + group.getAssembleTime().toString());
+            viewHolder.tvRecordResult.setText(group.toString());
             if (group.getRole() == 1){
                 switch (group.getStatus()){
                     case 0:

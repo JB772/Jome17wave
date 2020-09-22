@@ -28,7 +28,12 @@ public class Common {
     public final static String PREF_FILE = "preference";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+
+
+>>>>>>> justin_branch
 
 
 
@@ -70,8 +75,8 @@ public class Common {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }
 
-    public static String getYYYYmmDDhhMM(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public static String getYYYYmmDD(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formatTime = String.valueOf(sdf.format(date));
         return formatTime;
     }

@@ -145,15 +145,15 @@ public class FriendsListFragment extends Fragment {
                     //轉到聊天室
                 }
             });
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("friend", friend);
-                    Navigation.findNavController(rvMFriendsList)
-                            .navigate(R.id.action_friendsListFragment_to_turnOtherMemberFragment, bundle);
-                }
-            });
+//            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("friend", friend);
+//                    Navigation.findNavController(rvMFriendsList)
+//                            .navigate(R.id.action_friendsListFragment_to_turnOtherMemberFragment, bundle);
+//                }
+//            });
         }
     }
 

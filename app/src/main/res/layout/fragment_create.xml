@@ -154,11 +154,14 @@
         android:minHeight="100dp"
         android:gravity="start"
         android:hint="給團友的話（限50字）"/>
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
 
 >>>>>>> Karena
+=======
+>>>>>>> justin_branch
     <ImageButton
         android:id="@+id/bt_add"
         android:layout_width="150dp"
@@ -168,10 +171,13 @@
         android:background="@drawable/bt_check_add"
         android:layout_below="@+id/edMemo"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
     
 =======
 
 
 
 >>>>>>> Karena
+=======
+>>>>>>> justin_branch
 </RelativeLayout>

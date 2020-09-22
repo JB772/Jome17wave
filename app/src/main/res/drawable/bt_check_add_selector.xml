@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+<<<<<<< HEAD
 
     <item android:state_pressed="true" android:drawable="@drawable/discolor_bt_check_add" />
     <item android:drawable="@drawable/bt_check_add"/>
@@ -7,4 +8,8 @@
 =======
 
 >>>>>>> Karena
+=======
+    <item android:state_pressed="true" android:drawable="@drawable/discolor_bt_check_add" />
+    <item android:drawable="@drawable/bt_check_add"/>
+>>>>>>> justin_branch
 </selector>

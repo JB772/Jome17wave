@@ -11,8 +11,6 @@
         android:id="@+id/appbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
-
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_height="?attr/actionBarSize"
@@ -65,7 +63,13 @@
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 =======
 >>>>>>> Karena
+=======
+
+
+
+>>>>>>> justin_branch

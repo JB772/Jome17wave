@@ -19,10 +19,8 @@ import android.widget.ImageButton;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
-import com.example.jome17wave.jome_member.JomeMember;
 import com.example.jome17wave.task.CommonTask;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.util.concurrent.ExecutionException;
@@ -107,14 +105,11 @@ public class LoginFragment extends Fragment {
                         }else {
 
                             switch (loginResultCode){
-                                case 0:
-                                    Common.showToast(activity, R.string.accountNotExist);
-                                    break;
                                 case -1:
-                                    Common.showToast(activity,R.string.passwordIsError);
+                                    Common.showToast(activity,R.string.logiDeline);
                                     break;
                                 default:
-                                    Common.showToast(activity, R.string.logiDeline);
+                                    Common.showToast(activity, R.string.accountNotExist);
                                     break;
                             }
                         }
