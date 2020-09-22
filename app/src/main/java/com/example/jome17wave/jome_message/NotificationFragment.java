@@ -1,5 +1,8 @@
 package com.example.jome17wave.jome_message;
+<<<<<<< HEAD
 
+=======
+>>>>>>> Karena
 
 import android.annotation.SuppressLint;
 
@@ -7,8 +10,11 @@ import android.annotation.SuppressLint;
 
 import android.annotation.SuppressLint;
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> Karena
 import android.annotation.SuppressLint;
 
 import android.annotation.SuppressLint;

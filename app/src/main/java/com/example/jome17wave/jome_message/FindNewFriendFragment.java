@@ -1,19 +1,14 @@
 package com.example.jome17wave.jome_message;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,27 +19,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_member.JomeMember;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.ImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.Serializable;
-import java.lang.reflect.Member;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
 public class FindNewFriendFragment extends Fragment {
@@ -57,7 +48,9 @@ public class FindNewFriendFragment extends Fragment {
     private ConstraintLayout constraintLayoutProfile, constrainLayoutSearch;
     private ImageView ivOtherProfileImg;
     private TextView tvOtherName;
-    private  List<FindNewFriend> findNewFriends, addNewFriends;
+    private FindNewFriend addNewFriend;
+    private JomeMember newFriend;
+    private String friendRelation;
 
 
     @Override
@@ -66,7 +59,6 @@ public class FindNewFriendFragment extends Fragment {
         activity = (MainActivity)getActivity();
         setHasOptionsMenu(true);
         imageTasks = new ArrayList<>();
-        findNewFriends = new ArrayList<>();
     }
 
     @Override
@@ -107,8 +99,8 @@ public class FindNewFriendFragment extends Fragment {
                 if (account == null){
                     Common.showToast(activity, R.string.no_information_found);
                 }else {
-                    findNewFriends = getFindNewFriend();
-                    showNewFriendProfile(findNewFriends);
+                    newFriend = getStranger();
+                    showNewFriendProfile(newFriend);
                 }
             }
         });
@@ -117,13 +109,13 @@ public class FindNewFriendFragment extends Fragment {
 
     }
 
-    private void showNewFriendProfile(List<FindNewFriend> findNewFriends) {
+    private void showNewFriendProfile(JomeMember newFriend) {
         int imageSize;
         imageSize = getResources().getDisplayMetrics().widthPixels/4;
         final FindNewFriend findNewFriend = new FindNewFriend();
-        if (findNewFriends == null || findNewFriends.isEmpty()){
+        if (newFriend == null){
             Common.showToast(activity, R.string.no_information_found);
-        }else if(findNewFriend.getFriendStatus() == 3) {
+        }else{
             constraintLayoutProfile.setVisibility(View.VISIBLE);
             String url = Common.URL_SERVER + "FindNewFriendServlet";
             int id = findNewFriend.getMemberId();
@@ -131,19 +123,37 @@ public class FindNewFriendFragment extends Fragment {
             imageTask.execute();
             imageTasks.add(imageTask);
             tvOtherName.setText(findNewFriend.getNickName());
+
+            switch (friendRelation){
+                case "insert":
+                    //顯示insert按鈕
+                    break;
+                case "wasFriend":
+                    //顯示 “已成為好友”
+                    break;
+                case "pedding":
+                    //顯示 “等待回覆中”
+                    break;
+                case "response":
+                    //顯示 同意/拒絕 按鈕
+                    break;
+            }
+
+
             btAddNewFriend.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("LongLogTag")
                 @Override
                 public void onClick(View v) {
                     String url = Common.URL_SERVER + "FindNewFriendServlet";
                     JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "addNewFriend");
                     jsonObject.addProperty("addNewFriend",findNewFriend.getMemberId());
                     String jsonOut = jsonObject.toString();
                     addNewFriendTask = new CommonTask(url, jsonOut);
                     try {
                         String jsonIn = addNewFriendTask.execute().get();
                         Type listType = new TypeToken<FindNewFriend>(){}.getType();
-                        addNewFriends = new Gson().fromJson(jsonIn, listType);
+                        addNewFriend = new Gson().fromJson(jsonIn, listType);
                         if (findNewFriend.getFriendStatus() == 3){
                             Common.showToast(activity, R.string.friend_invitation_send);
                         }
@@ -158,25 +168,36 @@ public class FindNewFriendFragment extends Fragment {
     }
 
     @SuppressLint("LongLogTag")
-    private List<FindNewFriend> getFindNewFriend() {
+    private JomeMember getStranger() {
         FindNewFriend findNewFriend = new FindNewFriend();
         if (Common.networkConnected(activity)){
             String url = Common.URL_SERVER + "FindNewFriendServlet";
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("searchAccount", findNewFriend.getMemberAccount());
+
+            String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+            JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
+            String inviteId = member.getMember_id();
+            if (inviteId != null) {
+                jsonObject.addProperty("action", "searchMember");
+                jsonObject.addProperty("account", findNewFriend.getMemberAccount());
+                jsonObject.addProperty("inviteId", inviteId);
+            }
             String jsonOut = jsonObject.toString();
             searchAccountTask = new CommonTask(url, jsonOut);
             try {
                 String jsonIn = searchAccountTask.execute().get();
                 Type listType = new TypeToken<FindNewFriend>() {}.getType();
-                findNewFriends = new Gson().fromJson(jsonIn, listType);
+                jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+                newFriend = new Gson().fromJson(jsonObject.get("theStranger").getAsString(), JomeMember.class);
+                friendRelation = jsonObject.get("friendRelation").getAsString();
+
             } catch (Exception e) {
                 Log.d(TAG, e.toString());
             }
         }else {
             Common.showToast(activity, R.string.no_network_connection_available);
         }
-        return findNewFriends;
+        return newFriend;
     }
 
 

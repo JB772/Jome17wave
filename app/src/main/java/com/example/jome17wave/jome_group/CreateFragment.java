@@ -67,7 +67,11 @@ public class CreateFragment extends Fragment {
         activity = (MainActivity) getActivity();
 
         editTitle = activity.findViewById(R.id.title);
+<<<<<<< HEAD
         editDate = activity.findViewById(R.id.Date);
+=======
+        editDate =activity.findViewById(R.id.Date);
+>>>>>>> Karena
     }
 
     @Nullable

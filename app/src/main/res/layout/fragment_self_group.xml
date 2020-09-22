@@ -10,7 +10,10 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
 
+=======
+>>>>>>> Karena
         android:layout_width="match_parent">
 
             <androidx.appcompat.widget.Toolbar

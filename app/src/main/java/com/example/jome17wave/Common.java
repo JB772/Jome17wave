@@ -27,6 +27,13 @@ public class Common {
 
     public final static String PREF_FILE = "preference";
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> Karena
     /**
      * 檢查是否有網路連線
      */

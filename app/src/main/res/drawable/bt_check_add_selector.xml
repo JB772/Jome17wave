@@ -3,4 +3,8 @@
 
     <item android:state_pressed="true" android:drawable="@drawable/discolor_bt_check_add" />
     <item android:drawable="@drawable/bt_check_add"/>
+<<<<<<< HEAD
+=======
+
+>>>>>>> Karena
 </selector>
