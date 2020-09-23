@@ -9,7 +9,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-<<<<<<< HEAD
+
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
             <androidx.appcompat.widget.Toolbar
@@ -17,18 +17,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
                 android:background="@color/colorYellow"/>
-=======
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorYellow" />
-
->>>>>>> scott02
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -75,8 +64,3 @@
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-<<<<<<< HEAD
-=======
-
-
->>>>>>> scott02

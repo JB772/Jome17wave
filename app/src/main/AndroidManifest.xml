@@ -23,9 +23,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAC-r1zWx-Dt5yemYUdgeldyLx4gB_qUbo" />
-<<<<<<< HEAD
         <activity android:name=".jome_loginRegister.LoginActivity"></activity>
-=======
+
 
 
 

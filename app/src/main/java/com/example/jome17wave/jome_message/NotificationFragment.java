@@ -4,23 +4,10 @@ import android.annotation.SuppressLint;
 
 
 
-import android.annotation.SuppressLint;
 
-<<<<<<< HEAD
-import android.annotation.SuppressLint;
-
-import android.annotation.SuppressLint;
-
-=======
-
-import android.annotation.SuppressLint;
-
-import android.annotation.SuppressLint;
->>>>>>> scott02
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
