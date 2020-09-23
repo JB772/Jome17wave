@@ -79,4 +79,8 @@
     <string name="allSurfPoint">全台浪點</string>
     <string name="successRegister">註冊成功，請重新登入</string>
     <string name="passwordIsError">密碼確認錯誤</string>
+    <string name="was_friend">已成為好友</string>
+    <string name="pedding">等待回覆中</string>
+    <string name="change_fail">動作失效</string>
+    <string name="decline_friend">拒絕成為好友</string>
 </resources>

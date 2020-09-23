@@ -74,6 +74,7 @@ public class MemberImageTask extends AsyncTask<Object, Integer, Bitmap> {
                 connection.disconnect();
             }
         }
+        Log.d(TAG, "InBitmap: " + bitmap);
         return bitmap;
     }
 }

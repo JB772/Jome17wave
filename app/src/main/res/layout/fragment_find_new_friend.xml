@@ -50,12 +50,12 @@
                     android:text="@string/search"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/etFindNewFriend"
-                    app:layout_constraintStart_toEndOf="@+id/etFindNewFriend"
-                    app:layout_constraintTop_toTopOf="@+id/etFindNewFriend" />
+                    app:layout_constraintBottom_toBottomOf="@+id/etFindStranger"
+                    app:layout_constraintStart_toEndOf="@+id/etFindStranger"
+                    app:layout_constraintTop_toTopOf="@+id/etFindStranger" />
 
                 <EditText
-                    android:id="@+id/etFindNewFriend"
+                    android:id="@+id/etFindStranger"
                     android:layout_width="250dp"
                     android:layout_height="44dp"
                     android:layout_marginTop="80dp"
@@ -121,6 +121,41 @@
                     app:layout_constraintEnd_toEndOf="@+id/tvOtherName"
                     app:layout_constraintStart_toStartOf="@+id/tvOtherName"
                     app:layout_constraintTop_toBottomOf="@+id/tvOtherName" />
+
+                <TextView
+                    android:id="@+id/tvWasFriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:text="@string/was_friend"
+                    android:textSize="24dp"
+                    app:layout_constraintEnd_toEndOf="@+id/tvOtherName"
+                    app:layout_constraintStart_toStartOf="@+id/tvOtherName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvOtherName" />
+
+                <ImageButton
+                    android:id="@+id/ibtAgree"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="#00000000"
+                    app:layout_constraintBottom_toBottomOf="@+id/ibtDecline"
+                    app:layout_constraintEnd_toStartOf="@+id/ibtDecline"
+                    app:layout_constraintStart_toStartOf="@+id/tvOtherName"
+                    app:layout_constraintTop_toTopOf="@+id/ibtDecline"
+                    app:srcCompat="@drawable/icon_team_agree" />
+
+                <ImageButton
+                    android:id="@+id/ibtDecline"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="25dp"
+                    android:background="#00000000"
+                    app:srcCompat="@drawable/icon_team_decline"
+                    tools:layout_editor_absoluteX="379dp"
+                    tools:layout_editor_absoluteY="322dp"
+                    app:layout_constraintEnd_toEndOf="@+id/tvOtherName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvOtherName"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
