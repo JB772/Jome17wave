@@ -46,14 +46,31 @@
     <string name="Nickname">請輸入暱稱</string>
     <string name="PhoneHint">請輸入手機</string>
     <string name="tvGender">性別</string>
+<<<<<<< HEAD
+=======
+
+>>>>>>> scott02
     <string name="northSide">北部浪點</string>
     <string name="eastSide">東部浪點</string>
     <string name="southSide">南部浪點</string>
     <string name="westSide">西部浪點</string>
+<<<<<<< HEAD
+=======
+
+
+    <string name="nearMember">附近用戶</string>
+    <string name="allSurfPoint">全台浪點</string>
+
+>>>>>>> scott02
     <string name="no_network_connection_available">沒有網路連線</string>
     <string name="no_notifications_found">沒有任何通知訊息</string>
     <string name="friend_Invitation">好友邀請</string>
     <string name="no_invitations_found">沒有任何好友邀請</string>
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> scott02
     <string name="firendCount">好友人數</string>
     <string name="averageScore">平均星等</string>
     <string name="assembleConut">揪團次數</string>
@@ -63,14 +80,20 @@
     <string name="memberModify">修改資料</string>
     <string name="unuseAcOrPw">輸入欄位不可空白</string>
     <string name="logiDeline">登入失敗</string>
+<<<<<<< HEAD
     <string name="no_information_found">找不到相關訊息</string>
     <string name="friend_invitation_fail">好友邀請失敗</string>
     <string name="friend_invitation_successfully">已發送好友邀請</string>
+=======
+
+
+>>>>>>> scott02
     <string name="profile">個人頁面</string>
     <string name="add_friend">加入好友</string>
     <string name="search">搜尋</string>
     <string name="input_account">請輸入好友的帳號</string>
     <string name="friend_invitation_send">已發送好友邀請</string>
+<<<<<<< HEAD
     <string name="notVerify">尚未驗証</string>
     <string name="hasVerify">完成驗証</string>
     <string name="male">男性</string>
@@ -84,4 +107,35 @@
     <string name="pedding">等待回覆中</string>
     <string name="change_fail">動作失效</string>
     <string name="decline_friend">拒絕成為好友</string>
+=======
+
+    <string name="no_information_found">找不到相關訊息</string>
+    <string name="friend_invitation_fail">好友邀請失敗</string>
+    <string name="friend_invitation_successfully">已發送好友邀請</string>
+    <string name="accountNotExist">帳號不存在</string>
+    <string name="passwordIsError">密碼錯誤</string>
+    <string name="successRegister">註冊成功，請重新登入</string>
+
+
+    <string name="textLocation">請選擇地點</string>
+    <string-array name="spnLocationArray">
+        <item>新北市</item>
+        <item>金山浪點（中角灣）</item>
+        <item>福隆浪點</item>
+        <item>宜蘭縣</item>
+        <item>烏石港浪點（北堤）</item>
+        <item>外澳浪點</item>
+        <item>台東縣</item>
+        <item>金樽浪點</item>
+    </string-array>
+
+    <string name="textGender">請選擇性別</string>
+    <string-array name="textGenderArray">
+        <item>男生</item>
+        <item>女生</item>
+        <item>第三性</item>
+        <item>不拘</item>
+    </string-array>
+
+>>>>>>> scott02
 </resources>

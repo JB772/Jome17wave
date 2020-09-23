@@ -14,7 +14,7 @@
     <item
         android:id="@+id/creatFragment"
         android:icon="@drawable/icon_awesome_plus"
-        android:title="" />
+        android:title="增加揪團" />
 
     <item
         android:id="@+id/notificationFragment"

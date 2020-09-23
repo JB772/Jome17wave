@@ -6,10 +6,17 @@ import android.annotation.SuppressLint;
 
 import android.annotation.SuppressLint;
 
+<<<<<<< HEAD
 import android.annotation.SuppressLint;
 
 import android.annotation.SuppressLint;
 
+=======
+
+import android.annotation.SuppressLint;
+
+import android.annotation.SuppressLint;
+>>>>>>> scott02
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
