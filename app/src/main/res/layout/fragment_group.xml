@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg"
     tools:context=".jome_group.GroupFragment">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:text="最新消息"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="101dp" />
 
     <SearchView
         android:id="@+id/searchView"
@@ -25,16 +15,31 @@
         android:layout_marginEnd="8dp"
         android:iconifiedByDefault="false"
         android:queryBackground="@xml/bg_searchview"
-        android:queryHint="搜尋活動"
+        android:queryHint="搜尋揪團"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </SearchView>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最新消息"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="480dp"
+        tools:layout_editor_absoluteY="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -42,18 +47,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/searchView"
         android:text="即將開始"
         android:textSize="16sp"
-        android:layout_marginStart="76dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="260dp" />
+       />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="225dp">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".jome_group.GroupInfoFragment">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorYellow"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            app:titleTextColor="@color/colorDeepBlue">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSearchMember"
+                android:layout_width="409dp"
+                android:layout_height="729dp"
+                android:paddingStart="20dp"
+                android:paddingTop="31dp"
+                android:paddingEnd="20dp"
+                tools:ignore="MissingConstraints" >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <ImageButton
+        android:id="@+id/btshare"
+        android:layout_width="147dp"
+        android:layout_height="45dp"
+        android:background="@drawable/bt_share"
+        android:layout_marginTop="525dp"
+        android:layout_marginLeft="30dp" />
+
+    <ImageButton
+        android:id="@+id/bt"
+        android:layout_width="147dp"
+        android:layout_height="45dp"
+        android:background="@drawable/bt_revise_group"
+        android:layout_marginTop="525dp"
+        android:layout_marginLeft="230dp"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

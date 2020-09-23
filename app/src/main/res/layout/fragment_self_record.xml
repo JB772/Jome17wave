@@ -9,25 +9,16 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
-        android:layout_height="wrap_content"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> sam
-=======
->>>>>>> Karena
-=======
->>>>>>> justin_branch
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"
-                android:background="@color/colorYellow"/>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorYellow" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -75,25 +66,4 @@
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvJoinRecord"
-        android:layout_width="0dp"
-        android:layout_height="240dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-=======
-
->>>>>>> sam
-=======
->>>>>>> Karena
-=======
-
->>>>>>> justin_branch
