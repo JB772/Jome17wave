@@ -47,8 +47,12 @@ public class OtherMemberFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ibtFriendStory = view.findViewById(R.id.ibtFriendStory);
-
+        ibtOtherMessage = view.findViewById(R.id.ibtOtherMessage);
+        ibtFriendAdd = view.findViewById(R.id.ibtFriendAdd);
 
 
         imageFProfile = view.findViewById(R.id.imageFProfile);
@@ -70,7 +74,7 @@ public class OtherMemberFragment extends Fragment {
                 tvFriendCount.setText("0 人");
             }
         }
-        View.OnClickListener btonclick = new View.OnClickListener() {
+        View.OnClickListener btOnclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
@@ -82,8 +86,21 @@ public class OtherMemberFragment extends Fragment {
                 }
             }
         };
-        ibtFriendStory.setOnClickListener(btonclick);
+        ibtFriendStory.setOnClickListener(btOnclick);
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.member_center_tool_bar, menu);
+        menu.findItem(R.id.member_check_item).setVisible(false);
+        menu.findItem(R.id.member_settin_item).setVisible(false);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            Navigation.findNavController(imageFProfile).popBackStack();
+        }
+        return true;
+    }
 }

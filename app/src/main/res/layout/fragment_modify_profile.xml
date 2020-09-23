@@ -35,7 +35,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.9">
+                app:layout_constraintVertical_bias="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -53,6 +53,7 @@
                             android:layout_marginBottom="24dp"
                             android:text="@string/Nickname"
                             android:textSize="18sp"
+                            android:textColor="@color/colorDeepBlue"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
@@ -63,7 +64,6 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-
 
 
                         <TextView
@@ -186,41 +186,26 @@
 
                 </LinearLayout>
             </ScrollView>
-
-            <ImageView
-                android:id="@+id/imageModify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="144dp"
-                android:layout_marginEnd="139dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvOtherProfileImg"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:cardCornerRadius="100dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.2"
-                tools:src="@tools:sample/avatars" />
+                app:layout_constraintVertical_bias="0.2">
+
+                <ImageView
+                    android:id="@+id/imageModify"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:src="@tools:sample/avatars" />
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-
-
-
-
-
-
-<!--暫存-->
-<!--<TextView-->
-<!--android:id="@+id/tvPhoneVerify"-->
-<!--android:layout_width="wrap_content"-->
-<!--android:layout_height="wrap_content"-->
-
-<!--android:text="@string/phoneModify"-->
-<!--android:textSize="18sp"-->
-<!--app:layout_constraintBottom_toBottomOf="parent"-->
-<!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--android:layout_marginStart="76dp"-->
-<!--app:layout_constraintTop_toTopOf="parent" />-->

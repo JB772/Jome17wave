@@ -35,7 +35,11 @@
         android:id="@+id/friendsListFragment"
         android:name="com.example.jome17wave.jome_member.FriendsListFragment"
         android:label="fragment_friends_list"
-        tools:layout="@layout/fragment_friends_list" />
+        tools:layout="@layout/fragment_friends_list" >
+        <action
+            android:id="@+id/action_friendsListFragment_to_otherMemberFragment2"
+            app:destination="@id/otherMemberFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/profileScoreFragment"
         android:name="com.example.jome17wave.jome_member.ProfileScoreFragment"
@@ -56,4 +60,8 @@
         android:name="com.example.jome17wave.TurnOtherMemberFragment"
         android:label="fragment_turn_other_member"
         tools:layout="@layout/fragment_turn_other_member" />
+    <fragment
+        android:id="@+id/otherMemberFragment2"
+        android:name="com.example.jome17wave.jome_member.OtherMemberFragment"
+        android:label="OtherMemberFragment" />
 </navigation>

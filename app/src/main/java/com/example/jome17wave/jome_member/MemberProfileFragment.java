@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -90,24 +92,40 @@ public class MemberProfileFragment extends Fragment {
         showMember();
         //設定click監聽器
         View.OnClickListener onClickListener = new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
                 switch (view.getId()){
                     case R.id.btConnectUs:
                         break;
+
                     case R.id.btLogOut:
                         //清空preferences檔
                         boolean preferencesClear = false;
                         boolean imageProfileClear = false;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                            preferencesClear = activity.deleteSharedPreferences(Common.PREF_FILE);
+                        preferencesClear = activity.deleteSharedPreferences(Common.PREF_FILE);
+                        if (bitmap != null){
                             imageProfileClear = activity.deleteFile( "imageProfile");
+                            // 確認preferences刪除後，轉跳到login頁面
+                            if (preferencesClear == true && imageProfileClear == true){
+                                new MemberProfileFragment().onDestroy();
+                                Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
+                                startActivity(intentLoginActivity);
+                            }else {
+                                Common.showToast(activity, R.string.no_network_connection_available);
+                            }
+                        }else {
+                            if (preferencesClear == true){
+                                new MemberProfileFragment().onDestroy();
+                                Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
+                                startActivity(intentLoginActivity);
+                            }else {
+                                Common.showToast(activity, R.string.no_network_connection_available);
+                            }
                         }
-                        // 確認preferences刪除後，轉跳到login頁面
-                        if (preferencesClear == true && imageProfileClear == true){
-                            Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
-                            startActivity(intentLoginActivity);
-                        }
+
+
+
                         break;
                     case R.id.clFriendList:
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_friendsListFragment);
@@ -147,13 +165,15 @@ public class MemberProfileFragment extends Fragment {
 
         //先檢查手機有沒有存大頭貼，如果沒有再檢查連線取照片
         bitmap = loadFile_getFilesDir("imageProfile");
+        Log.d(TAG, "bitmap1: " + bitmap);
         if ( bitmap == null){
             if(Common.networkConnected(activity)){
                 try {
                     bitmap = new MemberImageTask(url, memberID, imageSize).execute().get();
                 } catch (Exception e) {
-                    Log.d(TAG, e.toString());
+                    Log.e(TAG, e.toString());
                 }
+                Log.d(TAG, "bitmap2: " + bitmap);
                 if (bitmap == null){
                     igMember.setImageResource(R.drawable.no_image);
                 }else {
@@ -168,12 +188,12 @@ public class MemberProfileFragment extends Fragment {
         }
 
 
-//        tvFriendList.setText(jomeMember.getFriendCount());
-//        tvScore.setText(String.valueOf(jomeMember.getScoreAverage()));
-//        tvGroupRecord.setText(jomeMember.getGroupCount());
-        tvFriendList.setText(R.string.common_google_play_services_updating_text);
-        tvScore.setText("");
-        tvGroupRecord.setText(R.string.allSurfPoint);
+        tvFriendList.setText(String.valueOf(jomeMember.getFriendCount()));
+        tvScore.setText(String.valueOf(jomeMember.getScoreAverage()));
+        tvGroupRecord.setText(String .valueOf(jomeMember.getGroupCount()));
+//        tvFriendList.setText(R.string.common_google_play_services_updating_text);
+//        tvScore.setText("");
+//        tvGroupRecord.setText(R.string.allSurfPoint);
     }
 
     @Override
