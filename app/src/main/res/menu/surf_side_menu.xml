@@ -21,4 +21,8 @@
         android:id="@+id/allSurfPoint"
         android:title="@string/allSurfPoint" />
 
+    <item
+        android:id="@+id/nearUser"
+        android:title="@string/nearUser" />
+
 </menu>

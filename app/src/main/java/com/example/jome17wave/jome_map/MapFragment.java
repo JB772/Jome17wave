@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +28,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +37,7 @@ import android.widget.Toast;
 import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.ImageTask;
 import com.google.android.gms.maps.CameraUpdate;
@@ -57,15 +61,18 @@ import java.util.List;
 
 public class MapFragment extends Fragment {
     private static final int PER_ACCESS_LOCATION = 0;
-    private static final String TAG = "TAG_MainFragment";
+    private static final String TAG = "TAG_MapFragment";
     private MainActivity activity;
     private RecyclerView rvMap;
     private GoogleMap map;
     private CommonTask mapGetAllTask;
+    private CommonTask userGetAllMember;
     private List<Map> maps;
+    private List<JomeMember> users;
     private List<ImageTask> imageTasks;
     private double latitude;
     private double longitude;
+    private int memberID;
 
 
     @Override
@@ -92,6 +99,8 @@ public class MapFragment extends Fragment {
         toolbar.setTitle("地圖");
         activity.setSupportActionBar(toolbar);
 
+
+
         final MapView mapView = view.findViewById(R.id.mapView);
         rvMap = view.findViewById(R.id.rvMap);
 
@@ -110,10 +119,9 @@ public class MapFragment extends Fragment {
                 showMyLocation();
 
                 final List<Marker> mapMarkers = new ArrayList<>();
-
                 maps = getMaps();
                 for (Map map: maps){
-                    Log.d(TAG,"Level"+map.getLevel());
+//                    Log.d(TAG,"Level"+map.getLevel());
                     LatLng latLng = new LatLng(map.getLatitude(), map.getLongitude());
                     Marker mapMarker = addMarker(latLng, map.getName());
                     mapMarkers.add(mapMarker);
@@ -123,7 +131,6 @@ public class MapFragment extends Fragment {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         int index = mapMarkers.indexOf(marker);
-//                        Log.d(TAG, String.valueOf(index));
                         rvMap.smoothScrollToPosition(index);
                         return false;
                     }
@@ -224,6 +231,7 @@ public class MapFragment extends Fragment {
                 }
                 break;
             case R.id.allSurfPoint:
+                map.clear();
                 maps = getMaps();
                 for (Map map: maps){
                     Log.d(TAG,"Level"+map.getLevel());
@@ -231,6 +239,20 @@ public class MapFragment extends Fragment {
                     addMarker(latLng, map.getName());
                     rvMap.smoothScrollToPosition(0);
                 }
+                break;
+            case R.id.nearUser:
+                showMyLocation();
+                map.clear();
+                final List<Marker> userMarkers = new ArrayList<>();
+                users = getUsers();
+                for (JomeMember user : users) {
+                    LatLng latLng = new LatLng(user.getLatitude(), user.getLongitude());
+                    Marker userMarker = addUserMarker(latLng, user.getNickname());
+                    userMarkers.add(userMarker);
+                    userMarker.showInfoWindow();
+                }
+//                map.setInfoWindowAdapter(new MyInfoWindowAdapter(activity));
+                break;
             default:
                 break;
         }
@@ -261,7 +283,6 @@ public class MapFragment extends Fragment {
         return maps;
     }
 
-
     // 資料show在RecyclerView
     private void showMaps(List<Map> maps) {
         if (maps == null || maps.isEmpty()) {
@@ -277,10 +298,44 @@ public class MapFragment extends Fragment {
         }
     }
 
+    private List<JomeMember> getUsers() {
+        List<JomeMember> users = new ArrayList<>();
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "jome_member/CenterServiceServlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getAllMember");
+            jsonObject.addProperty("ID", memberID);
+            String jsonOut = jsonObject.toString();
+            userGetAllMember = new CommonTask(url, jsonOut);
+            try {
+                String inStr = userGetAllMember.execute().get();
+//                Log.d(TAG, "jsonIn: " +jsonIn);
+                JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
+                int memberResult = jsonIn.get("membersResult").getAsInt();
+                Log.d(TAG, String.valueOf(memberResult));
+                String usersStr = jsonIn.get("users").getAsString();
+                Type listType = new TypeToken<List<JomeMember>>() {
+                }.getType();
+                //有問題
+                users = new Gson().fromJson(usersStr, listType);
+                Log.d(TAG, "users:"+ users.toString());
+                //有問題
+            } catch (Exception e) {
+                Log.d(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(activity, R.string.textNoNetwork);
+        }
+        return users;
+    }
+
+
     private class MapAdapter extends RecyclerView.Adapter<MapAdapter.MyViewHolder>{
         private LayoutInflater layoutInflater;
         private List<Map> maps;
         private int imageSize;
+        private View v;
+
 
         MapAdapter(Context context, List<Map> maps) {
             layoutInflater = LayoutInflater.from(context);
@@ -295,6 +350,7 @@ public class MapFragment extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder {
             ImageView imageView;
             TextView tvName, tvSide, tvType, tvLevel;
+            private LinearLayout rvMaps;
 
             MyViewHolder(View itemView) {
                 super(itemView);
@@ -303,6 +359,7 @@ public class MapFragment extends Fragment {
                 tvSide = itemView.findViewById(R.id.tvSide);
                 tvType = itemView.findViewById(R.id.tvType);
                 tvLevel = itemView.findViewById(R.id.tvLevel);
+                rvMaps = itemView.findViewById(R.id.rvMaps);
             }
         }
 
@@ -319,7 +376,7 @@ public class MapFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
+        public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int position) {
             final Map map = maps.get(position);
             String url = Common.URL_SERVER + "SURF_POINTServlet";
             int id = map.getId();
@@ -353,6 +410,17 @@ public class MapFragment extends Fragment {
         return marker;
     }
 
+    private Marker addUserMarker(LatLng latLng, String title) {
+        Address address = reverseGeocode(latLng.latitude, latLng.longitude);
+        String snippet = address.getAddressLine(0);
+        Marker marker = map.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .snippet(snippet)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ionic_person)));
+        return marker;
+    }
+
     private void moveMap(LatLng latLng) {
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng).zoom(7).build();
@@ -362,10 +430,13 @@ public class MapFragment extends Fragment {
     }
 
     private Address reverseGeocode(double latitude, double longitude) {
+        Log.d(TAG, "(latitude, longitude): (" + latitude + ", " + longitude + ")");
         Geocoder geocoder = new Geocoder(activity);
         List<Address> addressList = null;
         try {
             addressList = geocoder.getFromLocation(latitude, longitude, 1);
+            Log.d(TAG, "addressList: " + addressList);
+
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
@@ -381,6 +452,34 @@ public class MapFragment extends Fragment {
     public void onStart() {
         super.onStart();
         askAccessLocationPermission();
+    }
+
+    private class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+        Context context;
+
+        MyInfoWindowAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            View view = View.inflate(context, R.layout.info_window, null);
+
+            String title = marker.getTitle();
+            TextView tvTitle = view.findViewById(R.id.tvTitle);
+            tvTitle.setText(title);
+
+            String snippet = marker.getSnippet();
+            TextView tvSnippet = view.findViewById(R.id.tvSnippet);
+            tvSnippet.setText(snippet);
+
+            return view;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
     }
 
     // 詢問使否取用位置
