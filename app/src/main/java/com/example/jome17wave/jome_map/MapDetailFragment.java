@@ -124,6 +124,7 @@ public class MapDetailFragment extends Fragment {
         switch (item.getItemId()) {
             case android.R.id.home:
                 navController.popBackStack();
+//                navController.popBackStack(R.id.mapsFragment, false);
                 return true;
             default:
                 break;

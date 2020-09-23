@@ -77,6 +77,7 @@
     <string name="female">女性</string>
     <string name="thirdsex">第三性</string>
     <string name="allSurfPoint">全台浪點</string>
+    <string name="nearUser">附近用戶</string>
     <string name="successRegister">註冊成功，請重新登入</string>
     <string name="passwordIsError">密碼確認錯誤</string>
     <string name="was_friend">已成為好友</string>
