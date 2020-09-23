@@ -69,7 +69,12 @@ public class ModifyProfileFragment extends Fragment {
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //大頭貼
         imageModify = view.findViewById(R.id.imageModify);
-        imageModify.setImageBitmap(loadFile_getFilesDir("imageProfile"));
+        Bitmap bitmap = loadFile_getFilesDir("imageProfile");
+        if(bitmap == null){
+            imageModify.setImageResource(R.drawable.no_image);
+        }else {
+            imageModify.setImageBitmap(bitmap);
+        }
 
         tvAccount = view.findViewById(R.id.tvAccount);
         tvNickname = view.findViewById(R.id.tvNickname);
@@ -97,6 +102,8 @@ public class ModifyProfileFragment extends Fragment {
         tvGender.setText(genderStr);
         tvAccount.setText(loginMember.getAccount());
         tvNickname.setText(loginMember.getNickname());
+        etModifyPW.setText(loginMember.getPassword());
+        etModifyNn.setText(loginMember.getNickname());
 
 
 
@@ -164,12 +171,27 @@ public class ModifyProfileFragment extends Fragment {
         }
     }
 
-    private JomeMember modifyData(){
+    private JomeMember submitModifyData(){
 
         String nickname = etModifyNn.getText().toString().trim();
         String modifyPw = etModifyPW.getText().toString().trim();
         String checkPw = etCheckPw.getText().toString().trim();
-        
+        if (nickname.equals("")|| nickname.isEmpty()){
+            Common.showToast(activity, R.string.Nickname);
+        }else {
+            loginMember.setNickname(nickname);
+        }
+        if (modifyPw.equals("")|| modifyPw.isEmpty()){
+            Common.showToast(activity, R.string.passwordIsError);
+        }
+        if (checkPw.equals("")|| checkPw.isEmpty()){
+            Common.showToast(activity, R.string.passwordIsError);
+        }
+        if (modifyPw.equals(checkPw)){
+            loginMember.setPassword(modifyPw);
+        }else {
+            Common.showToast(activity, R.string.passwordIsError);
+        }
 
         return loginMember;
     }

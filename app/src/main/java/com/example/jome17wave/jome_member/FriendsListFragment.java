@@ -2,6 +2,7 @@ package com.example.jome17wave.jome_member;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +23,20 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.FriendListBean;
+import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.task.CommonTask;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class FriendsListFragment extends Fragment {
     private static final String TAG ="FriendsListFragment";
@@ -34,7 +44,8 @@ public class FriendsListFragment extends Fragment {
     private RecyclerView rvMFriendsList;
     private SearchView sVFriendList;
     private ConstraintLayout itemFriendCL;
-    private List<Friend> friends;
+    private CommonTask getFriendsTask;
+    private List<JomeMember> friends;
 
 
     @Override
@@ -73,9 +84,9 @@ public class FriendsListFragment extends Fragment {
                     if (newText.isEmpty()){
                         friendAdapter.setFriends(friends);
                     }else {
-                        List<Friend>searchFriends = new ArrayList<>();
-                        for (Friend friend:friends){
-                            if (friend.getNameFriend().toUpperCase().contains(newText.toUpperCase())){
+                        List<JomeMember>searchFriends = new ArrayList<>();
+                        for (JomeMember friend:friends){
+                            if (friend.getNickname().toUpperCase().contains(newText.toUpperCase())){
                                 searchFriends.add(friend);
                             }
                         }
@@ -95,14 +106,14 @@ public class FriendsListFragment extends Fragment {
 
     private class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHolder> {
         Context context;
-        List<Friend> friends;
+        List<JomeMember> friends;
 
-        public FriendAdapter(Context context, List<Friend> friends) {
+        public FriendAdapter(Context context, List<JomeMember> friends) {
             this.context = context;
             this.friends = friends;
         }
 
-        public void setFriends(List<Friend> friends) {
+        public void setFriends(List<JomeMember> friends) {
             this.friends = friends;
         }
 
@@ -135,34 +146,53 @@ public class FriendsListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int position) {
-            final Friend friend = friends.get(position);
+            final JomeMember friend = friends.get(position);
 //            viewHolder.imageFriend.setImageBitmap(friend.getImageFriend());
-            viewHolder.imageFriend.setImageResource(friend.getImageFriendId());
-            viewHolder.tvFriendName.setText(friend.getNameFriend());
+//            viewHolder.imageFriend.setImageResource(friend.getImageFriendId());
+            viewHolder.tvFriendName.setText(friend.getNickname());
             viewHolder.ibtMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //轉到聊天室
                 }
             });
-//            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //                    Bundle bundle = new Bundle();
 //                    bundle.putSerializable("friend", friend);
-//                    Navigation.findNavController(rvMFriendsList)
-//                            .navigate(R.id.action_friendsListFragment_to_turnOtherMemberFragment, bundle);
-//                }
-//            });
+                    Navigation.findNavController(rvMFriendsList)
+                            .navigate(R.id.action_friendsListFragment_to_otherMemberFragment2);
+                }
+            });
         }
     }
 
-    private List<Friend> getFriends() {
-        List<Friend> testFriends = new ArrayList<>();
-        testFriends.add(new Friend(R.drawable.no_image, "Kitty"));
-        testFriends.add(new Friend(R.drawable.no_image, "Ocean"));
-        testFriends.add(new Friend(R.drawable.no_image, "WANG"));
-        return testFriends;
+    private List<JomeMember> getFriends() {
+        String url = Common.URL_SERVER + "jome_member/CenterServiceServlet";
+        List<JomeMember> myFriends = new ArrayList<>();
+        String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+        JomeMember member = new Gson().fromJson(memberStr, JomeMember.class);
+        if (Common.networkConnected(activity)){
+        JsonObject jsonOut = new JsonObject();
+        jsonOut.addProperty("action", "getFriendList");
+        jsonOut.addProperty("memberId", member.getMember_id());
+        getFriendsTask = new CommonTask(url,jsonOut.toString());
+        try {
+            String inStr = getFriendsTask.execute().get();
+            Log.d(TAG, "inStr: " + inStr);
+            JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
+            String myFriendsStr = jsonIn.get("friends").getAsString();
+            Log.d(TAG, "myFriendStr:" + myFriendsStr);
+            Type listType = new TypeToken<List<JomeMember>>(){}.getType();
+            myFriends = new Gson().fromJson(myFriendsStr, listType);
+        } catch (InterruptedException e) {
+            Log.d(TAG, e.toString());
+        } catch (ExecutionException e) {
+            Log.d(TAG, e.toString());
+            }
+        }
+        return myFriends;
     }
 
     @Override
