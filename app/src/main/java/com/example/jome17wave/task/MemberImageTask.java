@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.jome17wave.R;
 import com.google.gson.JsonObject;
 
 import java.io.BufferedInputStream;
@@ -45,6 +46,19 @@ public class MemberImageTask extends AsyncTask<Object, Integer, Bitmap> {
         return getRemoteImage(url, jsonObject.toString());
     }
 
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+        ImageView imageView = imageViewWeakReference.get();
+        if (isCancelled() || imageView == null){
+            return;
+        }
+        if (bitmap != null){
+            imageView.setImageBitmap(bitmap);
+        }else {
+            imageView.setImageResource(R.drawable.no_image);
+        }
+    }
+
     private Bitmap getRemoteImage(String url, String jsonOut) {
         HttpURLConnection connection = null;
         Bitmap bitmap = null;
@@ -74,7 +88,6 @@ public class MemberImageTask extends AsyncTask<Object, Integer, Bitmap> {
                 connection.disconnect();
             }
         }
-        Log.d(TAG, "InBitmap: " + bitmap);
         return bitmap;
     }
 }

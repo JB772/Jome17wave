@@ -1,21 +1,26 @@
 package com.example.jome17wave.jome_Bean;
 
-public class JomeMember {
-    private String member_id = "";
-    private byte[] image = null;
-    private String account = "";
-    private String password = "";
-    private int gender = -1;
-    private int account_status = -1;
-    private String phone_number = "";
-    private String nickname = "";
-    private double latitude = 0.0;
-    private double longitude = 0.0;
-    private String token_id = "";
-    //畫面所需欄位
-    private Integer friendCount = 0;
-    private Double scoreAverage = 0.0;
-    private Integer groupCount = 0;
+import java.io.Serializable;
+import java.util.Date;
+
+public class JomeMember implements Serializable {
+    private String member_id;
+    private Date build_date;
+    private Date modify_date;
+    private int account_status;
+    private String phone_number;
+    private String nickname;
+    private String account;
+    private String password;
+    private int gender;
+    private double latitude;
+    private double longitude;
+    private String token_id;
+    private byte[] image;
+    private String friendCount = "";
+    private String scoreAverage = "";
+    private String groupCount = "";
+    private String createGroupCount = "";
 
     public JomeMember() {
     }
@@ -123,27 +128,51 @@ public class JomeMember {
         this.token_id = token_id;
     }
 
-    public Integer getFriendCount() {
+    public Date getBuild_date() {
+        return build_date;
+    }
+
+    public void setBuild_date(Date build_date) {
+        this.build_date = build_date;
+    }
+
+    public Date getModify_date() {
+        return modify_date;
+    }
+
+    public void setModify_date(Date modify_date) {
+        this.modify_date = modify_date;
+    }
+
+    public String getFriendCount() {
         return friendCount;
     }
 
-    public void setFriendCount(Integer friendCount) {
+    public void setFriendCount(String friendCount) {
         this.friendCount = friendCount;
     }
 
-    public Double getScoreAverage() {
+    public String getScoreAverage() {
         return scoreAverage;
     }
 
-    public void setScoreAverage(Double scoreAverage) {
+    public void setScoreAverage(String scoreAverage) {
         this.scoreAverage = scoreAverage;
     }
 
-    public Integer getGroupCount() {
+    public String getGroupCount() {
         return groupCount;
     }
 
-    public void setGroupCount(Integer groupCount) {
+    public void setGroupCount(String groupCount) {
         this.groupCount = groupCount;
+    }
+
+    public String getCreateGroupCount() {
+        return createGroupCount;
+    }
+
+    public void setCreateGroupCount(String createGroupCount) {
+        this.createGroupCount = createGroupCount;
     }
 }

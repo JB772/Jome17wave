@@ -29,6 +29,7 @@ import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.task.CommonTask;
+import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -45,6 +46,7 @@ public class FriendsListFragment extends Fragment {
     private SearchView sVFriendList;
     private ConstraintLayout itemFriendCL;
     private CommonTask getFriendsTask;
+    private MemberImageTask getFriendImageTask;
     private List<JomeMember> friends;
 
 
@@ -107,10 +109,12 @@ public class FriendsListFragment extends Fragment {
     private class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.MyViewHolder> {
         Context context;
         List<JomeMember> friends;
+        private int imageSize;
 
         public FriendAdapter(Context context, List<JomeMember> friends) {
             this.context = context;
             this.friends = friends;
+            imageSize = getResources().getDisplayMetrics().widthPixels / 4;
         }
 
         public void setFriends(List<JomeMember> friends) {
@@ -147,9 +151,12 @@ public class FriendsListFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int position) {
             final JomeMember friend = friends.get(position);
-//            viewHolder.imageFriend.setImageBitmap(friend.getImageFriend());
-//            viewHolder.imageFriend.setImageResource(friend.getImageFriendId());
+            String url = Common.URL_SERVER + "jome_member/LoginServlet";
+            String memberId = friend.getMember_id();
+            getFriendImageTask = new MemberImageTask(url, memberId, imageSize, viewHolder.imageFriend);
+            getFriendImageTask.execute();
             viewHolder.tvFriendName.setText(friend.getNickname());
+
             viewHolder.ibtMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -159,10 +166,10 @@ public class FriendsListFragment extends Fragment {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable("friend", friend);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("friend", friend);
                     Navigation.findNavController(rvMFriendsList)
-                            .navigate(R.id.action_friendsListFragment_to_otherMemberFragment2);
+                            .navigate(R.id.action_friendsListFragment_to_otherMemberFragment2, bundle);
                 }
             });
         }

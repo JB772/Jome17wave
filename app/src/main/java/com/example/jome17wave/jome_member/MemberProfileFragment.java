@@ -53,7 +53,7 @@ public class MemberProfileFragment extends Fragment {
     private ImageView igMember;
     private ImageButton btConnectUs, btLogOut;
     private ConstraintLayout clFriendList, clScore, clGroupRecord, clJoinRecord;
-    private TextView tvFriendList, tvScore, tvGroupRecord, tvJoinRecord;
+    private TextView tvFriendList, tvScore, tvGroupRecord, tvJoinRecord, tvMemberNickname;
     private JomeMember jomeMember;
 
     @Override
@@ -84,6 +84,7 @@ public class MemberProfileFragment extends Fragment {
         clScore = view.findViewById(R.id.clScore);
         clGroupRecord = view.findViewById(R.id.clGroupRecord);
         clJoinRecord = view.findViewById(R.id.clJoinRecord);
+        tvMemberNickname = view.findViewById(R.id.tvMemberNickname);
         tvFriendList = view.findViewById(R.id.tvFriendList);
         tvScore = view.findViewById(R.id.tvScore);
         tvGroupRecord = view.findViewById(R.id.tvGroupRecord);
@@ -187,13 +188,10 @@ public class MemberProfileFragment extends Fragment {
             igMember.setImageBitmap(bitmap);
         }
 
-
-        tvFriendList.setText(String.valueOf(jomeMember.getFriendCount()));
-        tvScore.setText(String.valueOf(jomeMember.getScoreAverage()));
+        tvMemberNickname.setText(jomeMember.getNickname());
+        tvFriendList.setText(jomeMember.getFriendCount());
+        tvScore.setText(jomeMember.getScoreAverage());
         tvGroupRecord.setText(String .valueOf(jomeMember.getGroupCount()));
-//        tvFriendList.setText(R.string.common_google_play_services_updating_text);
-//        tvScore.setText("");
-//        tvGroupRecord.setText(R.string.allSurfPoint);
     }
 
     @Override

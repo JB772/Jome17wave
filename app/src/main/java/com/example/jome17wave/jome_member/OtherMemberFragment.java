@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_member.Friend;
 
 public class OtherMemberFragment extends Fragment {
@@ -50,30 +51,36 @@ public class OtherMemberFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //大頭貼
+        imageFProfile = view.findViewById(R.id.imageFProfile);
+        //四顆imageButton
         ibtFriendStory = view.findViewById(R.id.ibtFriendStory);
         ibtOtherMessage = view.findViewById(R.id.ibtOtherMessage);
         ibtFriendAdd = view.findViewById(R.id.ibtFriendAdd);
-
-
-        imageFProfile = view.findViewById(R.id.imageFProfile);
+        ibtFriendPandding = view.findViewById(R.id.ibtFriendPandding);
+        //四格資訊
         tvFDataName = view.findViewById(R.id.tvFDataName);
         tvAverageScore = view.findViewById(R.id.tvAverageScore);;
         tvFriendCount = view.findViewById(R.id.tvFriendCount);;
         tvAssembleCount = view.findViewById(R.id.tvAssembleCount);;
         tvJointCount = view.findViewById(R.id.tvJointCount);;
+
         Bundle bundle = getArguments();
         if (bundle != null) {
-            Friend friend = (Friend) bundle.getSerializable("friend");
-            Log.d(TAG, friend.getNameFriend());
+            JomeMember friend = (JomeMember) bundle.getSerializable("friend");
+            Log.d(TAG, "friend: "+ friend.getNickname());
             if (friend != null) {
-                imageFProfile.setImageResource(friend.getImageFriendId());
-                tvFDataName.setText(friend.getNameFriend());
+//                imageFProfile.setImageResource(friend.getImageFriendId());
+                toolbar.setTitle(friend.getNickname());
+                tvFDataName.setText(friend.getNickname());
                 tvAverageScore.setText("0 分");
                 tvAssembleCount.setText("0 次");
                 tvJointCount.setText("0 次");
                 tvFriendCount.setText("0 人");
             }
         }
+
         View.OnClickListener btOnclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
