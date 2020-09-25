@@ -39,25 +39,24 @@ public class SelfGroupFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MainActivity)getActivity();
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group_record, container, false);
+        return inflater.inflate(R.layout.fragment_self_group, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle("");
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        rvSelfGroup = view.findViewById(R.id.rvSelfGroup);
+        rvSelfGroup = view.findViewById(R.id.rvSelfGroup);
         rvSelfGroup.setLayoutManager(new LinearLayoutManager(activity));
         groups = getGroups();
         rvSelfGroup.setAdapter(new SelfGroupAdapter(activity, groups));

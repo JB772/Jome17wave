@@ -189,8 +189,8 @@ public class MemberProfileFragment extends Fragment {
         }
 
         tvMemberNickname.setText(jomeMember.getNickname());
-        tvFriendList.setText(jomeMember.getFriendCount());
-        tvScore.setText(jomeMember.getScoreAverage());
+        tvFriendList.setText(jomeMember.getFriendCount() + " 人");
+        tvScore.setText(jomeMember.getScoreAverage() + " 分");
         tvGroupRecord.setText(String .valueOf(jomeMember.getGroupCount()));
     }
 
