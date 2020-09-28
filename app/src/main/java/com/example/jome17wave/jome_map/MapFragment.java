@@ -320,7 +320,7 @@ public class MapFragment extends Fragment {
             userGetAllMember = new CommonTask(url, jsonOut);
             try {
                 String inStr = userGetAllMember.execute().get();
-//                Log.d(TAG, "jsonIn: " +jsonIn);
+                Log.d(TAG, "jsonIn: " +inStr);
                 JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
                 int memberResult = jsonIn.get("membersResult").getAsInt();
                 Log.d(TAG, String.valueOf(memberResult));
@@ -420,6 +420,7 @@ public class MapFragment extends Fragment {
     }
 
     private Marker addUserMarker(LatLng latLng, String title) {
+        Log.d(TAG, "addUserMarker:");
         Address address = reverseGeocode(latLng.latitude, latLng.longitude);
         String snippet = address.getAddressLine(0);
         Marker marker = map.addMarker(new MarkerOptions()
