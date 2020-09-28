@@ -188,7 +188,7 @@ public class NotificationFragment extends Fragment {
 //            if (Common.networkConnected(activity)){
 //                String url = Common.URL_SERVER + "NotificationServlet";
 //                JsonObject jsonObject = new JsonObject();
-//                jsonObject.addProperty("action", "getAll");
+//                jsonObject.addProperty("action", "getAllNotification");
 //                String jsonOut = jsonObject.toString();
 //                notificationGetAllTask = new CommonTask(url, jsonOut);
 //                try {

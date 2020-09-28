@@ -1,8 +1,9 @@
 package com.example.jome17wave.jome_Bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class FriendListBean {
+public class FriendListBean implements Serializable {
     private int uId = 0;
     private String invite_M_ID = "";
     private String inviteName = "";
@@ -11,6 +12,16 @@ public class FriendListBean {
     private int friend_Status = -1;
     private Date modify_Date = new Date();
 
+    public FriendListBean(int uId, String invite_M_ID, String inviteName, String accept_M_ID, int friend_Status,
+                          Date modify_Date) {
+        this.uId = uId;
+        this.invite_M_ID = invite_M_ID;
+        this.inviteName = inviteName;
+        this.accept_M_ID = accept_M_ID;
+        this.friend_Status = friend_Status;
+        this.modify_Date = modify_Date;
+    }
+
     public FriendListBean(String invite_M_ID, String inviteName, String accept_M_ID, String acceptName, int friend_Status) {
         this.invite_M_ID = invite_M_ID;
         this.inviteName = inviteName;
@@ -18,6 +29,8 @@ public class FriendListBean {
         this.acceptName = acceptName;
         this.friend_Status = friend_Status;
     }
+
+
 
     public FriendListBean(String invite_M_ID, String accept_M_ID, int friend_Status) {
         this.invite_M_ID = invite_M_ID;
