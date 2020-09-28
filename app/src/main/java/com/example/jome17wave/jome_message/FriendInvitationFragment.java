@@ -26,8 +26,11 @@ import android.widget.TextView;
 import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.FriendListBean;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.ImageTask;
+import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -42,9 +45,9 @@ public class FriendInvitationFragment extends Fragment {
     private static  final String TAG = "TAG_friendInvitationFragment";
     private MainActivity activity;
     private RecyclerView rvFriendInvitation;
-    private CommonTask invitationGetAllTask;
-    private List<FriendInvitation> invitations;
-    private List<ImageTask> imageTasks;
+    private CommonTask invitationGetAllTask, agreeFriendTask, declineFriendTask;
+    private List<FriendListBean> invitations;
+    private List<MemberImageTask> imageTasks;
 
 
     @Override
@@ -81,7 +84,7 @@ public class FriendInvitationFragment extends Fragment {
 
     }
 
-    private void showInvitation(List<FriendInvitation> invitations) {
+    private void showInvitation(List<FriendListBean> invitations) {
         if (invitations == null || invitations.isEmpty()){
             Common.showToast(activity, R.string.no_invitations_found);
         }
@@ -98,46 +101,59 @@ public class FriendInvitationFragment extends Fragment {
     }
 
     @SuppressLint("LongLogTag")
-    private List<FriendInvitation> getInvitations() {
-        List<FriendInvitation> invitations = new ArrayList<>();
-        List<FriendInvitation> testInvitations = new ArrayList<>();
-        testInvitations.add(
-                new FriendInvitation(1, 2, 3, "王小美", new Date(System.currentTimeMillis())));
-        testInvitations.add(
-                new FriendInvitation(2, 3, 3, "李阿智", new Date(System.currentTimeMillis())));
-        testInvitations.add(
-                new FriendInvitation(3, 4, 3, "廖凡凡", new Date(System.currentTimeMillis())));
-        testInvitations.add(
-                new FriendInvitation(1, 5, 3, "孫美美", new Date(System.currentTimeMillis())));
-        testInvitations.add(
-                new FriendInvitation(1, 2, 3, "王小美", new Date(System.currentTimeMillis())));
-        testInvitations.add(
-                new FriendInvitation(2, 3, 3, "李阿智", new Date(System.currentTimeMillis())));
-        testInvitations.add(
-                new FriendInvitation(3, 4, 3, "廖凡凡", new Date(System.currentTimeMillis())));
-        testInvitations.add(
-                new FriendInvitation(1, 5, 3, "孫美美", new Date(System.currentTimeMillis())));
-
-        invitations = testInvitations;
-        return invitations;
-//        List<FriendInvitation> invitations = null;
-//        if (Common.networkConnected(activity)){
-//            String url = Common.URL_SERVER + "FriendInvitationServlet";
-//            JsonObject jsonObject = new JsonObject();
-//            jsonObject.addProperty("action", "getAll");
-//            String jsonOut = jsonObject.toString();
-//            invitationGetAllTask = new CommonTask(url, jsonOut);
-//            try {
-//                String jsonIn = invitationGetAllTask.execute().get();
-//                Type listType = new TypeToken<FriendInvitation>(){}.getType();
-//                invitations = new Gson().fromJson(jsonIn, listType);
-//            } catch (Exception e) {
-//                Log.e(TAG, e.toString());
-//            }
-//        }else {
-//            Common.showToast(activity, R.string.no_network_connection_available);
-//        }
+    private List<FriendListBean> getInvitations() {
+//        List<FriendInvitation> invitations = new ArrayList<>();
+//        List<FriendInvitation> testInvitations = new ArrayList<>();
+//        testInvitations.add(
+//                new FriendInvitation(1, 2, 3, "王小美", new Date(System.currentTimeMillis())));
+//        testInvitations.add(
+//                new FriendInvitation(2, 3, 3, "李阿智", new Date(System.currentTimeMillis())));
+//        testInvitations.add(
+//                new FriendInvitation(3, 4, 3, "廖凡凡", new Date(System.currentTimeMillis())));
+//        testInvitations.add(
+//                new FriendInvitation(1, 5, 3, "孫美美", new Date(System.currentTimeMillis())));
+//        testInvitations.add(
+//                new FriendInvitation(1, 2, 3, "王小美", new Date(System.currentTimeMillis())));
+//        testInvitations.add(
+//                new FriendInvitation(2, 3, 3, "李阿智", new Date(System.currentTimeMillis())));
+//        testInvitations.add(
+//                new FriendInvitation(3, 4, 3, "廖凡凡", new Date(System.currentTimeMillis())));
+//        testInvitations.add(
+//                new FriendInvitation(1, 5, 3, "孫美美", new Date(System.currentTimeMillis())));
+//
+//        invitations = testInvitations;
 //        return invitations;
+        List<FriendListBean> invitations = new ArrayList<>();
+        if (Common.networkConnected(activity)){
+            String url = Common.URL_SERVER + "FriendInvitationServlet";
+            JsonObject jsonObject = new JsonObject();
+
+            String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+            JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
+            String memberId = member.getMember_id();
+
+            if (memberId!=null){
+                jsonObject.addProperty("action", "getAllInvitaion");
+                jsonObject.addProperty("memberId", memberId);
+            }
+            String jsonOut = jsonObject.toString();
+            invitationGetAllTask = new CommonTask(url, jsonOut);
+            try {
+                String inStr = invitationGetAllTask.execute().get();
+                Log.d(TAG, "inStr: " + inStr);
+                JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
+                String invitationsStr = jsonIn.get("invitations").getAsString();
+                Log.d(TAG, "invitationsStr:" + invitationsStr);
+                Type listType = new TypeToken<List<FriendListBean>>(){}.getType();
+                invitations = new Gson().fromJson(invitationsStr, listType);
+                return invitations;
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        }else {
+            Common.showToast(activity, R.string.no_network_connection_available);
+        }
+        return invitations;
     }
 
 
@@ -163,11 +179,11 @@ public class FriendInvitationFragment extends Fragment {
 
 
     public class FriendInvitationAdapter extends RecyclerView.Adapter<FriendInvitationFragment.MyViewHolder> {
-        private  List<FriendInvitation> invitations;
+        private  List<FriendListBean> invitations;
         private  LayoutInflater layoutInflater;
         private  int imageSize;
 
-        public FriendInvitationAdapter(Context context, List<FriendInvitation> invitations) {
+        public FriendInvitationAdapter(Context context, List<FriendListBean> invitations) {
             layoutInflater = LayoutInflater.from(context);
             this.invitations = invitations;
             imageSize = getResources().getDisplayMetrics().widthPixels/4;
@@ -183,24 +199,112 @@ public class FriendInvitationFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            final FriendInvitation friendInvitation = invitations.get(position);
-            String url = Common.URL_SERVER + "FriendInvitationServlet";
-            int id = friendInvitation.getInviteMId();
-            ImageTask imageTask = new ImageTask(url, id, imageSize, holder.ivProfileImg);
+//            FriendListBean friendListBean = invitations.get(position);
+            final FriendListBean friendListBean = invitations.get(position);
+            /*
+             *  取照片們
+             */
+            String url = Common.URL_SERVER + "jome_member/LoginServlet";
+            String memberID = friendListBean.getInvite_M_ID();
+            MemberImageTask imageTask = new MemberImageTask(url, memberID, imageSize, holder.ivProfileImg);
             imageTask.execute();
             imageTasks.add(imageTask);
-            holder.tvName.setText(friendInvitation.getAcceptMName());
+//            if (bitmap == null){
+//                ivOtherProfileImg.setImageResource(R.drawable.no_image);
+//            }else {
+//                ivOtherProfileImg.setImageBitmap(bitmap);
+//            }
+
+//            String url = Common.URL_SERVER + "FriendInvitationServlet";
+//            String id = friendListBean.getInvite_M_ID();
+//            ImageTask imageTask = new ImageTask(url, id, imageSize, holder.ivProfileImg);
+//            imageTask.execute();
+//            imageTasks.add(imageTask);
+
+            /*
+             *
+             */
+            holder.tvName.setText(friendListBean.getInviteName());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("LongLogTag")
                 @Override
                 public void onClick(View view) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("friendInvitation",friendInvitation);
+                    bundle.putSerializable("friendListBean",friendListBean);
 //                    Navigation.findNavController(view, R.id.action) // 未指定頁面
                     Log.d(TAG, "尚未指定轉跳頁面");
                 }
             });
 
+            holder.ibtAgree.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onClick(View view) {
+//                    FriendInvitation friendInvitation = new FriendInvitation();
+//                    int friendStatus = friendInvitation.getFriendStatus();
+//                    if (friendStatus != 1){
+//                        friendInvitation.setFriendStatus(1);
+//                    }
+
+                    String url = Common.URL_SERVER + "FindNewFriendServlet";
+                    JsonObject jsonObject = new JsonObject();
+                    friendListBean.setFriend_Status(3);
+                    jsonObject.addProperty("action", "clickAgree");
+                    jsonObject.addProperty("agreeBean", new Gson().toJson(friendListBean));
+                    String jsonOut = jsonObject.toString();
+                    agreeFriendTask = new CommonTask(url, jsonOut);
+                    try {
+                        String jsonIn = agreeFriendTask.execute().get();
+                        JsonObject jo = new Gson().fromJson(jsonIn, JsonObject.class);
+                        int resultCode = jo.get("resultCode").getAsInt();
+//                    Log.d(TAG, "resultCode: " + resultCode);
+//                    friendListBean = new Gson().fromJson(jo.get("FriendListBean").getAsString(), FriendListBean.class);
+                        if (resultCode == 0){
+//                        Log.d(TAG, "if resultCode == 1 ");
+                            Common.showToast(activity, R.string.change_fail);
+                        }else {
+                            invitations.remove(friendListBean);
+                            FriendInvitationAdapter.this.notifyDataSetChanged();
+                            Common.showToast(activity, R.string.was_friend);
+                        }
+                    } catch (Exception e) {
+                        Log.d(TAG, e.toString());
+                    }
+                }
+            });
+
+            holder.ibtDecline.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onClick(View view) {
+                    String url = Common.URL_SERVER + "FindNewFriendServlet";
+                    JsonObject jsonObject = new JsonObject();
+                    String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+                    JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
+                    friendListBean.setFriend_Status(3);
+                    jsonObject.addProperty("action", "clickDecline");
+                    jsonObject.addProperty("declineBean", new Gson().toJson(friendListBean));
+                    String jsonOut = jsonObject.toString();
+                    declineFriendTask = new CommonTask(url, jsonOut);
+                    try {
+                        String jsonIn = declineFriendTask.execute().get();
+                        JsonObject jo = new Gson().fromJson(jsonIn, JsonObject.class);
+                        int resultCode = jo.get("resultCode").getAsInt();
+//                    Log.d(TAG, "resultCode: " + resultCode);
+//                    friendListBean = new Gson().fromJson(jo.get("FriendListBean").getAsString(), FriendListBean.class);
+                        if (resultCode == 0){
+//                        Log.d(TAG, "if resultCode == 0 ");
+                            Common.showToast(activity, R.string.change_fail);
+                        }else {
+                            invitations.remove(friendListBean);
+                            FriendInvitationAdapter.this.notifyDataSetChanged();
+                            Common.showToast(activity, R.string.decline_friend);
+                        }
+                    } catch (Exception e) {
+                        Log.d(TAG, e.toString());
+                    }
+                }
+            });
 
         }
 
@@ -209,7 +313,7 @@ public class FriendInvitationFragment extends Fragment {
             return invitations == null ? 0 : invitations.size();
         }
 
-        void setFriendInvitations(List<FriendInvitation> invitations) {
+        void setFriendInvitations(List<FriendListBean> invitations) {
             invitations = this.invitations;
         }
     }
@@ -225,27 +329,18 @@ public class FriendInvitationFragment extends Fragment {
             ibtAgree = itemView.findViewById(R.id.ibtAgree);
             ibtDecline = itemView.findViewById(R.id.ibtDecline);
 
-            ibtAgree.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FriendInvitation friendInvitation = new FriendInvitation();
-                    int friendStatus = friendInvitation.getFriendStatus();
-                    if (friendStatus != 1){
-                        friendInvitation.setFriendStatus(1);
-                    }
-                }
-            });
 
-            ibtDecline.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FriendInvitation friendInvitation = new FriendInvitation();
-                    int friendStatus = friendInvitation.getFriendStatus();
-                    if (friendStatus != 1){
-                        friendInvitation.setFriendStatus(1);
-                    }
-                }
-            });
+
+//            ibtDecline.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    FriendInvitation friendInvitation = new FriendInvitation();
+//                    int friendStatus = friendInvitation.getFriendStatus();
+//                    if (friendStatus != 1){
+//                        friendInvitation.setFriendStatus(1);
+//                    }
+//                }
+//            });
 
 
 
@@ -261,7 +356,7 @@ public class FriendInvitationFragment extends Fragment {
         }
 
         if (imageTasks != null && imageTasks.size() > 0){
-            for (ImageTask imageTask : imageTasks){
+            for (MemberImageTask imageTask : imageTasks){
                 imageTask.cancel(true);
             }
             imageTasks.clear();
