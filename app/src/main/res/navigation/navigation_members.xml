@@ -64,4 +64,9 @@
         android:id="@+id/otherMemberFragment2"
         android:name="com.example.jome17wave.jome_member.OtherMemberFragment"
         android:label="OtherMemberFragment" />
+    <fragment
+        android:id="@+id/myRecordFragment"
+        android:name="com.example.jome17wave.jome_member.MyRecordFragment"
+        android:label="fragment_my_record"
+        tools:layout="@layout/fragment_my_record" />
 </navigation>

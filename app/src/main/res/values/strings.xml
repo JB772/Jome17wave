@@ -53,7 +53,6 @@
     <string name="westSide">西部浪點</string>
 
 
-
     <string name="nearMember">附近用戶</string>
 
 
@@ -61,7 +60,6 @@
     <string name="no_notifications_found">沒有任何通知訊息</string>
     <string name="friend_Invitation">好友邀請</string>
     <string name="no_invitations_found">沒有任何好友邀請</string>
-
 
 
     <string name="firendCount">好友人數</string>
@@ -99,7 +97,6 @@
     <string name="friend_invitation_fail">好友邀請失敗</string>
     <string name="friend_invitation_successfully">已發送好友邀請</string>
     <string name="accountNotExist">帳號不存在</string>
-
 
 
     <string name="textLocation">請選擇地點</string>
