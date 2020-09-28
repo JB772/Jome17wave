@@ -1,7 +1,6 @@
 package com.example.jome17wave.jome_map;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -14,36 +13,32 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.os.Message;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.jome_member.Friend;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.ImageTask;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -55,6 +50,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +60,7 @@ public class MapFragment extends Fragment {
     private static final String TAG = "TAG_MapFragment";
     private MainActivity activity;
     private RecyclerView rvMap;
+    private LinearLayout linearLayout;
     private GoogleMap map;
     private CommonTask mapGetAllTask;
     private CommonTask userGetAllMember;
@@ -99,10 +96,9 @@ public class MapFragment extends Fragment {
         toolbar.setTitle("地圖");
         activity.setSupportActionBar(toolbar);
 
-
-
         final MapView mapView = view.findViewById(R.id.mapView);
         rvMap = view.findViewById(R.id.rvMap);
+        linearLayout = view.findViewById(R.id.linearLayout);
 
         // RecyclerView
         rvMap.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
@@ -137,7 +133,6 @@ public class MapFragment extends Fragment {
                 });
             }
         });
-
 
         // 搜尋欄
         final SearchView searchView = view.findViewById(R.id.searchView);
@@ -231,6 +226,7 @@ public class MapFragment extends Fragment {
                 }
                 break;
             case R.id.allSurfPoint:
+                linearLayout.setVisibility(View.VISIBLE);
                 map.clear();
                 maps = getMaps();
                 for (Map map: maps){
@@ -242,6 +238,7 @@ public class MapFragment extends Fragment {
                 break;
             case R.id.nearUser:
                 showMyLocation();
+                linearLayout.setVisibility(View.GONE);
                 map.clear();
                 final List<Marker> userMarkers = new ArrayList<>();
                 users = getUsers();
@@ -249,15 +246,29 @@ public class MapFragment extends Fragment {
                     LatLng latLng = new LatLng(user.getLatitude(), user.getLongitude());
                     Marker userMarker = addUserMarker(latLng, user.getNickname());
                     userMarkers.add(userMarker);
-                    userMarker.showInfoWindow();
                 }
-//                map.setInfoWindowAdapter(new MyInfoWindowAdapter(activity));
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        map.setInfoWindowAdapter(new MyInfoWindowAdapter(activity));
+                        return false;
+                    }
+                });
+                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+
+                        Navigation.findNavController(rvMap).navigate(R.id.action_mapsFragment_to_turnOtherMemberFragment2);
+                    }
+                });
                 break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     // 取得後端資料
     private List<Map> getMaps() {
@@ -350,7 +361,6 @@ public class MapFragment extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder {
             ImageView imageView;
             TextView tvName, tvSide, tvType, tvLevel;
-            private LinearLayout rvMaps;
 
             MyViewHolder(View itemView) {
                 super(itemView);
@@ -359,7 +369,6 @@ public class MapFragment extends Fragment {
                 tvSide = itemView.findViewById(R.id.tvSide);
                 tvType = itemView.findViewById(R.id.tvType);
                 tvLevel = itemView.findViewById(R.id.tvLevel);
-                rvMaps = itemView.findViewById(R.id.rvMaps);
             }
         }
 
@@ -465,10 +474,11 @@ public class MapFragment extends Fragment {
         public View getInfoWindow(Marker marker) {
             View view = View.inflate(context, R.layout.info_window, null);
 
-            String title = marker.getTitle();
-            TextView tvTitle = view.findViewById(R.id.tvTitle);
-            tvTitle.setText(title);
-
+            for (JomeMember user : users) {
+                String title = user.getNickname();
+                TextView tvTitle = view.findViewById(R.id.tvTitle);
+                tvTitle.setText(title);
+            }
             String snippet = marker.getSnippet();
             TextView tvSnippet = view.findViewById(R.id.tvSnippet);
             tvSnippet.setText(snippet);
@@ -480,6 +490,7 @@ public class MapFragment extends Fragment {
         public View getInfoContents(Marker marker) {
             return null;
         }
+
     }
 
     // 詢問使否取用位置
