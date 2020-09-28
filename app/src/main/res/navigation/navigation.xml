@@ -37,6 +37,9 @@
             <action
                 android:id="@+id/action_mapsFragment_to_mapDetailFragment"
                 app:destination="@id/mapDetailFragment" />
+            <action
+                android:id="@+id/action_mapsFragment_to_turnOtherMemberFragment2"
+                app:destination="@id/turnOtherMemberFragment2" />
         </fragment>
 
         <fragment
@@ -116,10 +119,9 @@
         android:label="fragment_group_info"
         tools:layout="@layout/fragment_group_info" />
     <fragment
-        android:id="@+id/testFragment"
-        android:name="com.example.jome17wave.TestFragment"
-        android:label="fragment_test"
-        tools:layout="@layout/fragment_test" />
+        android:id="@+id/turnOtherMemberFragment2"
+        android:name="com.example.jome17wave.TurnOtherMemberFragment"
+        android:label="TurnOtherMemberFragment" />
 
 </navigation>
 
