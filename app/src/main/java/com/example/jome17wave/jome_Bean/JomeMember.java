@@ -5,8 +5,6 @@ import java.util.Date;
 
 public class JomeMember implements Serializable {
     private String member_id;
-    private String build_date;
-    private String modify_date;
     private int account_status;
     private String phone_number;
     private String nickname;
@@ -15,11 +13,11 @@ public class JomeMember implements Serializable {
     private int gender;
     private double latitude;
     private double longitude;
-    private String token_id;d
+    private String token_id;
     private byte[] image;
-    private Integer friendCount = 0;
-    private Double scoreAverage = 0.0;
-    private Integer groupCount = 0;
+    private String friendCount = "";
+    private String scoreAverage = "";
+    private String groupCount = "";
 
     public JomeMember() {
     }
@@ -127,43 +125,27 @@ public class JomeMember implements Serializable {
         this.token_id = token_id;
     }
 
-    public String getBuild_date() {
-        return build_date;
-    }
-
-    public void setBuild_date(String build_date) {
-        this.build_date = build_date;
-    }
-
-    public String getModify_date() {
-        return modify_date;
-    }
-
-    public void setModify_date(String modify_date) {
-        this.modify_date = modify_date;
-    }
-
-    public Integer getFriendCount() {
+    public String getFriendCount() {
         return friendCount;
     }
 
-    public void setFriendCount(Integer friendCount) {
+    public void setFriendCount(String friendCount) {
         this.friendCount = friendCount;
     }
 
-    public Double getScoreAverage() {
+    public String getScoreAverage() {
         return scoreAverage;
     }
 
-    public void setScoreAverage(Double scoreAverage) {
+    public void setScoreAverage(String scoreAverage) {
         this.scoreAverage = scoreAverage;
     }
 
-    public Integer getGroupCount() {
+    public String getGroupCount() {
         return groupCount;
     }
 
-    public void setGroupCount(Integer groupCount) {
+    public void setGroupCount(String groupCount) {
         this.groupCount = groupCount;
     }
 }

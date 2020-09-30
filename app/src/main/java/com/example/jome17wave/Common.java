@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -65,10 +67,41 @@ public class Common {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }
 
-    public static String getYYYYmmDD(Date date){
+    public static String date2Str (Date date){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String formatTime = String.valueOf(sdf.format(date));
-        return formatTime;
+        return String.valueOf(sdf.format(date));
+    }
+
+    public static String date2StrHm (Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return String.valueOf(sdf.format(date));
+    }
+
+    public static Date str2Date(String dateString){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            Date date = sdf.parse(dateString);
+            return date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getGroupEndTime(String assembleStr){
+        Date assembleTime = str2Date(assembleStr);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(assembleTime);
+        calendar.add(Calendar.HOUR, 2);
+        return date2StrHm (calendar.getTime());
+    }
+
+    public static String getSignUpEnd(String assembleStr){
+        Date assembleTime = str2Date(assembleStr);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(assembleTime);
+        calendar.add(Calendar.MINUTE, 30);
+        return date2StrHm(calendar.getTime());
     }
 
     public static String getDateTimeId(){

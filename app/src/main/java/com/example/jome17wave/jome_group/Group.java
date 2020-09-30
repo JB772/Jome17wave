@@ -90,7 +90,7 @@ public class Group implements Serializable {
 
     @Override
     public String toString() {
-        return Common.getYYYYmmDD(assembleTime) + "\t\t\t\t\t" + name ;
+        return assembleTime + "\t\t\t\t\t" + name ;
     }
 }
 

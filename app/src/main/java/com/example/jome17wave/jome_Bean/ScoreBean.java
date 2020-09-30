@@ -1,25 +1,27 @@
 package com.example.jome17wave.jome_Bean;
 
 public class ScoreBean {
-    private int scoreId = -1;
+    private String groupId = "";
     private String beRatedId = "";
     private String memberId = "";
     private int score = -1;
 
-    public ScoreBean(String beRatedId, String memberId) {
+    public ScoreBean(String groupId, String beRatedId, String memberId, int score) {
+        this.groupId = groupId;
         this.beRatedId = beRatedId;
         this.memberId = memberId;
+        this.score = score;
     }
 
     public ScoreBean() {
     }
 
-    public int getScoreId() {
-        return scoreId;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setScoreId(int scoreId) {
-        this.scoreId = scoreId;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getBeRatedId() {
