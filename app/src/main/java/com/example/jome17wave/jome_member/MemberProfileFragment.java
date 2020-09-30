@@ -84,6 +84,7 @@ public class MemberProfileFragment extends Fragment {
         clScore = view.findViewById(R.id.clScore);
         clGroupRecord = view.findViewById(R.id.clGroupRecord);
         clJoinRecord = view.findViewById(R.id.clJoinRecord);
+        clJoinRecord.setVisibility(View.GONE);
         tvMemberNickname = view.findViewById(R.id.tvMemberNickname);
         tvFriendList = view.findViewById(R.id.tvFriendList);
         tvScore = view.findViewById(R.id.tvScore);
@@ -135,7 +136,7 @@ public class MemberProfileFragment extends Fragment {
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_profileScoreFragment);
                         break;
                     case R.id.clGroupRecord:
-                        Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_selfGroupFragment);
+                        Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_myRecordFragment);
                         break;
                     case R.id.clJoinRecord:
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_selfRecordFragment);
@@ -190,7 +191,8 @@ public class MemberProfileFragment extends Fragment {
 
         tvMemberNickname.setText(jomeMember.getNickname());
         tvFriendList.setText(jomeMember.getFriendCount() + " 人");
-        tvScore.setText(jomeMember.getScoreAverage() + " 分");
+        Log.d(TAG, "ScoreAverage: " +jomeMember.getScoreAverage() );
+        tvScore.setText(jomeMember.getScoreAverage() );
         tvGroupRecord.setText(String .valueOf(jomeMember.getGroupCount()));
     }
 

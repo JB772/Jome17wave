@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_memberProfileFragment_to_modifyProfileFragment"
             app:destination="@id/modifyProfileFragment" />
+        <action
+            android:id="@+id/action_memberProfileFragment_to_myRecordFragment"
+            app:destination="@id/myRecordFragment" />
     </fragment>
     <fragment
         android:id="@+id/modifyProfileFragment"

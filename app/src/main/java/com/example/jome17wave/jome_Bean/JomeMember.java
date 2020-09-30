@@ -5,8 +5,6 @@ import java.util.Date;
 
 public class JomeMember implements Serializable {
     private String member_id;
-    private String build_date;
-    private String modify_date;
     private int account_status;
     private String phone_number;
     private String nickname;
@@ -127,6 +125,7 @@ public class JomeMember implements Serializable {
         this.token_id = token_id;
     }
 
+<<<<<<< HEAD
     public String getBuild_date() {
         return build_date;
     }
@@ -143,6 +142,8 @@ public class JomeMember implements Serializable {
         this.modify_date = modify_date;
     }
 
+=======
+>>>>>>> Justin_Branch
     public String getFriendCount() {
         return friendCount;
     }
