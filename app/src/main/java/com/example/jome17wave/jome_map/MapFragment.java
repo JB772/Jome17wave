@@ -2,6 +2,7 @@ package com.example.jome17wave.jome_map;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -257,8 +258,11 @@ public class MapFragment extends Fragment {
                 map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-
-                        Navigation.findNavController(rvMap).navigate(R.id.action_mapsFragment_to_turnOtherMemberFragment2);
+                        JomeMember member = users.get(userMarkers.indexOf(marker));
+//                        Log.d(TAG, "(id, nickname): " + member.getNickname() + member.getMember_id());
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("friend", member);
+                        Navigation.findNavController(rvMap).navigate(R.id.action_mapsFragment_to_otherMemberFragment, bundle);
                     }
                 });
                 break;
@@ -345,7 +349,6 @@ public class MapFragment extends Fragment {
         private LayoutInflater layoutInflater;
         private List<Map> maps;
         private int imageSize;
-        private View v;
 
 
         MapAdapter(Context context, List<Map> maps) {
@@ -385,7 +388,7 @@ public class MapFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int position) {
+        public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int position) {
             final Map map = maps.get(position);
             String url = Common.URL_SERVER + "SURF_POINTServlet";
             int id = map.getId();
@@ -440,7 +443,7 @@ public class MapFragment extends Fragment {
     }
 
     private Address reverseGeocode(double latitude, double longitude) {
-        Log.d(TAG, "(latitude, longitude): (" + latitude + ", " + longitude + ")");
+//        Log.d(TAG, "(latitude, longitude): (" + latitude + ", " + longitude + ")");
         Geocoder geocoder = new Geocoder(activity);
         List<Address> addressList = null;
         try {
@@ -475,11 +478,17 @@ public class MapFragment extends Fragment {
         public View getInfoWindow(Marker marker) {
             View view = View.inflate(context, R.layout.info_window, null);
 
-            for (JomeMember user : users) {
-                String title = user.getNickname();
-                TextView tvTitle = view.findViewById(R.id.tvTitle);
-                tvTitle.setText(title);
-            }
+//            JomeMember member = users.get(userMarkers.indexOf(marker));
+//            users = getUsers();
+//            for (JomeMember user : users) {
+//                String title = user.getNickname();
+//                TextView tvTitle = view.findViewById(R.id.tvTitle);
+//                tvTitle.setText(title);
+//            }
+            String title = marker.getTitle();
+            TextView tvTitle = view.findViewById(R.id.tvTitle);
+            tvTitle.setText(title);
+
             String snippet = marker.getSnippet();
             TextView tvSnippet = view.findViewById(R.id.tvSnippet);
             tvSnippet.setText(snippet);
