@@ -6,7 +6,16 @@
     app:startDestination="@id/mainFragment">
 
 
-        <fragment
+    <fragment
+        android:id="@+id/otherMemberFragment"
+        android:name="com.example.jome17wave.jome_member.OtherMemberFragment"
+        android:label="fragment_other_member"
+        tools:layout="@layout/fragment_other_member">
+        <action
+            android:id="@+id/action_otherMemberFragment_to_OMemberStoryFragment"
+            app:destination="@id/OMemberStoryFragment" />
+    </fragment>
+    <fragment
             android:id="@+id/mainFragment"
             android:name="com.example.jome17wave.main.mainFragment"
             android:label="fragment_main"
@@ -38,8 +47,8 @@
                 android:id="@+id/action_mapsFragment_to_mapDetailFragment"
                 app:destination="@id/mapDetailFragment" />
             <action
-                android:id="@+id/action_mapsFragment_to_turnOtherMemberFragment2"
-                app:destination="@id/turnOtherMemberFragment2" />
+                android:id="@+id/action_mapsFragment_to_otherMemberFragment"
+                app:destination="@id/otherMemberFragment" />
         </fragment>
 
         <fragment
@@ -118,10 +127,6 @@
         android:name="com.example.jome17wave.jome_group.GroupInfoFragment"
         android:label="fragment_group_info"
         tools:layout="@layout/fragment_group_info" />
-    <fragment
-        android:id="@+id/turnOtherMemberFragment2"
-        android:name="com.example.jome17wave.TurnOtherMemberFragment"
-        android:label="TurnOtherMemberFragment" />
 
 </navigation>
 
