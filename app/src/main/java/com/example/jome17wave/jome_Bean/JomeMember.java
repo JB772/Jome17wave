@@ -125,25 +125,6 @@ public class JomeMember implements Serializable {
         this.token_id = token_id;
     }
 
-<<<<<<< HEAD
-    public String getBuild_date() {
-        return build_date;
-    }
-
-    public void setBuild_date(String build_date) {
-        this.build_date = build_date;
-    }
-
-    public String getModify_date() {
-        return modify_date;
-    }
-
-    public void setModify_date(String modify_date) {
-        this.modify_date = modify_date;
-    }
-
-=======
->>>>>>> Justin_Branch
     public String getFriendCount() {
         return friendCount;
     }
