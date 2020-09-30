@@ -108,10 +108,10 @@ public class FindNewFriendFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String account = etFindNewFriend.getText().toString().trim();
-//                Log.d(TAG, "account: " + account);
+                Log.d(TAG, "account: " + account);
                 FindNewFriend findNewFriend = new FindNewFriend();
                 findNewFriend.setMemberAccount(account);
-//                Log.d(TAG, "setMemberAccount: " + account);
+                Log.d(TAG, "setMemberAccount: " + account);
                 if (account.isEmpty()){
                     Common.showToast(activity, R.string.no_information_found);
                 }else {

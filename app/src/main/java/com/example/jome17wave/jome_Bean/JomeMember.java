@@ -15,11 +15,11 @@ public class JomeMember implements Serializable {
     private int gender;
     private double latitude;
     private double longitude;
-    private String token_id;d
+    private String token_id;
     private byte[] image;
-    private Integer friendCount = 0;
-    private Double scoreAverage = 0.0;
-    private Integer groupCount = 0;
+    private String friendCount = "";
+    private String scoreAverage = "";
+    private String groupCount = "";
 
     public JomeMember() {
     }
@@ -143,27 +143,27 @@ public class JomeMember implements Serializable {
         this.modify_date = modify_date;
     }
 
-    public Integer getFriendCount() {
+    public String getFriendCount() {
         return friendCount;
     }
 
-    public void setFriendCount(Integer friendCount) {
+    public void setFriendCount(String friendCount) {
         this.friendCount = friendCount;
     }
 
-    public Double getScoreAverage() {
+    public String getScoreAverage() {
         return scoreAverage;
     }
 
-    public void setScoreAverage(Double scoreAverage) {
+    public void setScoreAverage(String scoreAverage) {
         this.scoreAverage = scoreAverage;
     }
 
-    public Integer getGroupCount() {
+    public String getGroupCount() {
         return groupCount;
     }
 
-    public void setGroupCount(Integer groupCount) {
+    public void setGroupCount(String groupCount) {
         this.groupCount = groupCount;
     }
 }
