@@ -17,12 +17,6 @@
             android:id="@+id/action_memberProfileFragment_to_profileScoreFragment"
             app:destination="@id/profileScoreFragment" />
         <action
-            android:id="@+id/action_memberProfileFragment_to_selfGroupFragment"
-            app:destination="@id/selfGroupFragment" />
-        <action
-            android:id="@+id/action_memberProfileFragment_to_selfRecordFragment"
-            app:destination="@id/selfRecordFragment" />
-        <action
             android:id="@+id/action_memberProfileFragment_to_modifyProfileFragment"
             app:destination="@id/modifyProfileFragment" />
         <action
@@ -55,14 +49,9 @@
         tools:layout="@layout/fragment_self_group" />
     <fragment
         android:id="@+id/selfRecordFragment"
-        android:name="com.example.jome17wave.jome_member.SelfRecordFragment"
+        android:name="com.example.jome17wave.jome_member.SelfAttendingFragment"
         android:label="fragment_self_record"
-        tools:layout="@layout/fragment_self_record" />
-    <fragment
-        android:id="@+id/turnOtherMemberFragment"
-        android:name="com.example.jome17wave.TurnOtherMemberFragment"
-        android:label="fragment_turn_other_member"
-        tools:layout="@layout/fragment_turn_other_member" />
+        tools:layout="@layout/fragment_self_attedning" />
     <fragment
         android:id="@+id/otherMemberFragment2"
         android:name="com.example.jome17wave.jome_member.OtherMemberFragment"

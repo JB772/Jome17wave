@@ -1,5 +1,6 @@
 package com.example.jome17wave.jome_member;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,22 +20,33 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_member.Friend;
+import com.example.jome17wave.task.CommonTask;
+import com.example.jome17wave.task.MemberImageTask;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.util.concurrent.ExecutionException;
 
 public class OtherMemberFragment extends Fragment {
     private static final String TAG = "OtherMemberFragment";
     private MainActivity activity;
     private ImageView imageFProfile;
-    private TextView tvFDataName ,tvAverageScore, tvFriendCount,tvAssembleCount, tvJointCount;
+    private TextView tvFDataName, tvAverageScore, tvFriendCount, tvAssembleCount, tvJointCount;
     private ImageButton ibtFriendStory, ibtOtherMessage, ibtFriendAdd, ibtFriendPandding;
+    private MemberImageTask memberImageTask;
+    private CommonTask friendTask;
+    private JomeMember friend;
+    private String friendId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (MainActivity)getActivity();
+        activity = (MainActivity) getActivity();
         setHasOptionsMenu(true);
     }
 
@@ -61,30 +73,30 @@ public class OtherMemberFragment extends Fragment {
         ibtFriendPandding = view.findViewById(R.id.ibtFriendPandding);
         //四格資訊
         tvFDataName = view.findViewById(R.id.tvFDataName);
-        tvAverageScore = view.findViewById(R.id.tvAverageScore);;
-        tvFriendCount = view.findViewById(R.id.tvFriendCount);;
-        tvAssembleCount = view.findViewById(R.id.tvAssembleCount);;
-        tvJointCount = view.findViewById(R.id.tvJointCount);;
+        tvAverageScore = view.findViewById(R.id.tvAverageScore);
+        ;
+        tvFriendCount = view.findViewById(R.id.tvFriendCount);
+        ;
+        tvAssembleCount = view.findViewById(R.id.tvAssembleCount);
+        ;
+        tvJointCount = view.findViewById(R.id.tvJointCount);
+        ;
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            JomeMember friend = (JomeMember) bundle.getSerializable("friend");
-            Log.d(TAG, "friend: "+ friend.getNickname());
+            friend = (JomeMember) bundle.getSerializable("friend");
+            Log.d(TAG, "friend: " + friend.getNickname());
             if (friend != null) {
-//                imageFProfile.setImageResource(friend.getImageFriendId());
                 toolbar.setTitle(friend.getNickname());
-                tvFDataName.setText(friend.getNickname());
-                tvAverageScore.setText("0 分");
-                tvAssembleCount.setText("0 次");
-                tvJointCount.setText("0 次");
-                tvFriendCount.setText("0 人");
+                friendId = friend.getMember_id();
+                showMember();
             }
         }
 
         View.OnClickListener btOnclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.ibtFriendStory:
                         Navigation.findNavController(view).navigate(R.id.action_otherMemberFragment_to_OMemberStoryFragment);
                         break;
@@ -96,6 +108,57 @@ public class OtherMemberFragment extends Fragment {
         ibtFriendStory.setOnClickListener(btOnclick);
     }
 
+    public void showMember() {
+        String urlGetMember = Common.URL_SERVER + "jome_member/LoginServlet";
+        String urlGetImage = Common.URL_SERVER + "jome_member/LoginServlet";
+        int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+        JsonObject jsonObject = new JsonObject();
+        String jsonIn = "";
+        Bitmap bitmap = null;
+
+        if (Common.networkConnected(activity)) {
+            //拿Member
+            try {
+                jsonObject.addProperty("memberId", friendId);
+                jsonObject.addProperty("action", "idGet");
+                friendTask = new CommonTask(urlGetMember, jsonObject.toString());
+                jsonIn = friendTask.execute().get();
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+            jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+            int idGetResult = jsonObject.get("idGetResult").getAsInt();
+            if (idGetResult == 1){
+                friend = new Gson().fromJson(jsonObject.get("idMember").getAsString(), JomeMember.class);
+            }else {
+                friend = new JomeMember();
+            }
+            tvFDataName.setText(friend.getNickname());
+            tvFriendCount.setText(friend.getFriendCount() + " 人");
+            tvAverageScore.setText(friend.getScoreAverage());
+            tvAssembleCount.setText(String.valueOf(friend.getGroupCount()));
+            tvJointCount.setText(friend.getGroupCount());
+
+            //拿圖
+            try {
+                memberImageTask = new MemberImageTask(urlGetImage, friendId, imageSize);
+                bitmap = memberImageTask.execute().get();
+            } catch (ExecutionException e) {
+                Log.e(TAG, e.toString());
+            } catch (InterruptedException e) {
+                Log.e(TAG, e.toString());
+            }
+            Log.d(TAG, "bitmap2: " + bitmap);
+            if (bitmap == null) {
+                imageFProfile.setImageResource(R.drawable.no_image);
+            } else {
+                imageFProfile.setImageBitmap(bitmap);
+            }
+        } else {
+            imageFProfile.setImageResource(R.drawable.no_image);
+        }
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.member_center_tool_bar, menu);
@@ -105,9 +168,23 @@ public class OtherMemberFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             Navigation.findNavController(imageFProfile).popBackStack();
         }
         return true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(friendTask != null){
+            friendTask.cancel(true);
+            friendTask = null;
+        }
+
+        if (memberImageTask != null){
+            memberImageTask.cancel(true);
+            memberImageTask = null;
+        }
     }
 }

@@ -52,9 +52,9 @@ public class SelfGroupFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Toolbar toolbar = view.findViewById(R.id.toolbar);
+//        activity.setSupportActionBar(toolbar);
+//        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         rvSelfGroup = view.findViewById(R.id.rvSelfGroup);
         rvSelfGroup.setLayoutManager(new LinearLayoutManager(activity));
@@ -141,19 +141,19 @@ public class SelfGroupFragment extends Fragment {
         return getGroupsList;
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.member_center_tool_bar, menu);
-        menu.findItem(R.id.member_settin_item).setVisible(false);
-        menu.findItem(R.id.member_check_item).setVisible(false);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.member_center_tool_bar, menu);
+//        menu.findItem(R.id.member_settin_item).setVisible(false);
+//        menu.findItem(R.id.member_check_item).setVisible(false);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
-            Navigation.findNavController(rvSelfGroup).popBackStack();
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() == android.R.id.home){
+//            Navigation.findNavController(rvSelfGroup).popBackStack();
+//        }
+//        return true;
+//    }
 }
