@@ -80,7 +80,7 @@ public class MyRecordFragment extends Fragment {
         tabTitles.add(getString(R.string.myGroup));
         tabTitles.add(getString(R.string.myAttending));
 
-        getGroups();
+//        getGroups();
         vpMyRecord.setAdapter(new MyRecordAdapter(getActivity()));
         new TabLayoutMediator(tabMyRecord, vpMyRecord, (tab, position) -> tab.setText(tabTitles.get(position))).attach();
     }
