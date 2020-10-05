@@ -30,6 +30,12 @@ import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class OtherMemberFragment extends Fragment {
@@ -71,6 +77,11 @@ public class OtherMemberFragment extends Fragment {
         ibtOtherMessage = view.findViewById(R.id.ibtOtherMessage);
         ibtFriendAdd = view.findViewById(R.id.ibtFriendAdd);
         ibtFriendPandding = view.findViewById(R.id.ibtFriendPandding);
+
+        ibtFriendStory.setVisibility(View.VISIBLE);
+        ibtOtherMessage.setVisibility(View.VISIBLE);
+        ibtFriendAdd.setVisibility(View.GONE);
+        ibtFriendPandding.setVisibility(View.GONE);
         //四格資訊
         tvFDataName = view.findViewById(R.id.tvFDataName);
         tvAverageScore = view.findViewById(R.id.tvAverageScore);
@@ -90,6 +101,14 @@ public class OtherMemberFragment extends Fragment {
                 toolbar.setTitle(friend.getNickname());
                 friendId = friend.getMember_id();
                 showMember();
+            }
+        }
+        List<JomeMember> myFriends = openFile_getFileDir("friends");
+        for (JomeMember myFriend : myFriends){
+            while (!myFriend.getMember_id().equals(friendId)){
+                ibtOtherMessage.setVisibility(View.GONE);
+                ibtFriendStory.setVisibility(View.GONE);
+                break;
             }
         }
 
@@ -186,5 +205,28 @@ public class OtherMemberFragment extends Fragment {
             memberImageTask.cancel(true);
             memberImageTask = null;
         }
+    }
+
+    private List<JomeMember> openFile_getFileDir(String fileName){
+        File file = new File(activity.getFilesDir(), fileName);
+        try {
+            FileInputStream fileInput = new FileInputStream(file);
+            ObjectInputStream objectInput = new ObjectInputStream(fileInput);
+            List<JomeMember> myFriends = (List<JomeMember>) objectInput.readObject();
+            return  myFriends;
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, e.toString());
+        } catch (IOException e) {
+            Log.e(TAG, e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e(TAG, e.toString());
+        }
+        return  null;
+    }
+
+    private int identifyRelation(String userId, String friendId){
+        String url = Common.URL_SERVER + "";
+        
+        return  -1;
     }
 }
