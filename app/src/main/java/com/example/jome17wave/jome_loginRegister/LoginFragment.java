@@ -175,6 +175,7 @@ public class LoginFragment extends Fragment {
         super.onStop();
         if (loginTask != null){
             loginTask.cancel(true);
+            loginTask = null;
         }
     }
 }

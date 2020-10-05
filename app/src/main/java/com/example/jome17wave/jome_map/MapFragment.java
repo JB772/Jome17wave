@@ -467,6 +467,20 @@ public class MapFragment extends Fragment {
         askAccessLocationPermission();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mapGetAllTask != null){
+            mapGetAllTask.cancel(true);
+            mapGetAllTask = null;
+        }
+
+        if (userGetAllMember != null){
+            userGetAllMember.cancel(true);
+            userGetAllMember = null;
+        }
+    }
+
     private class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         Context context;
 

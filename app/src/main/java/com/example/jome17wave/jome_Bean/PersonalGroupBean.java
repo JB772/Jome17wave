@@ -1,5 +1,7 @@
 package com.example.jome17wave.jome_Bean;
 
+import java.util.Arrays;
+
 public class PersonalGroupBean {
     private String memberId = "";
     private int attenderId = -1;
@@ -144,5 +146,10 @@ public class PersonalGroupBean {
 
     public void setgImage(byte[] gImage) {
         this.gImage = gImage;
+    }
+
+    @Override
+    public String toString() {
+        return assembleTime + "\t\t\t" + groupName;
     }
 }

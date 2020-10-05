@@ -138,9 +138,6 @@ public class MemberProfileFragment extends Fragment {
                     case R.id.clGroupRecord:
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_myRecordFragment);
                         break;
-                    case R.id.clJoinRecord:
-                        Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_selfRecordFragment);
-                        break;
                     default:
                         break;
                 }

@@ -34,6 +34,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -190,9 +195,11 @@ public class FriendsListFragment extends Fragment {
             Log.d(TAG, "inStr: " + inStr);
             JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
             String myFriendsStr = jsonIn.get("friends").getAsString();
+
             Log.d(TAG, "myFriendStr:" + myFriendsStr);
             Type listType = new TypeToken<List<JomeMember>>(){}.getType();
             myFriends = new Gson().fromJson(myFriendsStr, listType);
+            saveFriendList_getFileDir("friends", myFriends);
         } catch (InterruptedException e) {
             Log.d(TAG, e.toString());
         } catch (ExecutionException e) {
@@ -216,5 +223,26 @@ public class FriendsListFragment extends Fragment {
             Navigation.findNavController(rvMFriendsList).popBackStack();
         }
         return true;
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (getFriendsTask != null){
+            getFriendsTask.cancel(true);
+            getFriendImageTask = null;
+        }
+    }
+
+    private void saveFriendList_getFileDir(String fileName, List<JomeMember> friends){
+        File file = new File(activity.getFilesDir(), fileName);
+        try {
+            FileOutputStream fileOutput = new FileOutputStream(file);
+            ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
+            objectOutput.writeObject(friends);
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, e.toString());
+        } catch (IOException e) {
+            Log.e(TAG, e.toString());
+        }
     }
 }
