@@ -31,8 +31,13 @@ import android.widget.TextView;
 import com.example.jome17wave.Common;
 import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.task.CommonTask;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,6 +72,7 @@ public class NotificationFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_notification, container, false);
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -125,17 +131,17 @@ public class NotificationFragment extends Fragment {
     }
 
     @SuppressLint("LongLogTag")
-    private void showNotification(List<Notify> notificationList) {
+    private void showNotification(List<Notify> notifications) {
         if (notifications == null || notifications.isEmpty()){
             Common.showToast(activity, R.string.no_notifications_found);
         }
         NotificationAdapter notificationAdapter = (NotificationAdapter) rvNotification.getAdapter();
         // 如果bookAdapter不存在就建立新的，否則續用舊有的
         if (notificationAdapter == null){
-            Log.d(TAG, "notificationAdapter == null");
+//            Log.d(TAG, "notificationAdapter == null");
             rvNotification.setAdapter(new NotificationAdapter(activity, notifications));
         }else {
-            Log.d(TAG, "notificationAdapter == null else");
+//            Log.d(TAG, "notificationAdapter == null else");
             notificationAdapter.setNotifications(notifications);
             notificationAdapter.notifyDataSetChanged();
         }
@@ -143,65 +149,39 @@ public class NotificationFragment extends Fragment {
 
     @SuppressLint("LongLogTag")
     private List<Notify> getNotifications() {
-        List<Notify> notifications = new ArrayList<>();
-        List<Notify> testNotifications = new ArrayList<>();
-        testNotifications.add(
-                new Notify(-1,1,"", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,2,"成功加入 夏天來囉... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,3,"失敗加入 一起去衝浪... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,4,"魯夫 要求加入 陽光沙灘... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(3,5,"衝浪消暑... 已結束，你喜歡嗎？", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(-2,6,"", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,2,"成功加入 夏天來囉... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,3,"失敗加入 一起去衝浪... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,4,"魯夫 要求加入 陽光沙灘... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(3,5,"衝浪消暑... 已結束，你喜歡嗎？", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,2,"成功加入 夏天來囉... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,3,"失敗加入 一起去衝浪... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,4,"魯夫 要求加入 陽光沙灘... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(3,5,"衝浪消暑... 已結束，你喜歡嗎？", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,2,"成功加入 夏天來囉... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,3,"失敗加入 一起去衝浪... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(1,4,"魯夫 要求加入 陽光沙灘... 的揪團", new Date(System.currentTimeMillis())));
-        testNotifications.add(
-                new Notify(3,5,"衝浪消暑... 已結束，你喜歡嗎？", new Date(System.currentTimeMillis())));
+            List<Notify> notifications = new ArrayList<>();
+            if (Common.networkConnected(activity)){
+                String url = Common.URL_SERVER + "NotificationServlet";
+                JsonObject jsonObject = new JsonObject();
 
-        notifications = testNotifications;
-        return notifications;
-//            List<Notify> notifications = null;
-//            if (Common.networkConnected(activity)){
-//                String url = Common.URL_SERVER + "NotificationServlet";
-//                JsonObject jsonObject = new JsonObject();
-//                jsonObject.addProperty("action", "getAllNotification");
-//                String jsonOut = jsonObject.toString();
-//                notificationGetAllTask = new CommonTask(url, jsonOut);
-//                try {
-//                    String jsonIn = notificationGetAllTask.execute().get();
-//                    Type listType = new TypeToken<Notify>() {}.getType();
-//                    notifications = new Gson().fromJson(jsonIn, listType);
-//                } catch (Exception e) {
-//                    Log.e(TAG, e.toString());
-//                }
-//            }else {
-//                Common.showToast(activity, R.string.no_network_connection_available);
-//            }
-//            return  notifications;
+                String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+                JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
+                String memberId = member.getMember_id();
+
+                if (memberId != null){
+                    jsonObject.addProperty("action", "getAllNotification");
+                    jsonObject.addProperty("memberId", memberId);
+                }
+
+                String jsonOut = jsonObject.toString();
+                notificationGetAllTask = new CommonTask(url, jsonOut);
+                try {
+                    String inStr = notificationGetAllTask.execute().get();
+//                    Log.d(TAG,"inStr: "+inStr);
+                    JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
+                    String notifiesWordListStr = jsonIn.get("notifiesWordList").getAsString();
+                    Type listType = new TypeToken<List<Notify>>() {}.getType();
+                    notifications = new Gson().fromJson(notifiesWordListStr, listType);
+//                    Log.d(TAG,"回傳的 notifications: " + notifications);
+
+                    return  notifications;
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+            }else {
+                Common.showToast(activity, R.string.no_network_connection_available);
+            }
+            return  null;
     }
 
     private class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.MyViewHolder> {
@@ -227,7 +207,7 @@ public class NotificationFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             final Notify notification = notifications.get(position);
-            String url = Common.URL_SERVER + "NotificationServlet";
+//            String url = Common.URL_SERVER + "NotificationServlet";
             int type = notification.getType();
 //            holder.tvNotificationBody.setText(notification.getNotificationBody().toString());
 //            holder.tvTitle.setText("本週");
@@ -245,7 +225,7 @@ public class NotificationFragment extends Fragment {
                 holder.constraintLayoutTitle.setVisibility(View.GONE);
                 holder.constrainLayoutNotification.setVisibility(View.VISIBLE);
                 holder.ivNotification.setImageResource(R.drawable.add_requst_icon);
-                holder.tvNotificationBody.setText(notification.getNotificationBody());
+                holder.tvNotificationBody.setText(notification.getNotificationDetail());
             }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -276,9 +256,7 @@ public class NotificationFragment extends Fragment {
                 tvTitle = itemView.findViewById(R.id.tvTitle);
                 tvNotificationBody = itemView.findViewById(R.id.tvNotificationBody);
                 ivNotification = itemView.findViewById(R.id.ivNotification);
-
-
-
+                
             }
         }
     }

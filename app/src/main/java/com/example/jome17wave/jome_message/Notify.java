@@ -3,19 +3,42 @@ package com.example.jome17wave.jome_message;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Notify implements Serializable {
-    private int type, notificationId;
-    private String notificationBody;
+public class Notify implements Serializable{
+    private int notificationId, type, notificationBody;
+    private String memberId, notificationDetail;
     private Date buildDate;
 
     public Notify() {
+        super();
     }
 
-    public Notify(int type, int notificationId, String notificationBody, Date buildDate) {
-        this.type = type;
+    public Notify(int notificationId, int type, int notificationBody, String memberId) {
+        super();
         this.notificationId = notificationId;
+        this.type = type;
         this.notificationBody = notificationBody;
+        this.memberId = memberId;
+    }
+
+
+
+    public Notify(int notificationId, int type, int notificationBody, String memberId, String notificationDetail,
+                  Date buildDate) {
+        super();
+        this.notificationId = notificationId;
+        this.type = type;
+        this.notificationBody = notificationBody;
+        this.memberId = memberId;
+        this.notificationDetail = notificationDetail;
         this.buildDate = buildDate;
+    }
+
+    public Notify(int notificationId, int type, int notificationBody, String memberId, String notificationDetail) {
+        this.notificationId = notificationId;
+        this.type = type;
+        this.notificationBody = notificationBody;
+        this.memberId = memberId;
+        this.notificationDetail = notificationDetail;
     }
 
     public int getNotificationId() {
@@ -34,12 +57,20 @@ public class Notify implements Serializable {
         this.type = type;
     }
 
-    public String getNotificationBody() {
+    public int getNotificationBody() {
         return notificationBody;
     }
 
-    public void setNotificationBody(String notificationBody) {
+    public void setNotificationBody(int notificationBody) {
         this.notificationBody = notificationBody;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public Date getBuildDate() {
@@ -49,4 +80,16 @@ public class Notify implements Serializable {
     public void setBuildDate(Date buildDate) {
         this.buildDate = buildDate;
     }
+
+    public String getNotificationDetail() {
+        return notificationDetail;
+    }
+
+    public void setNotificationDetail(String notificationDetail) {
+        this.notificationDetail = notificationDetail;
+    }
+
+
+
+
 }
