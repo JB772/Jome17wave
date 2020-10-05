@@ -11,12 +11,11 @@
         android:label="fragment_other_member"
         tools:layout="@layout/fragment_other_member" >
         <action
-            android:id="@+id/action_otherMemberFragment_to_OMemberStoryFragment"
-            app:destination="@id/OMemberStoryFragment" />
+            android:id="@+id/action_otherMemberFragment_to_myRecordFragment2"
+            app:destination="@id/myRecordFragment2" />
     </fragment>
     <fragment
-        android:id="@+id/OMemberStoryFragment"
-        android:name="com.example.jome17wave.jome_member.OMemberStoryFragment"
-        android:label="fragment_o_member_story"
-        tools:layout="@layout/fragment_o_member_story" />
+        android:id="@+id/myRecordFragment2"
+        android:name="com.example.jome17wave.jome_member.MyRecordFragment"
+        android:label="MyRecordFragment" />
 </navigation>

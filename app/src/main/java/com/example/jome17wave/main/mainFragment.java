@@ -1,23 +1,17 @@
 package com.example.jome17wave.main;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.jome17wave.Common;
-import com.example.jome17wave.MainActivity;
 import com.example.jome17wave.R;
-import com.example.jome17wave.jome_loginRegister.LoginActivity;
 
 
 public class mainFragment extends Fragment {

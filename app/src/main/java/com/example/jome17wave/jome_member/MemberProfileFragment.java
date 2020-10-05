@@ -1,6 +1,5 @@
 package com.example.jome17wave.jome_member;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,7 +29,7 @@ import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
-import com.example.jome17wave.MainActivity;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 
@@ -42,8 +41,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.Writer;
 
 public class MemberProfileFragment extends Fragment {
     private static final String TAG = "MemberProfileFragment";
@@ -110,6 +107,7 @@ public class MemberProfileFragment extends Fragment {
                             imageProfileClear = activity.deleteFile( "imageProfile");
                             // 確認preferences刪除後，轉跳到login頁面
                             if (preferencesClear == true && imageProfileClear == true){
+                                activity.deleteFile("friends");
                                 new MemberProfileFragment().onDestroy();
                                 Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
                                 startActivity(intentLoginActivity);
@@ -118,6 +116,7 @@ public class MemberProfileFragment extends Fragment {
                             }
                         }else {
                             if (preferencesClear == true){
+                                activity.deleteFile("friends");
                                 new MemberProfileFragment().onDestroy();
                                 Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
                                 startActivity(intentLoginActivity);

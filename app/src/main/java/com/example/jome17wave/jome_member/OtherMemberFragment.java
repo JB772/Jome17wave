@@ -1,6 +1,7 @@
 package com.example.jome17wave.jome_member;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,20 +22,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jome17wave.Common;
-import com.example.jome17wave.MainActivity;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
-import com.example.jome17wave.jome_member.Friend;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -45,9 +48,7 @@ public class OtherMemberFragment extends Fragment {
     private TextView tvFDataName, tvAverageScore, tvFriendCount, tvAssembleCount, tvJointCount;
     private ImageButton ibtFriendStory, ibtOtherMessage, ibtFriendAdd, ibtFriendPandding;
     private MemberImageTask memberImageTask;
-    private CommonTask friendTask;
     private JomeMember friend;
-    private String friendId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,6 @@ public class OtherMemberFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         //大頭貼
         imageFProfile = view.findViewById(R.id.imageFProfile);
         //四顆imageButton
@@ -78,8 +78,8 @@ public class OtherMemberFragment extends Fragment {
         ibtFriendAdd = view.findViewById(R.id.ibtFriendAdd);
         ibtFriendPandding = view.findViewById(R.id.ibtFriendPandding);
 
-        ibtFriendStory.setVisibility(View.VISIBLE);
-        ibtOtherMessage.setVisibility(View.VISIBLE);
+        ibtFriendStory.setVisibility(View.GONE);
+        ibtOtherMessage.setVisibility(View.GONE);
         ibtFriendAdd.setVisibility(View.GONE);
         ibtFriendPandding.setVisibility(View.GONE);
         //四格資訊
@@ -92,37 +92,15 @@ public class OtherMemberFragment extends Fragment {
         ;
         tvJointCount = view.findViewById(R.id.tvJointCount);
         ;
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            friend = (JomeMember) bundle.getSerializable("friend");
-            Log.d(TAG, "friend: " + friend.getNickname());
-            if (friend != null) {
-                toolbar.setTitle(friend.getNickname());
-                friendId = friend.getMember_id();
-                showMember();
-            }
-        }
-        List<JomeMember> myFriends = openFile_getFileDir("friends");
-        if (myFriends != null){
-            for (JomeMember myFriend : myFriends){
-                while (!myFriend.getMember_id().equals(friendId)){
-                    ibtOtherMessage.setVisibility(View.GONE);
-                    ibtFriendStory.setVisibility(View.GONE);
-                    break;
-                }
-            }
-        }else {
-
-        }
-
+        showMember();
+        toolbar.setTitle(friend.getNickname());
 
         View.OnClickListener btOnclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.ibtFriendStory:
-                        Navigation.findNavController(view).navigate(R.id.action_otherMemberFragment_to_OMemberStoryFragment);
+                        Navigation.findNavController(view).navigate(R.id.action_otherMemberFragment_to_myRecordFragment2);
                         break;
                     default:
                         break;
@@ -133,55 +111,73 @@ public class OtherMemberFragment extends Fragment {
     }
 
     public void showMember() {
-        String urlGetMember = Common.URL_SERVER + "jome_member/LoginServlet";
-        String urlGetImage = Common.URL_SERVER + "jome_member/LoginServlet";
-        int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
         JsonObject jsonObject = new JsonObject();
         String jsonIn = "";
+        jsonIn = (String)openFile_getFileDir("otherMember");
+        jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+        int idGetResult = -1;
+        int relationCode = -1;
+        idGetResult = jsonObject.get("idGetResult").getAsInt();
+        if (idGetResult == 1){
+            friend = new Gson().fromJson(jsonObject.get("idMember").getAsString(), JomeMember.class);
+            relationCode = jsonObject.get("relationCode").getAsInt();
+        }else {
+            friend = new JomeMember();
+        }
+        switch (relationCode){
+            case 1:
+                ibtFriendStory.setVisibility(View.VISIBLE);
+                ibtOtherMessage.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                ibtFriendAdd.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                ibtFriendPandding.setVisibility(View.VISIBLE);
+                break;
+            default:
+                ibtFriendAdd.setVisibility(View.VISIBLE);
+                break;
+        }
+        tvFDataName.setText(friend.getNickname());
+        tvFriendCount.setText(friend.getFriendCount() + " 人");
+        tvAverageScore.setText(friend.getScoreAverage());
+        tvAssembleCount.setText(String.valueOf(friend.getGroupCount()));
+        tvJointCount.setText(friend.getGroupCount());
+
+        //拿圖
         Bitmap bitmap = null;
+        if (new File(activity.getFilesDir(), "OMProfile").exists()){
+            byte[] imageByte = (byte[]) openFile_getFileDir("OMProfile");
+            bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+            imageFProfile.setImageBitmap(bitmap);
+        }else {
+            if (Common.networkConnected(activity)) {
+                String url = Common.URL_SERVER + "jome_member/LoginServlet";
+                String friendId = friend.getMember_id();
+                int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
 
-        if (Common.networkConnected(activity)) {
-            //拿Member
-            try {
-                jsonObject.addProperty("memberId", friendId);
-                jsonObject.addProperty("action", "idGet");
-                friendTask = new CommonTask(urlGetMember, jsonObject.toString());
-                jsonIn = friendTask.execute().get();
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-            }
-            jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
-            int idGetResult = jsonObject.get("idGetResult").getAsInt();
-            if (idGetResult == 1){
-                friend = new Gson().fromJson(jsonObject.get("idMember").getAsString(), JomeMember.class);
-            }else {
-                friend = new JomeMember();
-            }
-            tvFDataName.setText(friend.getNickname());
-            tvFriendCount.setText(friend.getFriendCount() + " 人");
-            tvAverageScore.setText(friend.getScoreAverage());
-            tvAssembleCount.setText(String.valueOf(friend.getGroupCount()));
-            tvJointCount.setText(friend.getGroupCount());
-
-            //拿圖
-            try {
-                memberImageTask = new MemberImageTask(urlGetImage, friendId, imageSize);
-                bitmap = memberImageTask.execute().get();
-            } catch (ExecutionException e) {
-                Log.e(TAG, e.toString());
-            } catch (InterruptedException e) {
-                Log.e(TAG, e.toString());
-            }
-            Log.d(TAG, "bitmap2: " + bitmap);
-            if (bitmap == null) {
-                imageFProfile.setImageResource(R.drawable.no_image);
+                try {
+                    memberImageTask = new MemberImageTask(url, friendId, imageSize);
+                    bitmap = memberImageTask.execute().get();
+                } catch (ExecutionException e) {
+                    Log.e(TAG, e.toString());
+                } catch (InterruptedException e) {
+                    Log.e(TAG, e.toString());
+                }
+                Log.d(TAG, "bitmap2: " + bitmap);
+                if (bitmap == null) {
+                    imageFProfile.setImageResource(R.drawable.no_image);
+                } else {
+                    imageFProfile.setImageBitmap(bitmap);
+                    saveFile_getFilesDir("OMProfile", bitmap);
+                }
             } else {
-                imageFProfile.setImageBitmap(bitmap);
+                imageFProfile.setImageResource(R.drawable.no_image);
             }
-        } else {
-            imageFProfile.setImageResource(R.drawable.no_image);
         }
     }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -198,27 +194,12 @@ public class OtherMemberFragment extends Fragment {
         return true;
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if(friendTask != null){
-            friendTask.cancel(true);
-            friendTask = null;
-        }
-
-        if (memberImageTask != null){
-            memberImageTask.cancel(true);
-            memberImageTask = null;
-        }
-    }
-
-    private List<JomeMember> openFile_getFileDir(String fileName){
+    private Object openFile_getFileDir(String fileName){
         File file = new File(activity.getFilesDir(), fileName);
         try {
             FileInputStream fileInput = new FileInputStream(file);
             ObjectInputStream objectInput = new ObjectInputStream(fileInput);
-            List<JomeMember> myFriends = (List<JomeMember>) objectInput.readObject();
-            return  myFriends;
+            return  objectInput.readObject();
         } catch (FileNotFoundException e) {
             Log.e(TAG, e.toString());
         } catch (IOException e) {
@@ -229,9 +210,27 @@ public class OtherMemberFragment extends Fragment {
         return  null;
     }
 
-    private int identifyRelation(String userId, String friendId){
-        String url = Common.URL_SERVER + "";
+    private void saveFile_getFilesDir(String fileName, Bitmap bitmap){
+        File file = new File(activity.getFilesDir(), fileName);
+        Log.d(TAG, "getFilesDir() path: " + file.getPath());
+        try (ObjectOutputStream ojOutStream = new ObjectOutputStream(new FileOutputStream(file))){
+            ByteArrayOutputStream baOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baOutputStream);
+            byte[] imageProfile = baOutputStream.toByteArray();
+            ojOutStream.writeObject(imageProfile);
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, e.toString());
+        } catch (IOException e) {
+            Log.d(TAG, e.toString());
+        }
+    }
 
-        return  -1;
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (memberImageTask != null){
+            memberImageTask.cancel(true);
+            memberImageTask = null;
+        }
     }
 }

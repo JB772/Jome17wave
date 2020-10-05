@@ -1,6 +1,5 @@
 package com.example.jome17wave.jome_member;
 
-import android.app.Notification;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,11 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.jome17wave.Common;
-import com.example.jome17wave.MainActivity;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
-import com.example.jome17wave.jome_group.Group;
 import com.example.jome17wave.task.CommonTask;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -38,10 +36,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 

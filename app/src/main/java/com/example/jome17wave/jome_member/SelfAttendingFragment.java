@@ -1,6 +1,5 @@
 package com.example.jome17wave.jome_member;
 
-import android.app.FragmentBreadCrumbs;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -18,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jome17wave.Common;
-import com.example.jome17wave.MainActivity;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.jome_group.Group;
@@ -76,7 +75,7 @@ public class SelfAttendingFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return groups.size();
+            return groups == null ? 0 :groups.size();
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder{

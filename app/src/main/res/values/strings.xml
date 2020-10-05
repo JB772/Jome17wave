@@ -29,8 +29,8 @@
     <string name="count">次</string>
     <string name="friend">好友</string>
     <string name="Score">評分</string>
-    <string name="myGroup">我的揪團記錄</string>
-    <string name="myAttending">我的入團記錄</string>
+    <string name="myGroup">揪團記錄</string>
+    <string name="myAttending">入團記錄</string>
     <string name="passRecord">過往記錄</string>
     <string name="etAccount">請輸入會員帳號</string>
     <string name="loginTitle">JoMe17浪</string>

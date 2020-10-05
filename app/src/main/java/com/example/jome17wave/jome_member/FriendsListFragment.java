@@ -24,9 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jome17wave.Common;
-import com.example.jome17wave.MainActivity;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
-import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.MemberImageTask;
@@ -174,7 +173,7 @@ public class FriendsListFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("friend", friend);
                     Navigation.findNavController(rvMFriendsList)
-                            .navigate(R.id.action_friendsListFragment_to_otherMemberFragment2, bundle);
+                            .navigate(R.id.action_friendsListFragment_to_listToOtherFragment, bundle);
                 }
             });
         }
@@ -224,14 +223,6 @@ public class FriendsListFragment extends Fragment {
         }
         return true;
     }
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (getFriendsTask != null){
-            getFriendsTask.cancel(true);
-            getFriendImageTask = null;
-        }
-    }
 
     private void saveFriendList_getFileDir(String fileName, List<JomeMember> friends){
         File file = new File(activity.getFilesDir(), fileName);
@@ -243,6 +234,19 @@ public class FriendsListFragment extends Fragment {
             Log.e(TAG, e.toString());
         } catch (IOException e) {
             Log.e(TAG, e.toString());
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (getFriendsTask != null){
+            getFriendsTask.cancel(true);
+            getFriendsTask = null;
+        }
+        if (getFriendImageTask != null){
+            getFriendImageTask.cancel(true);
+            getFriendImageTask = null;
         }
     }
 }
