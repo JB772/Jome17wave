@@ -104,13 +104,18 @@ public class OtherMemberFragment extends Fragment {
             }
         }
         List<JomeMember> myFriends = openFile_getFileDir("friends");
-        for (JomeMember myFriend : myFriends){
-            while (!myFriend.getMember_id().equals(friendId)){
-                ibtOtherMessage.setVisibility(View.GONE);
-                ibtFriendStory.setVisibility(View.GONE);
-                break;
+        if (myFriends != null){
+            for (JomeMember myFriend : myFriends){
+                while (!myFriend.getMember_id().equals(friendId)){
+                    ibtOtherMessage.setVisibility(View.GONE);
+                    ibtFriendStory.setVisibility(View.GONE);
+                    break;
+                }
             }
+        }else {
+            
         }
+
 
         View.OnClickListener btOnclick = new View.OnClickListener() {
             @Override
@@ -226,7 +231,7 @@ public class OtherMemberFragment extends Fragment {
 
     private int identifyRelation(String userId, String friendId){
         String url = Common.URL_SERVER + "";
-        
+
         return  -1;
     }
 }
