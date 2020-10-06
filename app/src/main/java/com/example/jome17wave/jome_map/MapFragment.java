@@ -196,7 +196,14 @@ public class MapFragment extends Fragment {
                 for (int i = 0; i < 3; i++){
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
-                    rvMap.smoothScrollToPosition(i);
+                    int finalI = i;
+                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            rvMap.smoothScrollToPosition(finalI);
+                            return false;
+                        }
+                    });
                 }
                 break;
             case R.id.eastSide:
@@ -262,7 +269,7 @@ public class MapFragment extends Fragment {
 //                        Log.d(TAG, "(id, nickname): " + member.getNickname() + member.getMember_id());
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("friend", member);
-                        Navigation.findNavController(rvMap).navigate(R.id.action_mapsFragment_to_otherMemberFragment, bundle);
+                        Navigation.findNavController(rvMap).navigate(R.id.action_mapsFragment_to_nearMemberFragment, bundle);
                     }
                 });
                 break;
