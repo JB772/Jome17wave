@@ -89,7 +89,4 @@ public class Notify implements Serializable{
         this.notificationDetail = notificationDetail;
     }
 
-
-
-
 }

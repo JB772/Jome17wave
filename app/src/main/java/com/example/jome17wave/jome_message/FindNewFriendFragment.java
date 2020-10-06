@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 
 import com.example.jome17wave.Common;
-import com.example.jome17wave.MainActivity;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.jome_Bean.JomeMember;
@@ -40,7 +40,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
 public class FindNewFriendFragment extends Fragment {

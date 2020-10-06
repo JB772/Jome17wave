@@ -1,4 +1,4 @@
-package com.example.jome17wave;
+package com.example.jome17wave.main;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

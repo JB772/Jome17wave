@@ -2,6 +2,7 @@ package com.example.jome17wave.jome_loginRegister;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.widget.ImageButton;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -101,6 +103,8 @@ public class LoginFragment extends Fragment {
                                             .apply();
                             //將登入回驗碼改為ok
                             activity.setResult(Activity.RESULT_OK);
+                            Intent intentMainActivity = new Intent(activity, MainActivity.class);
+                            startActivity(intentMainActivity);
                             activity.finish();
                         }else {
 

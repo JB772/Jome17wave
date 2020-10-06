@@ -7,6 +7,14 @@
 
 
     <fragment
+<<<<<<< HEAD
+=======
+        android:id="@+id/otherMemberFragment"
+        android:name="com.example.jome17wave.jome_member.OtherMemberFragment"
+        android:label="fragment_other_member"
+        tools:layout="@layout/fragment_other_member"/>
+    <fragment
+>>>>>>> Justin_branch
             android:id="@+id/mainFragment"
             android:name="com.example.jome17wave.main.mainFragment"
             android:label="fragment_main"
