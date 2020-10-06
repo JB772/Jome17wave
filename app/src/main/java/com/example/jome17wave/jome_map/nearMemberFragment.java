@@ -1,41 +1,25 @@
 package com.example.jome17wave.jome_map;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jome17wave.Common;
-import com.example.jome17wave.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.MemberImageTask;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class nearMemberFragment extends Fragment {
     private static final String TAG = "OtherMemberFragment";
@@ -70,7 +54,7 @@ public class nearMemberFragment extends Fragment {
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //大頭貼
-        imageFProfile = view.findViewById(R.id.imageFProfile);
+//        imageFProfile = view.findViewById(R.id.imageFProfile);
 
 
         Bundle bundle = getArguments();
