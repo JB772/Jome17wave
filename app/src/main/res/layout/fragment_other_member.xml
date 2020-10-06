@@ -106,7 +106,7 @@
                         android:layout_gravity="center"
                         android:padding="8dp"
                         android:text="@string/averageScore"
-                        android:textSize="24sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
 
@@ -141,7 +141,7 @@
                         android:layout_gravity="center"
                         android:padding="8dp"
                         android:text="@string/firendCount"
-                        android:textSize="24sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -176,7 +176,7 @@
                         android:layout_gravity="center"
                         android:padding="8dp"
                         android:text="@string/assembleConut"
-                        android:textSize="24sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -209,7 +209,7 @@
                         android:layout_gravity="center"
                         android:padding="8dp"
                         android:text="@string/jointCount"
-                        android:textSize="24sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

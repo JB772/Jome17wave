@@ -100,33 +100,16 @@ public class MemberProfileFragment extends Fragment {
 
                     case R.id.btLogOut:
                         //清空preferences檔
-                        boolean preferencesClear = false;
-                        boolean imageProfileClear = false;
-                        preferencesClear = activity.deleteSharedPreferences(Common.PREF_FILE);
-                        if (bitmap != null){
-                            imageProfileClear = activity.deleteFile( "imageProfile");
-                            // 確認preferences刪除後，轉跳到login頁面
-                            if (preferencesClear == true && imageProfileClear == true){
-                                activity.deleteFile("friends");
-                                new MemberProfileFragment().onDestroy();
-                                Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
-                                startActivity(intentLoginActivity);
-                            }else {
-                                Common.showToast(activity, R.string.no_network_connection_available);
-                            }
-                        }else {
-                            if (preferencesClear == true){
-                                activity.deleteFile("friends");
-                                new MemberProfileFragment().onDestroy();
-                                Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
-                                startActivity(intentLoginActivity);
-                            }else {
-                                Common.showToast(activity, R.string.no_network_connection_available);
-                            }
+                        if (new File(activity.getFilesDir(), "imageProfile").exists()){
+                            activity.deleteFile("imageProfile");
                         }
-
-
-
+                        boolean preferencesClear = false;
+                        preferencesClear = activity.deleteSharedPreferences(Common.PREF_FILE);
+                        if (preferencesClear == true){
+                            Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
+                            startActivity(intentLoginActivity);
+                            new MemberProfileFragment().onDestroy();
+                        }
                         break;
                     case R.id.clFriendList:
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_friendsListFragment);
@@ -162,9 +145,7 @@ public class MemberProfileFragment extends Fragment {
 
 
         //先檢查手機有沒有存大頭貼，如果沒有再檢查連線取照片
-        bitmap = loadFile_getFilesDir("imageProfile");
-        Log.d(TAG, "bitmap1: " + bitmap);
-        if ( bitmap == null){
+        if (new File(activity.getFilesDir(), "imageProfile").exists() == false){
             if(Common.networkConnected(activity)){
                 try {
                     bitmap = new MemberImageTask(url, memberID, imageSize).execute().get();
@@ -182,7 +163,7 @@ public class MemberProfileFragment extends Fragment {
                 igMember.setImageResource(R.drawable.no_image);
             }
         }else {
-            igMember.setImageBitmap(bitmap);
+            igMember.setImageBitmap(loadFile_getFilesDir("imageProfile"));
         }
 
         tvMemberNickname.setText(jomeMember.getNickname());
