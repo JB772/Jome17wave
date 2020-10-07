@@ -113,6 +113,9 @@
     </string-array>
 
     <string name="textGender">請選擇性別</string>
+    <string name="textShouldGrant">permission to access external storage should be granted</string>
+    <string name="textDirNotCreated">DIRECTORY_PICTURES cannot be created</string>
+    <string name="textNoCameraAppFound">no camera app found</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>

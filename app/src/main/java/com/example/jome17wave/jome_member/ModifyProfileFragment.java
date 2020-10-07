@@ -1,15 +1,26 @@
 package com.example.jome17wave.jome_member;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,14 +29,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.google.gson.Gson;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,13 +50,22 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import static android.app.Activity.RESULT_OK;
+
 public class ModifyProfileFragment extends Fragment {
     private static final String TAG = "ModifyProfileFragment";
+    private static final int REQ_TAKE_PICTURE = 101;
+    private static final int REQ_PICK_PICTURE = 102;
+    private static final int REQ_CROP_PICTURE = 103;
+    private static final int PER_EXTERNAL_STORAGE = 201;
+    private Uri contentUri;
+    private File file;
     private MainActivity activity;
     private JomeMember loginMember;
     private ImageView imageModify;
     private TextView tvAccount, tvNickname, tvGender;
     private EditText etModifyPW, etCheckPw, etModifyNn;
+    private ImageButton ibtCamera;
 
 
     @Override
@@ -68,13 +91,43 @@ public class ModifyProfileFragment extends Fragment {
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //大頭貼
         imageModify = view.findViewById(R.id.imageModify);
-        Bitmap bitmap = loadFile_getFilesDir("imageProfile");
-        if(bitmap == null){
-            imageModify.setImageResource(R.drawable.no_image);
+        if (new File(activity.getFilesDir(), "imageProfile").exists()){
+            imageModify.setImageBitmap(loadFile_getFilesDir("imageProfile"));
         }else {
-            imageModify.setImageBitmap(bitmap);
+            imageModify.setImageResource(R.drawable.no_image);
         }
 
+//        Bitmap bitmap = loadFile_getFilesDir("imageProfile");
+//        if(bitmap == null){
+//            imageModify.setImageResource(R.drawable.no_image);
+//        }else {
+//            imageModify.setImageBitmap(bitmap);
+//        }
+        ibtCamera = view.findViewById(R.id.ibtCamera);
+        ibtCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File dir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                if (dir != null && !dir.exists()) {
+                    if (!dir.mkdirs()) {
+                        Log.e(TAG, getString(R.string.textDirNotCreated));
+                        return;
+                    }
+                }
+                file = new File(dir, "picture.jpg");
+                contentUri = FileProvider.getUriForFile(
+                        activity, activity.getPackageName() + ".provider", file);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                if (intent.resolveActivity(activity.getPackageManager()) != null) {
+                    startActivityForResult(intent, REQ_TAKE_PICTURE);
+                } else {
+                    Toast.makeText(activity, R.string.textNoCameraAppFound,
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
         tvAccount = view.findViewById(R.id.tvAccount);
         tvNickname = view.findViewById(R.id.tvNickname);
         tvGender = view.findViewById(R.id.tvGender);
@@ -104,11 +157,97 @@ public class ModifyProfileFragment extends Fragment {
         etModifyPW.setText(loginMember.getPassword());
         etModifyNn.setText(loginMember.getNickname());
 
+        imageModify.setOnClickListener(v -> {
+            askExternalStoragePermission();
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            if (intent.resolveActivity(activity.getPackageManager()) != null){
+                startActivityForResult(intent, REQ_PICK_PICTURE);
+            }else {
+                Toast.makeText(activity, R.string.no_network_connection_available, Toast.LENGTH_SHORT);
+            }
+        });
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK){
+            switch (requestCode){
+                case REQ_TAKE_PICTURE:
+                    crop(contentUri);
+                    break;
+                case REQ_PICK_PICTURE:
+                    crop(intent.getData());
+                    break;
+                case REQ_CROP_PICTURE:
+                    handleCropResult(intent);
+                    break;
 
+            }
+        }
+    }
 
+    private void crop(Uri sourceImageUri) {
+        File file = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        file = new File(file, "picture_cropped.jpg");
+        Uri destinationUri = Uri.fromFile(file);
+        //來源路徑，存放路徑
+        UCrop.of(sourceImageUri, destinationUri)
+//                .withAspectRatio(16, 9) // 設定裁減比例
+//                .withMaxResultSize(500, 500) // 設定結果尺寸不可超過指定寬高
+                .start(activity, this, REQ_CROP_PICTURE);
+    }
 
+    private void handleCropResult(Intent intent) {
+        Uri resultUri = UCrop.getOutput(intent);
+//        Log.d(TAG, "resultUri :" + resultUri.toString());
+        if (resultUri == null) {
+            return;
+        }
+        Bitmap bitmap = null;
+        try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+                bitmap = BitmapFactory.decodeStream(
+                        activity.getContentResolver().openInputStream(resultUri));
+            } else {
+                ImageDecoder.Source source =
+                        ImageDecoder.createSource(activity.getContentResolver(), resultUri);
+                bitmap = ImageDecoder.decodeBitmap(source);
+            }
+        } catch (IOException e) {
+            Log.e(TAG, e.toString());
+        }
+        if (bitmap != null) {
+            imageModify.setImageBitmap(bitmap);
+            Log.d(TAG, "imageModify :" + bitmap.toString());
+        } else {
+            imageModify.setImageResource(R.drawable.no_image);
+        }
+    }
 
+    private void askExternalStoragePermission() {
+        String[] permissions = {
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        };
+
+        int result = ContextCompat.checkSelfPermission(activity, permissions[0]);
+        if (result == PackageManager.PERMISSION_DENIED) {
+            requestPermissions(permissions, PER_EXTERNAL_STORAGE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PER_EXTERNAL_STORAGE) {
+            // 如果user不同意將資料儲存至外部儲存體的公開檔案，就將儲存按鈕設為disable
+            if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                Toast.makeText(activity, R.string.textShouldGrant, Toast.LENGTH_SHORT).show();
+                imageModify.setEnabled(false);
+            } else {
+                imageModify.setEnabled(true);
+            }
+        }
     }
 
     @Override
@@ -171,7 +310,6 @@ public class ModifyProfileFragment extends Fragment {
     }
 
     private JomeMember submitModifyData(){
-
         String nickname = etModifyNn.getText().toString().trim();
         String modifyPw = etModifyPW.getText().toString().trim();
         String checkPw = etCheckPw.getText().toString().trim();

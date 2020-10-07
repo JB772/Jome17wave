@@ -1,4 +1,4 @@
-package com.example.jome17wave;
+package com.example.jome17wave.jome_member;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.jome17wave.Common;
+import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;

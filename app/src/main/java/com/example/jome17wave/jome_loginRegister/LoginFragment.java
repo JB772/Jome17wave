@@ -169,6 +169,7 @@ public class LoginFragment extends Fragment {
                 activity.finish();
             }else {
                 preferences.edit().putBoolean("login", false).apply();
+                activity.setResult(Activity.RESULT_CANCELED);
                 Common.showToast(activity, R.string.logiDeline);
             }
         }

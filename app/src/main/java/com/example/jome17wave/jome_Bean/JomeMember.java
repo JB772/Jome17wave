@@ -27,7 +27,13 @@ public class JomeMember implements Serializable {
         this.password = password;
     }
 
-    public JomeMember(String member_id ,String account, String password, int gender, String phone_number, String nickname) {
+    public JomeMember(String member_id, double latitude, double longitude) {
+        this.member_id = member_id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public JomeMember(String member_id , String account, String password, int gender, String phone_number, String nickname) {
         this.member_id = member_id;
         this.account = account;
         this.password = password;
