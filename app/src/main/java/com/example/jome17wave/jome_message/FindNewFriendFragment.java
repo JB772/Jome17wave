@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -59,6 +60,7 @@ public class FindNewFriendFragment extends Fragment {
     private JomeMember newFriend;
     private String friendRelation;
     private Bitmap bitmap = null;
+    private LinearLayout answerLinearLayout;
 
 
     @Override
@@ -94,6 +96,7 @@ public class FindNewFriendFragment extends Fragment {
         tvWasFriend = view.findViewById(R.id.tvWasFriend);
         ibtAgree = view.findViewById(R.id.ibtAgree);
         ibtDecline = view.findViewById(R.id.ibtDecline);
+        answerLinearLayout = view.findViewById(R.id.answerLinearLayout);
 
         constrainLayoutSearch = view.findViewById(R.id.constrainLayoutSearch);
         constraintLayoutProfile = view.findViewById(R.id.constraintLayoutProfile);
@@ -169,8 +172,8 @@ public class FindNewFriendFragment extends Fragment {
                 JsonObject jsonObject = new JsonObject();
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
-                friendListBean.setInvite_M_ID(member.getMember_id());
-                friendListBean.setAccept_M_ID(newFriend.getMember_id());
+                friendListBean.setInvite_M_ID(newFriend.getMember_id());
+                friendListBean.setAccept_M_ID(member.getMember_id());
                 friendListBean.setFriend_Status(3);
                 jsonObject.addProperty("action", "clickAgree");
                 jsonObject.addProperty("agreeBean", new Gson().toJson(friendListBean));
@@ -185,8 +188,9 @@ public class FindNewFriendFragment extends Fragment {
                     if (resultCode == 1){
 //                        Log.d(TAG, "if resultCode == 1 ");
                         Common.showToast(activity, R.string.was_friend);
-                        ibtAgree.setVisibility(View.GONE);
-                        ibtDecline.setVisibility(View.GONE);
+//                        ibtAgree.setVisibility(View.GONE);
+//                        ibtDecline.setVisibility(View.GONE);
+                        answerLinearLayout.setVisibility(View.GONE);
                         tvWasFriend.setVisibility(View.VISIBLE);
                     }else {
                         Common.showToast(activity, R.string.change_fail);
@@ -221,8 +225,9 @@ public class FindNewFriendFragment extends Fragment {
                     if (resultCode == 1){
 //                        Log.d(TAG, "if resultCode == 1 ");
                         Common.showToast(activity, R.string.decline_friend);
-                        ibtAgree.setVisibility(View.GONE);
-                        ibtDecline.setVisibility(View.GONE);
+//                        ibtAgree.setVisibility(View.GONE);
+//                        ibtDecline.setVisibility(View.GONE);
+                        answerLinearLayout.setVisibility(View.GONE);
                         btAddNewFriend.setVisibility(View.VISIBLE);
 //                        tvWasFriend.setText(R.string.decline_friend);
 //                        tvWasFriend.setVisibility(View.VISIBLE);
@@ -267,30 +272,34 @@ public class FindNewFriendFragment extends Fragment {
                     //顯示“加入好友”按鈕
                     btAddNewFriend.setVisibility(View.VISIBLE);
                     tvWasFriend.setVisibility(View.GONE);
-                    ibtAgree.setVisibility(View.GONE);
-                    ibtDecline.setVisibility(View.GONE);
+                    answerLinearLayout.setVisibility(View.GONE);
+//                    ibtAgree.setVisibility(View.GONE);
+//                    ibtDecline.setVisibility(View.GONE);
                     break;
                 case "wasFriend":
                     //顯示 “已成為好友”
                     btAddNewFriend.setVisibility(View.GONE);
                     tvWasFriend.setVisibility(View.VISIBLE);
-                    ibtAgree.setVisibility(View.GONE);
-                    ibtDecline.setVisibility(View.GONE);
+                    answerLinearLayout.setVisibility(View.GONE);
+//                    ibtAgree.setVisibility(View.GONE);
+//                    ibtDecline.setVisibility(View.GONE);
                     break;
                 case "pedding":
                     //顯示 “等待回覆中”
                     btAddNewFriend.setVisibility(View.GONE);
                     tvWasFriend.setText(R.string.pedding);
                     tvWasFriend.setVisibility(View.VISIBLE);
-                    ibtAgree.setVisibility(View.GONE);
-                    ibtDecline.setVisibility(View.GONE);
+                    answerLinearLayout.setVisibility(View.GONE);
+//                    ibtAgree.setVisibility(View.GONE);
+//                    ibtDecline.setVisibility(View.GONE);
                     break;
                 case "response":
                     //顯示 同意/拒絕 按鈕
                     btAddNewFriend.setVisibility(View.GONE);
                     tvWasFriend.setVisibility(View.GONE);
-                    ibtAgree.setVisibility(View.VISIBLE);
-                    ibtDecline.setVisibility(View.VISIBLE);
+                    answerLinearLayout.setVisibility(View.VISIBLE);
+//                    ibtAgree.setVisibility(View.VISIBLE);
+//                    ibtDecline.setVisibility(View.VISIBLE);
                     break;
             }
         }

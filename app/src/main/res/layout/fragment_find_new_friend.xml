@@ -133,29 +133,31 @@
                     app:layout_constraintStart_toStartOf="@+id/tvOtherName"
                     app:layout_constraintTop_toBottomOf="@+id/tvOtherName" />
 
-                <ImageButton
-                    android:id="@+id/ibtAgree"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_marginEnd="12dp"
-                    android:background="#00000000"
-                    app:layout_constraintBottom_toBottomOf="@+id/ibtDecline"
-                    app:layout_constraintEnd_toStartOf="@+id/ibtDecline"
-                    app:layout_constraintStart_toStartOf="@+id/tvOtherName"
-                    app:layout_constraintTop_toTopOf="@+id/ibtDecline"
-                    app:srcCompat="@drawable/icon_team_agree" />
-
-                <ImageButton
-                    android:id="@+id/ibtDecline"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                <LinearLayout
+                    android:id="@+id/answerLinearLayout"
+                    android:layout_width="145dp"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="25dp"
-                    android:background="#00000000"
-                    app:srcCompat="@drawable/icon_team_decline"
-                    tools:layout_editor_absoluteX="379dp"
-                    tools:layout_editor_absoluteY="322dp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="@+id/tvOtherName"
-                    app:layout_constraintTop_toBottomOf="@+id/tvOtherName"/>
+                    app:layout_constraintStart_toStartOf="@+id/tvOtherName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvOtherName">
+
+                    <ImageButton
+                        android:id="@+id/ibtAgree"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="#00000000"
+                        app:srcCompat="@drawable/icon_team_agree" />
+
+                    <ImageButton
+                        android:id="@+id/ibtDecline"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:background="#00000000"
+                        app:srcCompat="@drawable/icon_team_decline" />
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
