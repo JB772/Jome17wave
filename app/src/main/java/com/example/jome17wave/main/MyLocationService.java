@@ -1,27 +1,26 @@
 package com.example.jome17wave.main;
 
 import android.Manifest;
-import android.app.Activity;
+import android.annotation.SuppressLint;
+import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Bundle;
+import android.os.IBinder;
+import android.os.PowerManager;
+import android.preference.PreferenceFragment;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.jome17wave.Common;
-import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
-import com.example.jome17wave.jome_loginRegister.LoginActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,109 +34,88 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.concurrent.ExecutionException;
 
-
-public class mainFragment extends Fragment {
-    private String TAG = "mainFragment";
-    private MainActivity activity;
-    private CommonTask updateLatLngTask;
-    private static final int REQ_LOGIN = 2;
+public class MyLocationService extends Service {
+    private final String TAG = "MyLocationService";
     private static final int REQ_CHECK_SETTINGS = 101;
     private static final int PER_ACCESS_LOCATION = 201;
+    private MainActivity activity;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
     private Location lastLocation;
+    private PowerManager.WakeLock wakeLock;
+    private CommonTask updateLatLngTask;
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activity = (MainActivity) getActivity();
+    public void onCreate() {
+        super.onCreate();
         locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 //每十秒抓一次位置，用秒來計很花耗電，盡量不要用秒來計
-                .setInterval(5000)//單位毫秒
+                .setInterval(10000)//單位毫秒
                 //至少要多遠才算發生位移，越大越省電
-                .setSmallestDisplacement(100);//單位公R
+                .setSmallestDisplacement(1000);//單位公R
 
         locationCallback = new LocationCallback() {
             //十秒鐘抓一次位置與手機內存的最後一次位置資料比較，有發生位移才會呼叫onLocationResult()，重新抓資料來刷畫面
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 lastLocation = locationResult.getLastLocation();
-//                updateLastLocationInfo(lastLocation);
+                updateLastLocationInfo(lastLocation);
             }
         };
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        getActivity().setTitle("首頁");
-        return inflater.inflate(R.layout.fragment_main, container, false);
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "MyLocationService");
+        checkLocationSettings();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onDestroy() {
+        super.onDestroy();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-//        Common.loginCheck(activity, REQ_LOGIN);
-        Intent loginIntend = new Intent(activity, LoginActivity.class);
-        activity.startActivityForResult(loginIntend, REQ_LOGIN);
-        askAccessLocationPermission();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQ_LOGIN){
-            if (resultCode == Activity.RESULT_OK){
-//                askAccessLocationPermission();
-            }
-        }
-    }
-    // 請求user同意定位
-    private void askAccessLocationPermission() {
-        String[] permissions = {
-                Manifest.permission.ACCESS_FINE_LOCATION
-        };
-
-        int result = ActivityCompat.checkSelfPermission(activity, permissions[0]);
-        if (result == PackageManager.PERMISSION_DENIED) {
-            requestPermissions(permissions, PER_ACCESS_LOCATION);
-        }else {
-            checkLocationSettings();
+    @SuppressLint("InvalidWakeLockTag")
+    private void acquireWakeLock(){
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (powerManager != null && wakeLock == null){
+            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"MyWakLock");
+            // 提供timeout時間以避免事情做完了還佔用著wakelock，一般設10分鐘，如果10沒鐘後背景程式沒做事就還CPU，如果有在做就繼續
+            wakeLock.acquire(10 * 60 * 1000);
+            Log.d(TAG, "acquireWakeLock");
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PER_ACCESS_LOCATION
-                && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-//            textView.setText(R.string.textLocationAccessNotGrant);
+    private void releaseWakeLock(){
+        if(wakeLock != null){
+            wakeLock.release();
+            wakeLock = null;
         }
     }
+
+    //開新的執行緒
+    // 開啟執行緒
 
     // 檢查裝置是否開啟Location設定
     private void checkLocationSettings() {
         // 必須將LocationRequest設定加入檢查
-        LocationSettingsRequest.Builder builder =
-                new LocationSettingsRequest.Builder()
-                        .addLocationRequest(locationRequest);
-        Task<LocationSettingsResponse> task =
-                LocationServices.getSettingsClient(activity)
-                        .checkLocationSettings(builder.build());
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(activity).checkLocationSettings(builder.build());
         task.addOnSuccessListener(activity, new OnSuccessListener<LocationSettingsResponse>() {
             @Override
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
@@ -191,7 +169,9 @@ public class mainFragment extends Fragment {
         }
     }
 
-    private void updateLastLocationInfo(Location lastLocation) {
+    private void updateLastLocationInfo(Location lastLocation){
+        Log.d(TAG, lastLocation.toString());
+
         String url = Common.URL_SERVER + "jome_member/LoginServlet";
         if (Common.networkConnected(activity)) {
             String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
@@ -218,8 +198,5 @@ public class mainFragment extends Fragment {
                  */
             }
         }
-
     }
-
-
 }

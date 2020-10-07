@@ -63,7 +63,7 @@
         tools:layout="@layout/fragment_my_record" />
     <fragment
         android:id="@+id/listToOtherFragment"
-        android:name="com.example.jome17wave.ListToOtherFragment"
+        android:name="com.example.jome17wave.jome_member.ListToOtherFragment"
         android:label="fragment_list_to_other"
         tools:layout="@layout/fragment_list_to_other" />
 </navigation>

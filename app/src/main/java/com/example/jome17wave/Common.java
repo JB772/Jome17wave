@@ -111,10 +111,12 @@ public class Common {
         return dateTimeId;
     }
 
+
 //    檢驗是否登入，用在頁面onStart
     public static void loginCheck(Activity activity, int REQ_LOGIN){
         Intent loginIntend = new Intent(activity, LoginActivity.class);
         activity.startActivityForResult(loginIntend, REQ_LOGIN);
+        
 /**
  *      private static final int REQ_LOGIN = 2;
  */

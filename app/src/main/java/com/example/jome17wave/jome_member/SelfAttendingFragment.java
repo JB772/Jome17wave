@@ -186,11 +186,15 @@ public class SelfAttendingFragment extends Fragment {
             int showRecord = bundle.getInt("showRecord");
 
             if (showRecord == 1){
-                Log.d("TAG", "attendingFragment : " + showRecord);
-                groups = (List< PersonalGroupBean >) openFile_getFileDir("mainGroup");
+                Log.d("TAG", "attendingFragment1 : " + showRecord);
+                if (new File(activity.getFilesDir(), "mainGroup").exists()){
+                    groups = (List< PersonalGroupBean >) openFile_getFileDir("mainGroup");
+                }
             }else if (showRecord == 2){
-                Log.d("TAG", "myGroupFragment : " + showRecord);
-                groups = (List<PersonalGroupBean>) openFile_getFileDir("attendGroup");
+                Log.d("TAG", "myGroupFragment2 : " + showRecord);
+                if (new File(activity.getFilesDir(), "attendGroup").exists()){
+                    groups = (List<PersonalGroupBean>) openFile_getFileDir("attendGroup");
+                }
             }
         }
         return groups;
