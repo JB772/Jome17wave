@@ -3,6 +3,8 @@ package com.example.jome17wave.jome_map;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -34,6 +36,7 @@ import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.ImageTask;
+import com.example.jome17wave.task.MemberImageTask;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -51,6 +54,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class MapFragment extends Fragment {
     private static final int PER_ACCESS_LOCATION = 0;
@@ -64,6 +68,8 @@ public class MapFragment extends Fragment {
     private List<Map> maps;
     private List<JomeMember> users;
     private List<ImageTask> imageTasks;
+    private JomeMember otherUsers;
+    private MemberImageTask memberImageTask;
     private double latitude;
     private double longitude;
     private int memberID;
@@ -208,7 +214,14 @@ public class MapFragment extends Fragment {
                 for (int i = 3; i < 6; i++) {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
-                    rvMap.smoothScrollToPosition(i);
+                    int finalI = i;
+                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            rvMap.smoothScrollToPosition(finalI);
+                            return false;
+                        }
+                    });
                 }
                 break;
             case R.id.southSide:
@@ -217,7 +230,14 @@ public class MapFragment extends Fragment {
                 for (int i = 6; i < 8; i++) {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
-                    rvMap.smoothScrollToPosition(i);
+                    int finalI = i;
+                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            rvMap.smoothScrollToPosition(finalI);
+                            return false;
+                        }
+                    });
                 }
                 break;
             case R.id.westSide:
@@ -226,19 +246,36 @@ public class MapFragment extends Fragment {
                 for (int i = 8; i < 10; i++) {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
-                    rvMap.smoothScrollToPosition(i);
+                    int finalI = i;
+                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            rvMap.smoothScrollToPosition(finalI);
+                            return false;
+                        }
+                    });
                 }
                 break;
             case R.id.allSurfPoint:
                 linearLayout.setVisibility(View.VISIBLE);
                 map.clear();
+                final List<Marker> mapMarkers = new ArrayList<>();
                 maps = getMaps();
                 for (Map map: maps){
-                    Log.d(TAG,"Level"+map.getLevel());
+//                    Log.d(TAG,"Level"+map.getLevel());
                     LatLng latLng = new LatLng(map.getLatitude(), map.getLongitude());
-                    addMarker(latLng, map.getName());
-                    rvMap.smoothScrollToPosition(0);
+                    Marker mapMarker = addMarker(latLng, map.getName());
+                    mapMarkers.add(mapMarker);
                 }
+
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        int index = mapMarkers.indexOf(marker);
+                        rvMap.smoothScrollToPosition(index);
+                        return false;
+                    }
+                });
                 break;
             case R.id.nearUser:
                 showMyLocation();
@@ -248,7 +285,7 @@ public class MapFragment extends Fragment {
                 users = getUsers();
                 for (JomeMember user : users) {
                     LatLng latLng = new LatLng(user.getLatitude(), user.getLongitude());
-                    Marker userMarker = addUserMarker(latLng, user.getNickname());
+                    Marker userMarker = addUserMarker(latLng, user.getNickname(),user.getMember_id());
                     userMarkers.add(userMarker);
                 }
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -334,10 +371,8 @@ public class MapFragment extends Fragment {
                 String usersStr = jsonIn.get("users").getAsString();
                 Type listType = new TypeToken<List<JomeMember>>() {
                 }.getType();
-                //有問題
                 users = new Gson().fromJson(usersStr, listType);
                 Log.d(TAG, "users:"+ users.toString());
-                //有問題
             } catch (Exception e) {
                 Log.d(TAG, e.toString());
             }
@@ -346,7 +381,6 @@ public class MapFragment extends Fragment {
         }
         return users;
     }
-
 
     private class MapAdapter extends RecyclerView.Adapter<MapAdapter.MyViewHolder>{
         private LayoutInflater layoutInflater;
@@ -425,16 +459,43 @@ public class MapFragment extends Fragment {
         return marker;
     }
 
-    private Marker addUserMarker(LatLng latLng, String title) {
+    private Marker addUserMarker(LatLng latLng, String title,String id) {
+        Bitmap bitmap = null;
         Log.d(TAG, "addUserMarker:");
-        Address address = reverseGeocode(latLng.latitude, latLng.longitude);
-        String snippet = address.getAddressLine(0);
-        Marker marker = map.addMarker(new MarkerOptions()
-                .position(latLng)
-                .title(title)
-                .snippet(snippet)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ionic_person)));
-        return marker;
+        if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "jome_member/LoginServlet";
+            String userId = id;
+            int imageSize = getResources().getDisplayMetrics().widthPixels / 10;
+
+            try {
+                memberImageTask = new MemberImageTask(url, userId, imageSize);
+                 bitmap = memberImageTask.execute().get();
+            } catch (ExecutionException e) {
+                Log.d(TAG, e.toString());
+            } catch (InterruptedException e) {
+                Log.d(TAG, e.toString());
+            }
+        } else  {
+            Common.showToast(activity, R.string.textNoNetwork);
+        } if(bitmap !=null) {
+            Address address = reverseGeocode(latLng.latitude, latLng.longitude);
+            String snippet = address.getAddressLine(0);
+            Marker marker = map.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(title)
+                    .snippet(snippet)
+                    .icon(BitmapDescriptorFactory.fromBitmap(bitmap)));
+            return marker;
+        } else {
+            Address address = reverseGeocode(latLng.latitude, latLng.longitude);
+            String snippet = address.getAddressLine(0);
+            Marker marker = map.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(title)
+                    .snippet(snippet)
+                    .icon(BitmapDescriptorFactory.defaultMarker()));
+            return marker;
+        }
     }
 
     private void moveMap(LatLng latLng) {
