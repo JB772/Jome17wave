@@ -91,10 +91,10 @@ public class mainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        Common.loginCheck(activity, REQ_LOGIN);
-        Intent loginIntend = new Intent(activity, LoginActivity.class);
-        activity.startActivityForResult(loginIntend, REQ_LOGIN);
-        askAccessLocationPermission();
+        Common.loginCheck(activity, REQ_LOGIN);
+//        Intent loginIntend = new Intent(activity, LoginActivity.class);
+//        activity.startActivityForResult(loginIntend, REQ_LOGIN);
+//        askAccessLocationPermission();
     }
 
     @Override
@@ -102,7 +102,8 @@ public class mainFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_LOGIN){
             if (resultCode == Activity.RESULT_OK){
-//                askAccessLocationPermission();
+                Log.d(TAG, "onActivityResult");
+                askAccessLocationPermission();
             }
         }
     }
