@@ -70,7 +70,7 @@ public class mainFragment extends Fragment {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 lastLocation = locationResult.getLastLocation();
-//                updateLastLocationInfo(lastLocation);
+                updateLastLocationInfo(lastLocation);
             }
         };
     }
