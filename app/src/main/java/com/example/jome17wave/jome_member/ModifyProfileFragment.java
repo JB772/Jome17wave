@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,7 +39,9 @@ import com.example.jome17wave.Common;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.task.CommonTask;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
@@ -49,6 +52,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.concurrent.ExecutionException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -66,6 +70,8 @@ public class ModifyProfileFragment extends Fragment {
     private TextView tvAccount, tvNickname, tvGender;
     private EditText etModifyPW, etCheckPw, etModifyNn;
     private ImageButton ibtCamera;
+    private byte[] image = null;
+    private CommonTask updateLatLngTask;
 
 
     @Override
@@ -198,6 +204,7 @@ public class ModifyProfileFragment extends Fragment {
                 .start(activity, this, REQ_CROP_PICTURE);
     }
 
+    //抓到圖就放到view及存byte[]用來更新
     private void handleCropResult(Intent intent) {
         Uri resultUri = UCrop.getOutput(intent);
 //        Log.d(TAG, "resultUri :" + resultUri.toString());
@@ -214,12 +221,16 @@ public class ModifyProfileFragment extends Fragment {
                         ImageDecoder.createSource(activity.getContentResolver(), resultUri);
                 bitmap = ImageDecoder.decodeBitmap(source);
             }
+            ByteArrayOutputStream byteArrayOutput = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutput);
+            image = byteArrayOutput.toByteArray();
+            Log.d(TAG, "handleCropResult 222: image" + image.toString());
         } catch (IOException e) {
             Log.e(TAG, e.toString());
         }
         if (bitmap != null) {
             imageModify.setImageBitmap(bitmap);
-            Log.d(TAG, "imageModify :" + bitmap.toString());
+            Log.d(TAG, "imageModify can save 228:" + bitmap.toString());
         } else {
             imageModify.setImageResource(R.drawable.no_image);
         }
@@ -264,10 +275,14 @@ public class ModifyProfileFragment extends Fragment {
                 Navigation.findNavController(imageModify).popBackStack();
                 break;
             case R.id.member_check_item:
-                //送出修改資料，如果成功則秀toast
-                Common.showToast(activity, R.string.successModify);
-                //反回前頁
-                Navigation.findNavController(imageModify).popBackStack();
+                if (submitModifyData() == 1){
+                    Common.showToast(activity, R.string.successModify);
+                    //反回前頁
+                    Navigation.findNavController(imageModify).popBackStack();
+                }else {
+                    Common.showToast(activity, R.string.no_network_connection_available);
+                }
+
                 break;
             default:
                 break;
@@ -309,7 +324,7 @@ public class ModifyProfileFragment extends Fragment {
         }
     }
 
-    private JomeMember submitModifyData(){
+    private int submitModifyData(){
         String nickname = etModifyNn.getText().toString().trim();
         String modifyPw = etModifyPW.getText().toString().trim();
         String checkPw = etCheckPw.getText().toString().trim();
@@ -330,6 +345,29 @@ public class ModifyProfileFragment extends Fragment {
             Common.showToast(activity, R.string.passwordIsError);
         }
 
-        return loginMember;
+        //上傳更新
+        int resultCode = -1;
+        if (Common.networkConnected(activity) == true){
+            String url = Common.URL_SERVER + "jome_member/LoginServlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "update");
+            jsonObject.addProperty("memberUp", new Gson().toJson(loginMember));
+            if (image != null){
+                jsonObject.addProperty("imageBase64", Base64.encodeToString(image, Base64.DEFAULT));
+            }
+            String jsonIn = "";
+            updateLatLngTask = new CommonTask(url, jsonObject.toString());
+            try {
+                jsonIn = updateLatLngTask.execute().get();
+            } catch (ExecutionException e) {
+                Log.e(TAG, e.toString());
+            } catch (InterruptedException e) {
+                Log.e(TAG, e.toString());
+            }
+            jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+            resultCode = jsonObject.get("resultCode").getAsInt();
+        }
+
+        return resultCode;
     }
 }
