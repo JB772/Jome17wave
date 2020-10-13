@@ -10,6 +10,7 @@
     <string name="MapAppName">地圖</string>
     <string name="textNoNetwork">no network connection available</string>
     <string name="textNoMapsFound">no maps found</string>
+    <string name="textNoGroupsFound">目前沒有揪團</string>
     <string name="thisWeekTitle">本週</string>
     <string name="friendInvitationTitle">好友邀請</string>
     <string name="EarlierTitle">更早以前</string>
