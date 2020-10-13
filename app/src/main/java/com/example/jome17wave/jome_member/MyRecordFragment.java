@@ -76,7 +76,7 @@ public class MyRecordFragment extends Fragment {
         tabTitles.add(getString(R.string.myGroup));
         tabTitles.add(getString(R.string.myAttending));
 
-//        getGroups();
+        getGroups();
         vpMyRecord.setAdapter(new MyRecordAdapter(getActivity()));
         new TabLayoutMediator(tabMyRecord, vpMyRecord, (tab, position) -> tab.setText(tabTitles.get(position))).attach();
     }
@@ -121,9 +121,9 @@ public class MyRecordFragment extends Fragment {
         String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
         JomeMember member = new Gson().fromJson(memberStr, JomeMember.class);
         if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "";
+            String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
             JsonObject jsonOut = new JsonObject();
-            jsonOut.addProperty("action", "getRecord");
+            jsonOut.addProperty("action", "getSelfRecord");
             jsonOut.addProperty("memberId", member.getMember_id());
             String jsonStr = "";
             recordTask = new CommonTask(url, jsonOut.toString());
@@ -135,19 +135,25 @@ public class MyRecordFragment extends Fragment {
                 Log.e(TAG, e.toString());
             }
             JsonObject jsonIn = new Gson().fromJson(jsonStr, JsonObject.class);
-            Type listType = new TypeToken<List<PersonalGroupBean>>() {
-            }.getType();
+            List<PersonalGroupBean> myGroups = null;
+            int myGroupsResult = jsonIn.get("myGroupsResult").getAsInt();
+            if (myGroupsResult == 1){
+                Type listType = new TypeToken<List<PersonalGroupBean>>() {
+                }.getType();
+                myGroups = new Gson().fromJson(jsonIn.get("myGroups").getAsString(), listType);
+            }
+            List<PersonalGroupBean> mainGroups = new ArrayList<>();
+            List<PersonalGroupBean> attendGroups = new ArrayList<>();
+            for (PersonalGroupBean myGroup: myGroups){
+                if (myGroup.getRole() == 1){
+                    mainGroups.add(myGroup);
+                }else if (myGroup.getRole() ==2){
+                    attendGroups.add(myGroup);
+                }
+            }
 
-            String mainGroupStr = jsonIn.get("mainGroup").getAsString();
-            Log.d(TAG, "mainGroupStr :" + mainGroupStr);
-
-            String attendGroupStr = jsonIn.get("attendGroup").getAsString();
-            Log.d(TAG, "attendGroupStr :" + attendGroupStr);
-
-            List<PersonalGroupBean> mainGroup = new Gson().fromJson(mainGroupStr, listType);
-            List<PersonalGroupBean> attendGroup = new Gson().fromJson(attendGroupStr, listType);
-            saveGroup_getFilesDir("mainGroup", mainGroup) ;
-            saveGroup_getFilesDir("attendGroup", attendGroup) ;
+            saveGroup_getFilesDir("mainGroups", mainGroups) ;
+            saveGroup_getFilesDir("attendGroups", attendGroups) ;
         } else {
             Common.showToast(activity, R.string.no_network_connection_available);
         }
@@ -171,6 +177,12 @@ public class MyRecordFragment extends Fragment {
         if (recordTask != null) {
             recordTask.cancel(true);
             recordTask = null;
+        }
+        if(new File(activity.getFilesDir(), "mainGroups").exists()){
+            activity.deleteFile("mainGroups");
+        }
+        if(new File(activity.getFilesDir(), "attendGroups").exists()){
+            activity.deleteFile("attendGroups");
         }
     }
 

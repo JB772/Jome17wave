@@ -1,8 +1,9 @@
 package com.example.jome17wave.jome_Bean;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class PersonalGroupBean {
+public class PersonalGroupBean implements Serializable {
     private String memberId = "";
     private String nickname = "";
     private int memberGender = -1;

@@ -187,13 +187,13 @@ public class SelfAttendingFragment extends Fragment {
 
             if (showRecord == 1){
                 Log.d("TAG", "attendingFragment1 : " + showRecord);
-                if (new File(activity.getFilesDir(), "mainGroup").exists()){
-                    groups = (List< PersonalGroupBean >) openFile_getFileDir("mainGroup");
+                if (new File(activity.getFilesDir(), "mainGroups").exists()){
+                    groups = (List< PersonalGroupBean >) openFile_getFileDir("mainGroups");
                 }
             }else if (showRecord == 2){
                 Log.d("TAG", "myGroupFragment2 : " + showRecord);
-                if (new File(activity.getFilesDir(), "attendGroup").exists()){
-                    groups = (List<PersonalGroupBean>) openFile_getFileDir("attendGroup");
+                if (new File(activity.getFilesDir(), "attendGroups").exists()){
+                    groups = (List<PersonalGroupBean>) openFile_getFileDir("attendGroups");
                 }
             }
         }
