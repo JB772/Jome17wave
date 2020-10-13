@@ -192,15 +192,16 @@ public class mainFragment extends Fragment {
     }
 
     private void updateLastLocationInfo(Location lastLocation) {
-        String url = Common.URL_SERVER + "jome_member/LoginServlet";
         if (Common.networkConnected(activity)) {
+            String url = Common.URL_SERVER + "jome_member/LoginServlet";
             String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
             JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
             mainMember.setLatitude(lastLocation.getLatitude());
             mainMember.setLongitude(lastLocation.getLongitude());
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "update");
-            jsonObject.addProperty("memberLatLng", new Gson().toJson(mainMember));
+            jsonObject.addProperty("memberUp", new Gson().toJson(mainMember));
+            jsonObject.addProperty("imageBase64", "noImage");
             String jsonIn = "";
             updateLatLngTask = new CommonTask(url, jsonObject.toString());
             try {
@@ -211,7 +212,8 @@ public class mainFragment extends Fragment {
                 Log.e(TAG, e.toString());
             }
             jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
-            int resultCode = jsonObject.get("resultCode").getAsInt();
+            int resultCode = -1;
+            resultCode = jsonObject.get("resultCode").getAsInt();
             if (resultCode != 1) {
                 /*
                 網路有問題
