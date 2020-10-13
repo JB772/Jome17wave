@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 public class PersonalGroupBean {
     private String memberId = "";
+    private String nickname = "";
+    private int memberGender = -1;
     private int attenderId = -1;
     private int attenderStatus = -1;
     private int role = -1;
@@ -34,6 +36,22 @@ public class PersonalGroupBean {
 
     public void setMemberId(String memberId) {
         this.memberId = memberId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public int getMemberGender() {
+        return memberGender;
+    }
+
+    public void setMemberGender(int memberGender) {
+        this.memberGender = memberGender;
     }
 
     public int getAttenderId() {

@@ -168,15 +168,15 @@ public class MemberProfileFragment extends Fragment {
 
         tvMemberNickname.setText(jomeMember.getNickname());
         tvFriendList.setText(jomeMember.getFriendCount() + " 人");
-        Log.d(TAG, "ScoreAverage: " +jomeMember.getScoreAverage() );
         tvScore.setText(jomeMember.getScoreAverage() );
-        tvGroupRecord.setText(String .valueOf(jomeMember.getGroupCount()));
+        int total = Integer.valueOf(jomeMember.getGroupCount()) + Integer.valueOf(jomeMember.getCreateGroupCount());
+        tvGroupRecord.setText(String.valueOf(total));
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Common.loginCheck(activity, REQ_LOGIN);
+        Common.loginCheck(this, REQ_LOGIN);
     }
 
     @Override

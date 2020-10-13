@@ -12,6 +12,8 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
 
 import java.io.File;
@@ -35,9 +37,9 @@ public class Common {
     /**
      * 檢查是否有網路連線
      */
-    public static boolean networkConnected(Activity activity) {
+    public static boolean networkConnected(Context context) {
         ConnectivityManager connectivityManager =
-                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 // API 23支援getActiveNetwork()
@@ -113,9 +115,9 @@ public class Common {
 
 
 //    檢驗是否登入，用在頁面onStart
-    public static void loginCheck(Activity activity, int REQ_LOGIN){
-        Intent loginIntend = new Intent(activity, LoginActivity.class);
-        activity.startActivityForResult(loginIntend, REQ_LOGIN);
+    public static void loginCheck(Fragment fragment, int REQ_LOGIN){
+        Intent loginIntend = new Intent(fragment.getActivity(), LoginActivity.class);
+        fragment.startActivityForResult(loginIntend, REQ_LOGIN);
         
 /**
  *      private static final int REQ_LOGIN = 2;
@@ -123,8 +125,8 @@ public class Common {
     }
 
     //取用偏好設定檔
-    public static SharedPreferences usePreferences(Activity activity, String prefName){
-         SharedPreferences preferences = activity.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+    public static SharedPreferences usePreferences(Context context, String prefName){
+         SharedPreferences preferences = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
          return preferences;
 /**                            .edit()                   開始編輯
  *                           .putBoolean(key, value)

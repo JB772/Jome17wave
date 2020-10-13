@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceFragment;
@@ -43,7 +44,7 @@ public class MyLocationService extends Service {
     private final String TAG = "MyLocationService";
     private static final int REQ_CHECK_SETTINGS = 101;
     private static final int PER_ACCESS_LOCATION = 201;
-    private MainActivity activity;
+//    private MainActivity activity = new MainActivity();
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
@@ -58,9 +59,9 @@ public class MyLocationService extends Service {
         locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 //每十秒抓一次位置，用秒來計很花耗電，盡量不要用秒來計
-                .setInterval(10000)//單位毫秒
+                .setInterval(5000)//單位毫秒
                 //至少要多遠才算發生位移，越大越省電
-                .setSmallestDisplacement(1000);//單位公R
+                .setSmallestDisplacement(500);//單位公R
 
         locationCallback = new LocationCallback() {
             //十秒鐘抓一次位置與手機內存的最後一次位置資料比較，有發生位移才會呼叫onLocationResult()，重新抓資料來刷畫面
@@ -82,7 +83,9 @@ public class MyLocationService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        Log.d(TAG, "MyLocationService.onBind: here");
+        checkLocationSettings();
+        return new LocalBinder();
     }
 
     @Override
@@ -108,6 +111,11 @@ public class MyLocationService extends Service {
         }
     }
 
+    public class LocalBinder extends Binder{
+        MyLocationService getService() {
+            return MyLocationService.this;
+        }
+    }
     //開新的執行緒
     // 開啟執行緒
 
@@ -115,8 +123,8 @@ public class MyLocationService extends Service {
     private void checkLocationSettings() {
         // 必須將LocationRequest設定加入檢查
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(activity).checkLocationSettings(builder.build());
-        task.addOnSuccessListener(activity, new OnSuccessListener<LocationSettingsResponse>() {
+        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
+        task.addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
             @Override
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                 // 取得並顯示最新位置
@@ -128,13 +136,13 @@ public class MyLocationService extends Service {
             public void onFailure(@NonNull Exception e) {
                 if (e instanceof ResolvableApiException) {
                     Log.e(TAG, e.getMessage());
-                    try {
-                        ResolvableApiException resolvable = (ResolvableApiException) e;
-                        // 跳出Location設定的對話視窗
-                        resolvable.startResolutionForResult(activity, REQ_CHECK_SETTINGS);
-                    } catch (IntentSender.SendIntentException sendEx) {
-                        Log.e(TAG, e.getMessage());
-                    }
+//                    try {
+//                        ResolvableApiException resolvable = (ResolvableApiException) e;
+//                        // 跳出Location設定的對話視窗
+//                        resolvable.startResolutionForResult(activity, REQ_CHECK_SETTINGS);
+//                    } catch (IntentSender.SendIntentException sendEx) {
+//                        Log.e(TAG, e.getMessage());
+//                    }
                 }
             }
         });
@@ -143,9 +151,9 @@ public class MyLocationService extends Service {
     private void showLastLocation() {
         if (fusedLocationClient == null) {
             //getFusedLocationProviderClient()取得Client物件，Client端物件就是手機物件，
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
             //檢查permission是否有同意定位這件事情。
-            if (ActivityCompat.checkSelfPermission(activity,
+            if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) ==
                     PackageManager.PERMISSION_DENIED) {
 //                textView.setText(R.string.textLocationAccessNotGrant);
@@ -173,14 +181,15 @@ public class MyLocationService extends Service {
         Log.d(TAG, lastLocation.toString());
 
         String url = Common.URL_SERVER + "jome_member/LoginServlet";
-        if (Common.networkConnected(activity)) {
-            String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+        if (Common.networkConnected(this)) {
+            String memberStr = Common.usePreferences(this, Common.PREF_FILE).getString("loginMember", "");
             JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
             mainMember.setLatitude(lastLocation.getLatitude());
             mainMember.setLongitude(lastLocation.getLongitude());
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "update");
-            jsonObject.addProperty("memberLatLng", new Gson().toJson(mainMember));
+            jsonObject.addProperty("memberUp", new Gson().toJson(mainMember));
+            jsonObject.addProperty("imageBase64", "noImage");
             String jsonIn = "";
             updateLatLngTask = new CommonTask(url, jsonObject.toString());
             try {

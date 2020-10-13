@@ -17,7 +17,9 @@ public class JomeMember implements Serializable {
     private byte[] image;
     private String friendCount = "";
     private String scoreAverage = "";
+    private String beRankedCount = "0";
     private String groupCount = "";
+    private String createGroupCount = "";
 
     public JomeMember() {
     }
@@ -153,5 +155,21 @@ public class JomeMember implements Serializable {
 
     public void setGroupCount(String groupCount) {
         this.groupCount = groupCount;
+    }
+
+    public String getBeRankedCount() {
+        return beRankedCount;
+    }
+
+    public void setBeRankedCount(String beRankedCount) {
+        this.beRankedCount = beRankedCount;
+    }
+
+    public String getCreateGroupCount() {
+        return createGroupCount;
+    }
+
+    public void setCreateGroupCount(String createGroupCount) {
+        this.createGroupCount = createGroupCount;
     }
 }
