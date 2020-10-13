@@ -7,13 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,40 +28,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
-import com.example.jome17wave.task.CommonTask;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.TextView;
-
-import com.example.jome17wave.Common;
-import com.example.jome17wave.R;
-import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.jome_group.Group;
-import com.example.jome17wave.jome_group.GroupFragment;
-import com.example.jome17wave.jome_loginRegister.LoginActivity;
 import com.example.jome17wave.task.CommonTask;
-import com.example.jome17wave.task.ImageTask;
 import com.example.jome17wave.task.MemberImageTask;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -67,20 +39,13 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
 public class mainFragment extends Fragment {
     private String TAG = "mainFragment";
     public static MainActivity activity;
-    private CommonTask updateLatLngTask;
     private static final int REQ_LOGIN = 2;
-    private static final int REQ_CHECK_SETTINGS = 101;
     private static final int PER_ACCESS_LOCATION = 201;
-    private FusedLocationProviderClient fusedLocationClient;
-    private LocationCallback locationCallback;
-    private LocationRequest locationRequest;
-    private Location lastLocation;
     private MyLocationService myLocationService;
     private ServiceConnection serConnection = new serConnection();
     private boolean myBound = false;
@@ -110,7 +75,6 @@ public class mainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /* ----------------------------------------------------- */
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle("揪團列表");
         activity.setSupportActionBar(toolbar);
@@ -165,7 +129,6 @@ public class mainFragment extends Fragment {
             }
 
         });
-        /* ----------------------------------------------------- */
     }
 
     private List<PersonalGroupBean> getGroups() {
@@ -301,7 +264,6 @@ public class mainFragment extends Fragment {
             requestPermissions(permissions, PER_ACCESS_LOCATION);
         }else {
             //intent service開始抓位置
-//            checkLocationSettings();
             Intent intent = new Intent(activity, MyLocationService.class);
             activity.startService(intent);
 
