@@ -7,49 +7,95 @@
     android:background="@drawable/bg"
     tools:context=".jome_group.GroupFragment">
 
-    <SearchView
-        android:id="@+id/SearchView"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:iconifiedByDefault="false"
-        android:queryBackground="@xml/bg_searchview"
-        android:queryHint="搜尋揪團"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:id="@+id/appbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-    </SearchView>
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            android:background="@color/colorYellow"-->
+<!--            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"-->
+<!--            app:titleTextColor="@color/colorDeepBlue" />-->
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="最新消息"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="480dp"
-        tools:layout_editor_absoluteY="8dp" />
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <SearchView-->
+<!--        android:id="@+id/SearchGroup"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="52dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:iconifiedByDefault="false"-->
+<!--        android:queryBackground="@xml/bg_searchview"-->
+<!--        android:queryHint="搜尋揪團"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/appbar"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/appbar"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/appbar">-->
 
-    </androidx.recyclerview.widget.RecyclerView>
+<!--    </SearchView>-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linearLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/SearchGroup">-->
 
-    </androidx.recyclerview.widget.RecyclerView>
+<!--        <TextView-->
+<!--            android:id="@+id/textView9"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="76dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="最新消息"-->
+<!--            android:textColor="@color/colorDeepBlue"-->
+<!--            android:textSize="28sp" />-->
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/searchView"
-        android:text="即將開始"
-        android:textSize="16sp"
-       />
+<!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--            android:id="@+id/swipeRefreshLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:layout_margin="8dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            tools:ignore="MissingConstraints">-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/rvNewGroup"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent" />-->
+<!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView11"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="76dp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:text="即將開始"-->
+<!--            android:textColor="@color/colorDeepBlue"-->
+<!--            android:textSize="28sp" />-->
+
+<!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--            android:id="@+id/swipeRefreshLayout1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:layout_margin="8dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            tools:ignore="MissingConstraints">-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/rvStart"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent" />-->
+<!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+<!--    </LinearLayout>-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

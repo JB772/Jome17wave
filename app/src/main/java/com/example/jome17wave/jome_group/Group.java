@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Group implements Serializable {
-    private int id ;
+    private String id ;
     private String name ;
     private Date assembleTime;
     private int surfPoints;
@@ -37,6 +37,14 @@ public class Group implements Serializable {
         this.status = status;
         this.attendStatus = attendStatus;
         this.role = role;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -92,5 +100,6 @@ public class Group implements Serializable {
     public String toString() {
         return Common.date2StrHm(assembleTime) + "\t\t\t\t\t" + name ;
     }
+
 }
 

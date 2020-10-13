@@ -62,6 +62,7 @@ public class MapFragment extends Fragment {
     private MainActivity activity;
     private RecyclerView rvMap;
     private LinearLayout linearLayout;
+    private SearchView searchView;
     private GoogleMap map;
     private CommonTask mapGetAllTask;
     private CommonTask userGetAllMember;
@@ -102,6 +103,7 @@ public class MapFragment extends Fragment {
         final MapView mapView = view.findViewById(R.id.mapView);
         rvMap = view.findViewById(R.id.rvMap);
         linearLayout = view.findViewById(R.id.linearLayout);
+        searchView = view.findViewById(R.id.searchView);
 
         // RecyclerView
         rvMap.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
@@ -280,6 +282,7 @@ public class MapFragment extends Fragment {
             case R.id.nearUser:
                 showMyLocation();
                 linearLayout.setVisibility(View.GONE);
+                searchView.setVisibility(View.GONE);
                 map.clear();
                 final List<Marker> userMarkers = new ArrayList<>();
                 users = getUsers();
@@ -494,6 +497,7 @@ public class MapFragment extends Fragment {
                     .title(title)
                     .snippet(snippet)
                     .icon(BitmapDescriptorFactory.defaultMarker()));
+            moveUserMap(latLng);
             return marker;
         }
     }
@@ -501,6 +505,14 @@ public class MapFragment extends Fragment {
     private void moveMap(LatLng latLng) {
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng).zoom(7).build();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        map.animateCamera(cameraUpdate);
+
+    }
+
+    private void moveUserMap(LatLng latLng) {
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(latLng).zoom(15).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         map.animateCamera(cameraUpdate);
 

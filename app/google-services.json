@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "587461393265",
+    "firebase_url": "https://jome17wave.firebaseio.com",
+    "project_id": "jome17wave",
+    "storage_bucket": "jome17wave.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587461393265:android:9bcbdbaa818745c25214d0",
+        "android_client_info": {
+          "package_name": "com.example.jome17wave"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587461393265-81h92fdd7j0ltkqnrbnkjk4m9rhl3n2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5lIslawpifMCT3qA0I5OhcvmONoG_XSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587461393265-81h92fdd7j0ltkqnrbnkjk4m9rhl3n2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
