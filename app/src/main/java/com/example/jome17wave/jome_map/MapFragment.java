@@ -73,7 +73,6 @@ public class MapFragment extends Fragment {
     private MemberImageTask memberImageTask;
     private double latitude;
     private double longitude;
-    private int memberID;
 
 
     @Override
@@ -360,6 +359,9 @@ public class MapFragment extends Fragment {
         List<JomeMember> users = new ArrayList<>();
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "jome_member/CenterServiceServlet";
+            String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+            JomeMember member = new Gson().fromJson(memberStr, JomeMember.class);
+            String memberID = member.getMember_id();
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAllMember");
             jsonObject.addProperty("ID", memberID);
@@ -367,7 +369,7 @@ public class MapFragment extends Fragment {
             userGetAllMember = new CommonTask(url, jsonOut);
             try {
                 String inStr = userGetAllMember.execute().get();
-                Log.d(TAG, "jsonIn: " +inStr);
+                Log.d(TAG, "jsonIn: 370 " +inStr);
                 JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
                 int memberResult = jsonIn.get("membersResult").getAsInt();
                 Log.d(TAG, String.valueOf(memberResult));
@@ -480,7 +482,9 @@ public class MapFragment extends Fragment {
             }
         } else  {
             Common.showToast(activity, R.string.textNoNetwork);
-        } if(bitmap !=null) {
+        }
+
+        if(bitmap !=null) {
             Address address = reverseGeocode(latLng.latitude, latLng.longitude);
             String snippet = address.getAddressLine(0);
             Marker marker = map.addMarker(new MarkerOptions()
@@ -497,7 +501,6 @@ public class MapFragment extends Fragment {
                     .title(title)
                     .snippet(snippet)
                     .icon(BitmapDescriptorFactory.defaultMarker()));
-            moveUserMap(latLng);
             return marker;
         }
     }
@@ -505,14 +508,6 @@ public class MapFragment extends Fragment {
     private void moveMap(LatLng latLng) {
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng).zoom(7).build();
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
-        map.animateCamera(cameraUpdate);
-
-    }
-
-    private void moveUserMap(LatLng latLng) {
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(latLng).zoom(15).build();
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
         map.animateCamera(cameraUpdate);
 

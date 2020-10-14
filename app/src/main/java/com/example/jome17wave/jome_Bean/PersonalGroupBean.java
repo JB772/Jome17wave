@@ -1,8 +1,9 @@
 package com.example.jome17wave.jome_Bean;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class PersonalGroupBean {
+public class PersonalGroupBean implements Serializable {
     private String memberId = "";
     private String nickname = "";
     private int memberGender = -1;
@@ -78,6 +79,14 @@ public class PersonalGroupBean {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public String getSurfName() {
+        return surfName;
+    }
+
+    public void setSurfName(String surfName) {
+        this.surfName = surfName;
     }
 
     public String getGroupId() {
