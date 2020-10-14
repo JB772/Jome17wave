@@ -1,14 +1,16 @@
 package com.example.jome17wave.jome_Bean;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class PersonalGroupBean {
+public class PersonalGroupBean implements Serializable {
     private String memberId = "";
     private String nickname = "";
     private int memberGender = -1;
     private int attenderId = -1;
     private int attenderStatus = -1;
     private int role = -1;
+    private String surfName = "";
     private String groupId = "";
     private String groupName = "";
     private String assembleTime = "";
@@ -76,6 +78,14 @@ public class PersonalGroupBean {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public String getSurfName() {
+        return surfName;
+    }
+
+    public void setSurfName(String surfName) {
+        this.surfName = surfName;
     }
 
     public String getGroupId() {
