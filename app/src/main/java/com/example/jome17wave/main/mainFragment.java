@@ -254,7 +254,7 @@ public class mainFragment extends Fragment {
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("newGroup", group);
-//                    Navigation.findNavController(v).navigate(, bundle);
+                    Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_fragmentGroupDetail, bundle);
                 }
             });
         }

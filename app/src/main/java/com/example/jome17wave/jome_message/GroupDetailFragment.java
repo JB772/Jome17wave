@@ -158,7 +158,8 @@ public class GroupDetailFragment extends Fragment {
     private void showGroupDetail() {
         Bundle bundle = getArguments();
         if (bundle != null){
-            PersonalGroupBean groupBean = (PersonalGroupBean)bundle.getSerializable("groupBean");
+            PersonalGroupBean groupBean = (PersonalGroupBean)bundle.getSerializable("newGroup");
+            Log.d(TAG,"bundleGroupBean" +  groupBean.getMemberId());
             String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
             int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
 
@@ -182,7 +183,7 @@ public class GroupDetailFragment extends Fragment {
             tvGroupName.setText(groupBean.getGroupName());
             tvGroupDate.setText(groupBean.getGroupEndTime());
             tvGroupLocation.setText(groupBean.getSurfName());
-            tvGroupLimit.setText(groupBean.getGroupLimit());
+            tvGroupLimit.setText(String.valueOf(groupBean.getGroupLimit()));
 
             tvGroupGender.setVisibility(View.GONE);
 //            tvGroupGender.setText(groupBean.getGender());
