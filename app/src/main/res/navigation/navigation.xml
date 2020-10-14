@@ -24,10 +24,12 @@
             <action
                 android:id="@+id/action_mainFragment_to_creatFragment"
                 app:destination="@id/creatFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_fragmentGroupDetail"
+            app:destination="@id/fragmentGroupDetail" />
 
 
-
-        </fragment>
+    </fragment>
 
         <fragment
             android:id="@+id/mapsFragment"
@@ -123,6 +125,11 @@
         android:name="com.example.jome17wave.jome_map.nearMemberFragment"
         android:label="fragment_near_member"
         tools:layout="@layout/fragment_near_member" />
+    <fragment
+        android:id="@+id/fragmentGroupDetail"
+        android:name="com.example.jome17wave.jome_message.GroupDetailFragment"
+        android:label="fragment_group_detail"
+        tools:layout="@layout/fragment_group_detail" />
 
 </navigation>
 

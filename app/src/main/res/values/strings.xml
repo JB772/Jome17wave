@@ -117,6 +117,14 @@
     <string name="textShouldGrant">permission to access external storage should be granted</string>
     <string name="textDirNotCreated">DIRECTORY_PICTURES cannot be created</string>
     <string name="textNoCameraAppFound">no camera app found</string>
+    <string name="myself">哎呀，居然是自己</string>
+    <string name="groupName">揪團標題</string>
+    <string name="groupCaptain">本次團長</string>
+    <string name="groupDate">日期時間</string>
+    <string name="groupLocation">集合地點</string>
+    <string name="groupLimit">參加人數</string>
+    <string name="groupDetail">揪團資訊</string>
+    <string name="change_successful">申請成功</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>

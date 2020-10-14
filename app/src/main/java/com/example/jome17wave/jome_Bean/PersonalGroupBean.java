@@ -10,6 +10,7 @@ public class PersonalGroupBean implements Serializable {
     private int attenderId = -1;
     private int attenderStatus = -1;
     private int role = -1;
+    private String surfName = "";
     private String groupId = "";
     private String groupName = "";
     private String assembleTime = "";
@@ -17,6 +18,7 @@ public class PersonalGroupBean implements Serializable {
     private String signUpEnd = "";
     private int surfPointId = -1;
     private int groupLimit = -1;
+    private int joinCountNow = 1;
     private int gender = -1;
     private int groupStatus = -1;
     private String notice = "";
@@ -77,6 +79,14 @@ public class PersonalGroupBean implements Serializable {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public String getSurfName() {
+        return surfName;
+    }
+
+    public void setSurfName(String surfName) {
+        this.surfName = surfName;
     }
 
     public String getGroupId() {
@@ -170,5 +180,21 @@ public class PersonalGroupBean implements Serializable {
     @Override
     public String toString() {
         return assembleTime + "\t\t\t" + groupName;
+    }
+
+    public String getSurfName() {
+        return surfName;
+    }
+
+    public void setSurfName(String surfName) {
+        this.surfName = surfName;
+    }
+
+    public int getJoinCountNow() {
+        return joinCountNow;
+    }
+
+    public void setJoinCountNow(int joinCountNow) {
+        this.joinCountNow = joinCountNow;
     }
 }

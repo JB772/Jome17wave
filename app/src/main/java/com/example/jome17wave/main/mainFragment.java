@@ -22,22 +22,24 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
-import com.example.jome17wave.jome_group.Group;
 import com.example.jome17wave.task.CommonTask;
-import com.example.jome17wave.task.MemberImageTask;
+import com.example.jome17wave.task.GroupImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -52,16 +54,21 @@ public class mainFragment extends Fragment {
     private RecyclerView rvNewGroup;
     private RecyclerView rvStart;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private SwipeRefreshLayout swipeRefreshLayout1;
     private CommonTask GroupGetAllTask;
     private List<PersonalGroupBean> groups;
-    private List<MemberImageTask> imageTasks;
+    private List<PersonalGroupBean> startGroups;
+    private List<GroupImageTask> imageTasks;
+    private String memberId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MainActivity) getActivity();
         setHasOptionsMenu(true);
         imageTasks = new ArrayList<>();
+        String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+        JomeMember member = new Gson().fromJson(memberStr, JomeMember.class);
+        memberId = member.getMember_id();
     }
 
     @Override
@@ -81,26 +88,35 @@ public class mainFragment extends Fragment {
 
         rvNewGroup = view.findViewById(R.id.rvNewGroup);
         rvNewGroup.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
-        groups = getGroups();
-        showGroups(groups);
+
+        rvStart = view.findViewById(R.id.rvStart);
+        rvStart.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
+
+
+        groups = getGroups();       //all
+
+        List<PersonalGroupBean> startGroups = new ArrayList<>();
+        List<PersonalGroupBean> newGroups = new ArrayList<>();
+        for(PersonalGroupBean group : groups){
+            if (group.getGroupStatus() == 1){
+                newGroups.add(group);
+            } else if (group.getGroupStatus() == 2){
+                startGroups.add(group);
+            }
+        }
+
+//        startGroups = getStartGroups();
+        showGroups(newGroups);
+        showStartGroups(startGroups);
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout1 = view.findViewById(R.id.swipeRefreshLayout1);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
-                showGroups(groups);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-        swipeRefreshLayout1.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                showGroups(groups);
+                showGroups(newGroups);
+                showStartGroups(startGroups);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -110,16 +126,28 @@ public class mainFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
-                    showGroups(groups);
+                    showGroups(newGroups);
                 } else {
                     List<PersonalGroupBean> searchGroups = new ArrayList<>();
-                    for (PersonalGroupBean group: groups) {
+                    for (PersonalGroupBean group: newGroups) {
                         if (group.getGroupName().toUpperCase().contains(newText.toUpperCase())) {
                             searchGroups.add(group);
                         }
                     }
                     showGroups(searchGroups);
                 }
+
+//                if (newText.isEmpty()) {
+//                    showStartGroups(startGroups);
+//                } else {
+//                    List<PersonalGroupBean> searchGroups = new ArrayList<>();
+//                    for (PersonalGroupBean group: startGroups) {
+//                        if (group.getGroupName().toUpperCase().contains(newText.toUpperCase())) {
+//                            searchGroups.add(group);
+//                        }
+//                    }
+//                    showStartGroups(searchGroups);
+//                }
                 return false;
             }
 
@@ -134,16 +162,19 @@ public class mainFragment extends Fragment {
     private List<PersonalGroupBean> getGroups() {
         List<PersonalGroupBean> groups = null;
         if (Common.networkConnected(activity)) {
-            String url = Common.URL_SERVER + "JOIN_GROUPServlet";
+            String url = Common.URL_SERVER + "/jome_member/GroupOperateServlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAll");
+            jsonObject.addProperty("memberId", memberId);
             String jsonOut = jsonObject.toString();
             GroupGetAllTask = new CommonTask(url, jsonOut);
             try {
                 String jsonIn = GroupGetAllTask.execute().get();
-                Type listType = new TypeToken<List<Group>>() {
+                jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+                String groupsStr = jsonObject.get("allGroup").getAsString();
+                Type listType = new TypeToken<List<PersonalGroupBean>>() {
                 }.getType();
-                groups = new Gson().fromJson(jsonIn, listType);
+                groups = new Gson().fromJson(groupsStr, listType);
                 Log.d(TAG,"groups:"+jsonIn);
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
@@ -210,16 +241,100 @@ public class mainFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
             final PersonalGroupBean group = groups.get(position);
-            String url = Common.URL_SERVER + "JOIN_GROUPServlet";
+            String url = Common.URL_SERVER + "/jome_member/GroupOperateServlet";
             String id = group.getGroupId();
-            MemberImageTask imageTask = new MemberImageTask(url, id, imageSize, myViewHolder.imageView);
+            GroupImageTask imageTask = new GroupImageTask(url, id, imageSize, myViewHolder.imageView);
             imageTask.execute();
             imageTasks.add(imageTask);
             myViewHolder.tvGroupName.setText(group.getGroupName());
-//            myViewHolder.tvSurfPoint.setText(group.getSurfPointId());
-//            myViewHolder.tvTime.setText(group.getAssembleTime());
+            myViewHolder.tvSurfPoint.setText(group.getSurfName());
+            myViewHolder.tvTime.setText(group.getAssembleTime());
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("newGroup", group);
+//                    Navigation.findNavController(v).navigate(, bundle);
+                }
+            });
         }
 
+    }
+
+
+    private void showStartGroups(List<PersonalGroupBean> startGroups) {
+        if (startGroups == null || startGroups.isEmpty()) {
+            Common.showToast(activity, R.string.textNoGroupsFound);
+        }
+        StartGroupAdapter groupAdapter = (StartGroupAdapter) rvStart.getAdapter();
+        if (groupAdapter == null) {
+            rvStart.setAdapter(new StartGroupAdapter(activity, startGroups));
+        } else {
+            groupAdapter.setStartGroups(startGroups);
+            groupAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class StartGroupAdapter extends RecyclerView.Adapter <StartGroupAdapter.MyViewHolder> {
+        private LayoutInflater layoutInflater;
+        private List<PersonalGroupBean> startGroups;
+        private int imageSize;
+
+        StartGroupAdapter(Context context, List<PersonalGroupBean> startGroups) {
+            layoutInflater = LayoutInflater.from(context);
+            this.startGroups = startGroups;
+            imageSize = getResources().getDisplayMetrics().widthPixels / 4;
+        }
+
+        public void setStartGroups(List<PersonalGroupBean> startGroups) {
+            this.startGroups = startGroups;
+        }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+            ImageView imageView;
+            TextView tvGroupName, tvSurfPoint, tvTime;
+
+            MyViewHolder(View itemView) {
+                super(itemView);
+                imageView = itemView.findViewById(R.id.ivStartGroup);
+                tvGroupName = itemView.findViewById(R.id.tvGroupName);
+                tvSurfPoint = itemView.findViewById(R.id.tvSurfPoint);
+                tvTime = itemView.findViewById(R.id.tvTime);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return startGroups == null ? 0 : startGroups.size();
+        }
+
+        @NonNull
+        @Override
+        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View itemView = layoutInflater.inflate(R.layout.item_view_startgroup, parent, false);
+            return new MyViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
+            final PersonalGroupBean startGroup = startGroups.get(position);
+            String url = Common.URL_SERVER + "/jome_member/GroupOperateServlet";
+            String id = startGroup.getGroupId();
+            GroupImageTask imageTask = new GroupImageTask(url, id, imageSize, myViewHolder.imageView);
+            imageTask.execute();
+            imageTasks.add(imageTask);
+            myViewHolder.tvGroupName.setText(startGroup.getGroupName());
+            myViewHolder.tvSurfPoint.setText(startGroup.getSurfName());
+            myViewHolder.tvTime.setText(startGroup.getAssembleTime());
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("startGroup", startGroup);
+//                    Navigation.findNavController(v).navigate(, bundle);
+                }
+            });
+        }
     }
 
     @Override

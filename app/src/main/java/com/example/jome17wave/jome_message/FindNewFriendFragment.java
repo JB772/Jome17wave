@@ -299,6 +299,11 @@ public class FindNewFriendFragment extends Fragment {
                     answerLinearLayout.setVisibility(View.VISIBLE);
 //                    ibtAgree.setVisibility(View.VISIBLE);
 //                    ibtDecline.setVisibility(View.VISIBLE);
+                case "myself":
+                    btAddNewFriend.setVisibility(View.GONE);
+                    tvWasFriend.setText(R.string.myself);
+                    tvWasFriend.setVisibility(View.VISIBLE);
+                    answerLinearLayout.setVisibility(View.GONE);
                     break;
             }
         }
