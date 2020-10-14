@@ -32,9 +32,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -76,7 +78,33 @@ public class MyRecordFragment extends Fragment {
         tabTitles.add(getString(R.string.myGroup));
         tabTitles.add(getString(R.string.myAttending));
 
-        getGroups();
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            String memberId = "";
+            memberId =  (String) bundle.getSerializable("member");
+            if (memberId != null || memberId != ""){
+                getGroups(memberId);
+            }
+        }else if (new File(activity.getFilesDir(), "otherMemberId").exists()){
+            File file = new File(activity.getFilesDir(), "otherMemberId");
+            String otherMemberId = null;
+            try {
+                FileInputStream fileInput = new FileInputStream(file);
+                ObjectInputStream objectInput = new ObjectInputStream(fileInput);
+                otherMemberId = (String)objectInput.readObject();
+                Log.d(TAG, "otherMemberId95 :" + otherMemberId);
+            } catch (FileNotFoundException e) {
+                Log.d(TAG, e.toString());
+            } catch (IOException e) {
+                Log.d(TAG, e.toString());
+            } catch (ClassNotFoundException e) {
+                Log.d(TAG, e.toString());
+            }
+            if (otherMemberId != null){
+                getGroups(otherMemberId);
+            }
+        }
+
         vpMyRecord.setAdapter(new MyRecordAdapter(getActivity()));
         new TabLayoutMediator(tabMyRecord, vpMyRecord, (tab, position) -> tab.setText(tabTitles.get(position))).attach();
     }
@@ -117,14 +145,14 @@ public class MyRecordFragment extends Fragment {
         }
     }
 
-    private void getGroups() {
-        String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-        JomeMember member = new Gson().fromJson(memberStr, JomeMember.class);
+    private void getGroups(String memberId) {
+//        String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+//        JomeMember member = new Gson().fromJson(memberStr, JomeMember.class);
         if (Common.networkConnected(activity)) {
             String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
             JsonObject jsonOut = new JsonObject();
             jsonOut.addProperty("action", "getSelfRecord");
-            jsonOut.addProperty("memberId", member.getMember_id());
+            jsonOut.addProperty("memberId", memberId);
             String jsonStr = "";
             recordTask = new CommonTask(url, jsonOut.toString());
             try {
@@ -183,6 +211,9 @@ public class MyRecordFragment extends Fragment {
         }
         if(new File(activity.getFilesDir(), "attendGroups").exists()){
             activity.deleteFile("attendGroups");
+        }
+        if (new File(activity.getFilesDir(), "otherMemberId").exists()){
+            activity.deleteFile("otherMemberId");
         }
     }
 

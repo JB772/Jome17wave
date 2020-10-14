@@ -178,7 +178,6 @@ public class MyLocationService extends Service {
     private void updateLastLocationInfo(Location lastLocation){
         Log.d(TAG, lastLocation.toString());
         String url = Common.URL_SERVER + "jome_member/LoginServlet";
-        if (Common.networkConnected(this)) {
             String memberStr = Common.usePreferences(this, Common.PREF_FILE).getString("loginMember", "");
             JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
             mainMember.setLatitude(lastLocation.getLatitude());
@@ -203,6 +202,5 @@ public class MyLocationService extends Service {
                 網路有問題
                  */
             }
-        }
     }
 }

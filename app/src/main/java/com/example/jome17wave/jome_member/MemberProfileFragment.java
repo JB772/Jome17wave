@@ -118,7 +118,9 @@ public class MemberProfileFragment extends Fragment {
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_profileScoreFragment);
                         break;
                     case R.id.clGroupRecord:
-                        Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_myRecordFragment);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("member", jomeMember.getMember_id());
+                        Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_myRecordFragment, bundle);
                         break;
                     default:
                         break;

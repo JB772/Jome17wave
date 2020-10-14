@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +19,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jome17wave.Common;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
+import com.example.jome17wave.task.CommonTask;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
@@ -29,15 +33,22 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class ProfileScoreFragment extends Fragment {
     private static final String TAG = "ProfileScoreFragment";
     private MainActivity activity;
     private ImageView imageStar5, imageStar4, imageStar3, imageStar2, imageStar1;
     private TextView tvDisplayScoreCount;
+    private CommonTask scoreTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +60,6 @@ public class ProfileScoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_score, container, false);
     }
 
@@ -99,23 +109,23 @@ public class ProfileScoreFragment extends Fragment {
                 imageStar1.setVisibility(View.GONE);
                 tvDisplayScoreCount.setVisibility(View.GONE);
                 switch (scorePieEntry.getLabel()){
-                    case "5Star":
+                    case "5星":
                         imageStar5.setVisibility(View.VISIBLE);
                         tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
                         break;
-                    case "4Star":
+                    case "4星":
                         imageStar4.setVisibility(View.VISIBLE);
                         tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
                         break;
-                    case "3Star":
+                    case "3星":
                         imageStar3.setVisibility(View.VISIBLE);
                         tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
                         break;
-                    case "2Star":
+                    case "2星":
                         imageStar2.setVisibility(View.VISIBLE);
                         tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
                         break;
-                    case "1Star":
+                    case "1星":
                         imageStar1.setVisibility(View.VISIBLE);
                         tvDisplayScoreCount.setText(String.valueOf(scorePieEntry.getValue()) + "次");
                         break;
@@ -166,12 +176,55 @@ public class ProfileScoreFragment extends Fragment {
     }
 
     public List<PieEntry> getScoreEntries() {
+        List<Map<String, String>> scoreMaps = new ArrayList<>();
+        if(Common.networkConnected(activity)){
+            String url = Common.URL_SERVER + "jome_member/LoginServlet";
+            String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+            JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
+            String memberId = mainMember.getMember_id();
+            String jsonIn = "";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "scoreCounts");
+            jsonObject.addProperty("memberId", memberId);
+            scoreTask = new CommonTask(url, jsonObject.toString());
+            try {
+               jsonIn =  scoreTask.execute().get();
+               jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+               jsonIn = jsonObject.get("scoreCounts").getAsString();
+                Type listType = new TypeToken<List<Map<String, String>>>(){}.getType();
+                scoreMaps = new Gson().fromJson(jsonIn, listType);
+            } catch (ExecutionException e) {
+                Log.e(TAG, e.toString());
+            } catch (InterruptedException e) {
+                Log.e(TAG, e.toString());
+            }
+        }
         List<PieEntry> scoreEntries = new ArrayList<>();
-        scoreEntries.add(new PieEntry(100, "5Star"));
-        scoreEntries.add(new PieEntry(80, "4Star"));
-        scoreEntries.add(new PieEntry(5, "3Star"));
-        scoreEntries.add(new PieEntry(2, "2Star"));
-        scoreEntries.add(new PieEntry(10 , "1Star"));
+        for (Map<String, String> scoreMap: scoreMaps){
+            for (String key : scoreMap.keySet()){
+                String labelTitle = "";
+                switch (key){
+                    case "5":
+                        labelTitle = "5星";
+                        break;
+                    case "4":
+                        labelTitle = "4星";
+                        break;
+                    case "3":
+                        labelTitle = "3星";
+                        break;
+                    case "2":
+                        labelTitle = "2星";
+                        break;
+                    case "1":
+                        labelTitle = "1星";
+                        break;
+                }
+                scoreEntries.add(new PieEntry(Integer.valueOf(scoreMap.get(key)), labelTitle));
+            }
+//            scoreEntries.add(new PieEntry(10 , "1Star"));
+        }
+
         return scoreEntries;
     }
 

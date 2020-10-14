@@ -98,6 +98,16 @@ public class OtherMemberFragment extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.ibtFriendStory:
+                        File file = new File(activity.getFilesDir(), "otherMemberId");
+                        try {
+                            FileOutputStream fileOutput = new FileOutputStream(file);
+                            ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
+                            objectOutput.writeObject(friend.getMember_id());
+                        } catch (FileNotFoundException e) {
+                            Log.e(TAG, e.toString());
+                        } catch (IOException e) {
+                            Log.e(TAG, e.toString());
+                        }
                         Navigation.findNavController(view).navigate(R.id.action_otherMemberFragment_to_myRecordFragment2);
                         break;
                     default:
@@ -123,15 +133,17 @@ public class OtherMemberFragment extends Fragment {
             friend = new JomeMember();
         }
         switch (relationCode){
-            case 1:
+            case 1:     //朋友
                 ibtFriendStory.setVisibility(View.VISIBLE);
                 ibtOtherMessage.setVisibility(View.VISIBLE);
                 break;
-            case 2:
+            case 2:     //有拒絕記錄
                 ibtFriendAdd.setVisibility(View.VISIBLE);
                 break;
-            case 3:
+            case 3:     //我等別人回應
                 ibtFriendPandding.setVisibility(View.VISIBLE);
+                break;
+            case 4:     //別人邀請，等待我回應
                 break;
             default:
                 ibtFriendAdd.setVisibility(View.VISIBLE);
