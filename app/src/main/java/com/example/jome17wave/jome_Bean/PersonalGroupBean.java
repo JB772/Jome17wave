@@ -182,14 +182,6 @@ public class PersonalGroupBean implements Serializable {
         return assembleTime + "\t\t\t" + groupName;
     }
 
-    public String getSurfName() {
-        return surfName;
-    }
-
-    public void setSurfName(String surfName) {
-        this.surfName = surfName;
-    }
-
     public int getJoinCountNow() {
         return joinCountNow;
     }
