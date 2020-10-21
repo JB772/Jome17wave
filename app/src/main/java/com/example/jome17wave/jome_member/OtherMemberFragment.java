@@ -22,9 +22,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jome17wave.Common;
+import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -37,6 +39,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.concurrent.ExecutionException;
 
 public class OtherMemberFragment extends Fragment {
@@ -46,7 +49,9 @@ public class OtherMemberFragment extends Fragment {
     private TextView tvFDataName, tvAverageScore, tvFriendCount, tvAssembleCount, tvJointCount;
     private ImageButton ibtFriendStory, ibtOtherMessage, ibtFriendAdd, ibtFriendPandding;
     private MemberImageTask memberImageTask;
+    private CommonTask socialTask;
     private JomeMember friend;
+    private int relationCode = -1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,19 +88,35 @@ public class OtherMemberFragment extends Fragment {
         //四格資訊
         tvFDataName = view.findViewById(R.id.tvFDataName);
         tvAverageScore = view.findViewById(R.id.tvAverageScore);
-        ;
         tvFriendCount = view.findViewById(R.id.tvFriendCount);
-        ;
         tvAssembleCount = view.findViewById(R.id.tvAssembleCount);
-        ;
         tvJointCount = view.findViewById(R.id.tvJointCount);
-        ;
-        showMember();
+
+
+        JsonObject jsonObject = new JsonObject();
+        String jsonIn = "";
+        jsonIn = (String)openFile_getFileDir("otherMember");
+        jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+        int idGetResult = -1;
+        idGetResult = jsonObject.get("idGetResult").getAsInt();
+        if (idGetResult == 1){
+            friend = new Gson().fromJson(jsonObject.get("idMember").getAsString(), JomeMember.class);
+            relationCode = jsonObject.get("relationCode").getAsInt();
+        }else {
+            friend = new JomeMember();
+        }
         toolbar.setTitle(friend.getNickname());
+        showMember(relationCode);
 
         View.OnClickListener btOnclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String socialAction = "";
+                JsonObject jsonObject = new JsonObject();
+                String mainStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+                String mainId = new Gson().fromJson(mainStr, JomeMember.class).getMember_id();
+                FriendListBean Relation = new FriendListBean(mainId, friend.getMember_id(), relationCode);
+                boolean connectServer = false;
                 switch (v.getId()) {
                     case R.id.ibtFriendStory:
                         File file = new File(activity.getFilesDir(), "otherMemberId");
@@ -110,49 +131,128 @@ public class OtherMemberFragment extends Fragment {
                         }
                         Navigation.findNavController(view).navigate(R.id.action_otherMemberFragment_to_myRecordFragment2);
                         break;
+                    case R.id.ibtFriendAdd:
+                        ibtFriendAdd.setVisibility(View.GONE);
+                        if (relationCode == -1){
+                            //陌生人
+                            socialAction = "addNewFriend";
+                            jsonObject.addProperty("addNewFriend", new Gson().toJson(Relation));
+                        } else if (relationCode == 2 ){
+                            //曾拒絕
+                            socialAction = "addNewFriend";
+                            Relation.setFriend_Status(3);
+                            jsonObject.addProperty("addNewFriend", new Gson().toJson(Relation));
+                        }else if (relationCode == 4){
+                            //別人邀請，等待我回應
+                            ibtFriendAdd.setVisibility(View.GONE);
+                            socialAction = "clickAgree";
+                            jsonObject.addProperty("agreeBean", new Gson().toJson(Relation));
+                        }
+                        connectServer = true;
+                        break;
+                    case R.id.ibtFriendPandding:
+                        ibtFriendAdd.setVisibility(View.VISIBLE);
+                        //如果是取消pending，整筆交友資料刪除
+                        socialAction = "deleteRelation";
+                        jsonObject.addProperty("deleteFriend", new Gson().toJson(Relation));
+                        connectServer = true;
+                        break;
                     default:
                         break;
+                }
+                FriendListBean afterRelation = null;
+                if (connectServer == true){
+                    if (Common.networkConnected(activity)){
+                        String url = Common.URL_SERVER + "FindNewFriendServlet";
+                        jsonObject.addProperty("action", socialAction);
+                        String jsonIn = "";
+                        socialTask = new CommonTask(url, jsonObject.toString());
+                        try {
+                            jsonIn = socialTask.execute().get();
+                            jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+                            afterRelation = new Gson().fromJson(jsonObject.get("afterRelation").getAsString(), FriendListBean.class);
+                        } catch (ExecutionException e) {
+                            Log.e(TAG, e.toString());
+                        } catch (InterruptedException e) {
+                            Log.e(TAG, e.toString());
+                        }
+                    }
+                    if (afterRelation != null){
+                        relationCode = afterRelation.getFriend_Status();
+                        jsonObject.addProperty("relationCode", relationCode);
+                        File file = new File(activity.getFilesDir(), "otherMember");
+                        try(ObjectOutputStream objectOutput = new ObjectOutputStream(new FileOutputStream(file));) {
+                            objectOutput.writeObject(jsonObject.toString());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    showMember(relationCode);
                 }
             }
         };
         ibtFriendStory.setOnClickListener(btOnclick);
+        ibtFriendPandding.setOnClickListener(btOnclick);
+        ibtFriendAdd.setOnClickListener(btOnclick);
+        ibtOtherMessage.setOnClickListener(btOnclick);
     }
 
-    public void showMember() {
-        JsonObject jsonObject = new JsonObject();
-        String jsonIn = "";
-        jsonIn = (String)openFile_getFileDir("otherMember");
-        jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
-        int idGetResult = -1;
-        int relationCode = -1;
-        idGetResult = jsonObject.get("idGetResult").getAsInt();
-        if (idGetResult == 1){
-            friend = new Gson().fromJson(jsonObject.get("idMember").getAsString(), JomeMember.class);
-            relationCode = jsonObject.get("relationCode").getAsInt();
-        }else {
-            friend = new JomeMember();
+    public void showMember(int relationCode) {
+        if (relationCode == 1){
+            //朋友
+            ibtFriendAdd.setVisibility(View.GONE);
+            ibtFriendPandding.setVisibility(View.GONE);
+            ibtFriendStory.setVisibility(View.VISIBLE);
+//                ibtOtherMessage.setVisibility(View.VISIBLE);
+        }else if (relationCode == 3){
+            //我等別人回應
+            ibtFriendStory.setVisibility(View.GONE);
+            ibtFriendAdd.setVisibility(View.GONE);
+            ibtFriendPandding.setVisibility(View.VISIBLE);
+        }else{
+            /*
+             *  2:  有拒絕記錄
+             *  4:  別人邀請，等待我回應
+             * -1:  沒關係
+             */
+            ibtFriendStory.setVisibility(View.GONE);
+            ibtFriendPandding.setVisibility(View.GONE);
+            ibtFriendAdd.setVisibility(View.VISIBLE);
         }
-        switch (relationCode){
-            case 1:     //朋友
-                ibtFriendStory.setVisibility(View.VISIBLE);
-                ibtOtherMessage.setVisibility(View.VISIBLE);
-                break;
-            case 2:     //有拒絕記錄
-                ibtFriendAdd.setVisibility(View.VISIBLE);
-                break;
-            case 3:     //我等別人回應
-                ibtFriendPandding.setVisibility(View.VISIBLE);
-                break;
-            case 4:     //別人邀請，等待我回應
-                break;
-            default:
-                ibtFriendAdd.setVisibility(View.VISIBLE);
-                break;
-        }
+//        switch (relationCode){
+//            case 1:     //朋友
+//                ibtFriendAdd.setVisibility(View.GONE);
+//                ibtFriendPandding.setVisibility(View.GONE);
+//                ibtFriendStory.setVisibility(View.VISIBLE);
+////                ibtOtherMessage.setVisibility(View.VISIBLE);
+//                break;
+//            case 2:     //有拒絕記錄
+//                ibtFriendStory.setVisibility(View.GONE);
+//                ibtFriendPandding.setVisibility(View.GONE);
+//                ibtFriendAdd.setVisibility(View.VISIBLE);
+//                break;
+//            case 3:     //我等別人回應
+//                ibtFriendStory.setVisibility(View.GONE);
+//                ibtFriendAdd.setVisibility(View.GONE);
+//                ibtFriendPandding.setVisibility(View.VISIBLE);
+//                break;
+//            case 4:     //別人邀請，等待我回應
+//                ibtFriendStory.setVisibility(View.GONE);
+//                ibtFriendPandding.setVisibility(View.GONE);
+//                ibtFriendAdd.setVisibility(View.VISIBLE);
+//                break;
+//            default:
+//                ibtFriendStory.setVisibility(View.GONE);
+//                ibtFriendPandding.setVisibility(View.GONE);
+//                ibtFriendAdd.setVisibility(View.VISIBLE);
+//                break;
+//        }
         tvFDataName.setText(friend.getNickname());
         tvFriendCount.setText(friend.getFriendCount() + " 人");
         tvAverageScore.setText(friend.getScoreAverage());
-        tvAssembleCount.setText(String.valueOf(friend.getGroupCount()));
+        tvAssembleCount.setText(friend.getGroupCount() + "");
         tvJointCount.setText(friend.getGroupCount());
 
         //拿圖
@@ -242,6 +342,10 @@ public class OtherMemberFragment extends Fragment {
         if (memberImageTask != null){
             memberImageTask.cancel(true);
             memberImageTask = null;
+        }
+        if (socialTask != null){
+            socialTask.cancel(true);
+            socialTask = null;
         }
     }
 }

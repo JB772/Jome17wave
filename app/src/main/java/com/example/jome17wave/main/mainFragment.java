@@ -39,7 +39,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -56,7 +55,6 @@ public class mainFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private CommonTask GroupGetAllTask;
     private List<PersonalGroupBean> groups;
-    private List<PersonalGroupBean> startGroups;
     private List<GroupImageTask> imageTasks;
     private String memberId;
 
@@ -66,16 +64,12 @@ public class mainFragment extends Fragment {
         activity = (MainActivity) getActivity();
         setHasOptionsMenu(true);
         imageTasks = new ArrayList<>();
-        String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-        JomeMember member = new Gson().fromJson(memberStr, JomeMember.class);
-        memberId = member.getMember_id();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-//        getActivity().setTitle("首頁");
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -87,27 +81,27 @@ public class mainFragment extends Fragment {
         activity.setSupportActionBar(toolbar);
 
         rvNewGroup = view.findViewById(R.id.rvNewGroup);
-        rvNewGroup.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
+        rvNewGroup.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
 
         rvStart = view.findViewById(R.id.rvStart);
-        rvStart.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.HORIZONTAL));
+        rvStart.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
 
 
         groups = getGroups();       //all
 
         List<PersonalGroupBean> startGroups = new ArrayList<>();
         List<PersonalGroupBean> newGroups = new ArrayList<>();
-        for(PersonalGroupBean group : groups){
-            if (group.getGroupStatus() == 1){
-                newGroups.add(group);
-            } else if (group.getGroupStatus() == 2){
-                startGroups.add(group);
+        if (groups != null){
+            for (PersonalGroupBean group : groups) {
+                if (group.getGroupStatus() == 1) {
+                    newGroups.add(group);
+                } else if (group.getGroupStatus() == 2) {
+                    startGroups.add(group);
+                }
             }
+            showGroups(newGroups);
+            showStartGroups(startGroups);
         }
-
-//        startGroups = getStartGroups();
-        showGroups(newGroups);
-        showStartGroups(startGroups);
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
@@ -129,7 +123,7 @@ public class mainFragment extends Fragment {
                     showGroups(newGroups);
                 } else {
                     List<PersonalGroupBean> searchGroups = new ArrayList<>();
-                    for (PersonalGroupBean group: newGroups) {
+                    for (PersonalGroupBean group : newGroups) {
                         if (group.getGroupName().toUpperCase().contains(newText.toUpperCase())) {
                             searchGroups.add(group);
                         }
@@ -165,7 +159,7 @@ public class mainFragment extends Fragment {
             String url = Common.URL_SERVER + "/jome_member/GroupOperateServlet";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAll");
-            jsonObject.addProperty("memberId", memberId);
+//            jsonObject.addProperty("memberId", memberId);
             String jsonOut = jsonObject.toString();
             GroupGetAllTask = new CommonTask(url, jsonOut);
             try {
@@ -175,7 +169,7 @@ public class mainFragment extends Fragment {
                 Type listType = new TypeToken<List<PersonalGroupBean>>() {
                 }.getType();
                 groups = new Gson().fromJson(groupsStr, listType);
-                Log.d(TAG,"groups:"+jsonIn);
+                Log.d(TAG, "groups:" + jsonIn);
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
             }
@@ -198,7 +192,7 @@ public class mainFragment extends Fragment {
         }
     }
 
-    private class GroupAdapter extends RecyclerView.Adapter <GroupAdapter.MyViewHolder> {
+    private class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder> {
         private LayoutInflater layoutInflater;
         private List<PersonalGroupBean> groups;
         private int imageSize;
@@ -275,7 +269,7 @@ public class mainFragment extends Fragment {
         }
     }
 
-    private class StartGroupAdapter extends RecyclerView.Adapter <StartGroupAdapter.MyViewHolder> {
+    private class StartGroupAdapter extends RecyclerView.Adapter<StartGroupAdapter.MyViewHolder> {
         private LayoutInflater layoutInflater;
         private List<PersonalGroupBean> startGroups;
         private int imageSize;
@@ -361,13 +355,14 @@ public class mainFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQ_LOGIN){
-            if (resultCode == Activity.RESULT_OK){
+        if (requestCode == REQ_LOGIN) {
+            if (resultCode == Activity.RESULT_OK) {
                 Log.d(TAG, "onActivityResult");
                 askAccessLocationPermission();
             }
         }
     }
+
     // 請求user同意定位
     private void askAccessLocationPermission() {
         String[] permissions = {
@@ -377,7 +372,7 @@ public class mainFragment extends Fragment {
         int result = ActivityCompat.checkSelfPermission(activity, permissions[0]);
         if (result == PackageManager.PERMISSION_DENIED) {
             requestPermissions(permissions, PER_ACCESS_LOCATION);
-        }else {
+        } else {
             //intent service開始抓位置
             Intent intent = new Intent(activity, MyLocationService.class);
             activity.startService(intent);
@@ -399,8 +394,6 @@ public class mainFragment extends Fragment {
             activity.startService(intent);
         }
     }
-
-
 
 
 }

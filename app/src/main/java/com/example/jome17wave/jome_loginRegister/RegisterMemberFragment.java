@@ -90,7 +90,7 @@ public class RegisterMemberFragment extends Fragment {
                                 Navigation.findNavController(ibtRegister).popBackStack();
                                 Common.showToast(activity, R.string.successRegister);
                             }else {
-                                Common.showToast(activity, R.string.no_network_connection_available);
+                                Common.showToast(activity, R.string.accountIsExist);
                             }
                         }
                         break;

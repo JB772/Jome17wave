@@ -18,9 +18,12 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.NavHostController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 
@@ -33,7 +36,10 @@ import android.util.Log;
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.jome_Bean.PersonalGroupBean;
+import com.example.jome17wave.jome_loginRegister.LoginActivity;
 import com.example.jome17wave.task.CommonTask;
+import com.example.jome17wave.task.GroupImageTask;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -50,10 +56,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
+    public static MainActivity activity;
+    private static final int REQ_LOGIN = 2;
+    private static final int PER_ACCESS_LOCATION = 201;
+    private MyLocationService myLocationService;
 
 
     @Override
@@ -61,11 +72,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-
     }
+
 
 }
