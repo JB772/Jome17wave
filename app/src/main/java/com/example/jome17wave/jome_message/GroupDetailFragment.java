@@ -1,7 +1,6 @@
 package com.example.jome17wave.jome_message;
 
 import android.graphics.Bitmap;
-import android.icu.text.CaseMap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,14 +23,11 @@ import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
-import com.example.jome17wave.jome_group.Group;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import java.util.concurrent.ExecutionException;
 
 public class GroupDetailFragment extends Fragment {
     private static final String TAG = "TAG_GroupDetail";
@@ -44,7 +39,9 @@ public class GroupDetailFragment extends Fragment {
     private LinearLayout llButton;
     private ConstraintLayout clGroupMemo;
     private Bitmap bitmap;
-    private CommonTask joinGroupTask;
+    private CommonTask joinGroupTask, getMyGroupTask;
+    private  PersonalGroupBean myGroup;
+    private  JomeMember myself;
 
 
     @Override
@@ -85,6 +82,7 @@ public class GroupDetailFragment extends Fragment {
 
         llButton = view.findViewById(R.id.llButton);
         clGroupMemo = view.findViewById(R.id.clGroupMemo);
+
 
         showGroupDetail();
 
@@ -163,6 +161,7 @@ public class GroupDetailFragment extends Fragment {
             String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
             int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
 
+
             if(Common.networkConnected(activity)){
                 try {
                     bitmap = new MemberImageTask(url, groupBean.getGroupId(), imageSize).execute().get();
@@ -175,15 +174,40 @@ public class GroupDetailFragment extends Fragment {
                 }else {
                     ivGroup.setImageBitmap(bitmap);
                 }
+
+                JsonObject jsonObject = new JsonObject();
+
+                String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+                myself = new Gson().fromJson(memberStr,JomeMember.class);
+                String myMemberId = myself.getMember_id();
+
+                if (myMemberId != null) {
+                    jsonObject.addProperty("action", "getMyGroup");
+                    jsonObject.addProperty("myMemberId", myMemberId);
+                    jsonObject.addProperty("groupDetailId", groupBean.getGroupId());
+                }
+                String jsonOut = jsonObject.toString();
+                getMyGroupTask = new CommonTask(url, jsonOut);
+                try {
+                    String inStr = getMyGroupTask.execute().get();
+                    JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
+                    myGroup = new Gson().fromJson(jsonIn.get("pGroup").getAsString(), PersonalGroupBean.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }else {
                 ivGroup.setImageResource(R.drawable.no_image);
+                Common.showToast(activity, R.string.no_network_connection_available);
             }
+
+
 
             tvCaptain.setText(groupBean.getNickname());
             tvGroupName.setText(groupBean.getGroupName());
             tvGroupDate.setText(groupBean.getGroupEndTime());
             tvGroupLocation.setText(groupBean.getSurfName());
-            tvGroupLimit.setText(String.valueOf(groupBean.getGroupLimit()));
+            tvGroupLimit.setText(String.valueOf(groupBean.getGroupLimit())+ " 人" );
 
             tvGroupGender.setVisibility(View.GONE);
 //            tvGroupGender.setText(groupBean.getGender());
@@ -196,11 +220,7 @@ public class GroupDetailFragment extends Fragment {
             }
 
             //判斷角色
-            int status = groupBean.getAttenderStatus();
-            String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-            JomeMember myself = new Gson().fromJson(memberStr,JomeMember.class);
-
-
+            int status = myGroup.getAttenderStatus();
             if (status == 1 && groupBean.getMemberId() == myself.getMember_id()){
                 //  我是團長 - 按鈕：查看團員、修改揪團
                 tvWord.setVisibility(View.GONE);

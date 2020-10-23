@@ -62,6 +62,9 @@
             <action
                 android:id="@+id/action_notificationFragment_to_messageCenterFragment"
                 app:destination="@id/messageCenterFragment" />
+            <action
+                android:id="@+id/action_notificationFragment_to_ratingPageFragment"
+                app:destination="@id/ratingPageFragment" />
         </fragment>
 
         <fragment
@@ -130,6 +133,11 @@
         android:name="com.example.jome17wave.jome_message.GroupDetailFragment"
         android:label="fragment_group_detail"
         tools:layout="@layout/fragment_group_detail" />
+    <fragment
+        android:id="@+id/ratingPageFragment"
+        android:name="com.example.jome17wave.RatingPageFragment"
+        android:label="fragment_rating_page"
+        tools:layout="@layout/fragment_rating_page" />
 
 </navigation>
 
