@@ -125,6 +125,7 @@
     <string name="groupLimit">參加人數</string>
     <string name="groupDetail">揪團資訊</string>
     <string name="change_successful">申請成功</string>
+    <string name="ratingPageTitle">活動滿意度</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>
