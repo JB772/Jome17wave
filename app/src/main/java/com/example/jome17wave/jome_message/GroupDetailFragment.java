@@ -25,6 +25,7 @@ import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
+import com.example.jome17wave.task.GroupImageTask;
 import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -157,14 +158,14 @@ public class GroupDetailFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null){
             PersonalGroupBean groupBean = (PersonalGroupBean)bundle.getSerializable("newGroup");
-            Log.d(TAG,"bundleGroupBean" +  groupBean.getMemberId());
+            Log.d(TAG,"bundleGroupBean: " +  groupBean.getMemberId());
             String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
-            int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
+            int imageSize = getResources().getDisplayMetrics().widthPixels / 2;
 
 
             if(Common.networkConnected(activity)){
                 try {
-                    bitmap = new MemberImageTask(url, groupBean.getGroupId(), imageSize).execute().get();
+                    bitmap = new GroupImageTask(url, groupBean.getGroupId(), imageSize).execute().get();
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
@@ -183,15 +184,15 @@ public class GroupDetailFragment extends Fragment {
 
                 if (myMemberId != null) {
                     jsonObject.addProperty("action", "getMyGroup");
-                    jsonObject.addProperty("myMemberId", myMemberId);
-                    jsonObject.addProperty("groupDetailId", groupBean.getGroupId());
+                    jsonObject.addProperty("memberId", myMemberId);
+                    jsonObject.addProperty("groupId", groupBean.getGroupId());
                 }
                 String jsonOut = jsonObject.toString();
                 getMyGroupTask = new CommonTask(url, jsonOut);
                 try {
                     String inStr = getMyGroupTask.execute().get();
                     JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
-                    myGroup = new Gson().fromJson(jsonIn.get("pGroup").getAsString(), PersonalGroupBean.class);
+                    myGroup = new Gson().fromJson(jsonIn.get("myGroup").getAsString(), PersonalGroupBean.class);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

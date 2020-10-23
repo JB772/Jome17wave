@@ -125,8 +125,16 @@
     <string name="groupLimit">參加人數</string>
     <string name="groupDetail">揪團資訊</string>
     <string name="change_successful">申請成功</string>
+<<<<<<< HEAD
     <string name="accountIsExist">帳號已存在，請重新註冊</string>
     <string name="ratingPageTitle">活動滿意度</string>
+=======
+
+    <string name="accountIsExist">帳號已存在，請重新註冊</string>
+
+    <string name="ratingPageTitle">活動滿意度</string>
+
+>>>>>>> 3151249945ef94b2fd748a4cea76e72b73405a2e
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>

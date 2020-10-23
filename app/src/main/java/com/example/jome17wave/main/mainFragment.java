@@ -334,7 +334,7 @@ public class mainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Common.loginCheck(this, REQ_LOGIN);
+//        Common.loginCheck(this, REQ_LOGIN);
     }
 
     private class serConnection implements ServiceConnection {

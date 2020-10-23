@@ -1,5 +1,6 @@
 package com.example.jome17wave.jome_member;
 
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
