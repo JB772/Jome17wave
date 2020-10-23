@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
+import com.example.jome17wave.jome_member.MemberProfileFragment;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -116,7 +117,7 @@ public class Common {
 
 
 //    檢驗是否登入，用在頁面onStart
-    public static void loginCheck(Fragment fragment, int REQ_LOGIN){
+    public static void loginCheck(MemberProfileFragment fragment, int REQ_LOGIN){
         Intent loginIntend = new Intent(fragment.getActivity(), LoginActivity.class);
         fragment.startActivityForResult(loginIntend, REQ_LOGIN);
         
