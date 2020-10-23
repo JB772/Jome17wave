@@ -1,6 +1,7 @@
 package com.example.jome17wave;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +13,7 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
+
 
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
 
