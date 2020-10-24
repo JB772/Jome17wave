@@ -83,6 +83,7 @@ public class GroupDetailFragment extends Fragment {
 
         llButton = view.findViewById(R.id.llButton);
         clGroupMemo = view.findViewById(R.id.clGroupMemo);
+//        clGroupMemo.setVisibility(View.GONE);
 
 
         showGroupDetail();
@@ -214,11 +215,11 @@ public class GroupDetailFragment extends Fragment {
 //            tvGroupGender.setText(groupBean.getGender());
 
             //備註內文
-            if (groupBean.getNotice() != null ){
+            if (groupBean.getNotice() != ""){
+                clGroupMemo.setVisibility(View.VISIBLE);
                 tvGroupMemo.setText(groupBean.getNotice());
-            }else {
-                clGroupMemo.setVisibility(View.GONE);
             }
+
 
             //判斷角色
             int status = myGroup.getAttenderStatus();
