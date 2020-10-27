@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
-
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".jome_group.AddGroupFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -24,7 +23,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="601dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
@@ -91,8 +90,9 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout3"
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="270dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
@@ -191,6 +191,7 @@
                         android:layout_marginTop="8dp"
                         android:text="地點"
                         android:textColor="@color/colorDeepBlue"
+                        android:textSize="14sp"
                         app:layout_constraintStart_toEndOf="@+id/imageView24"
                         app:layout_constraintTop_toTopOf="@+id/imageView24" />
 
@@ -213,54 +214,63 @@
                         app:layout_constraintTop_toBottomOf="@+id/imageView24"
                         app:srcCompat="@drawable/icon_friend_add" />
 
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/addGroupPeople"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="5dp"
-                        android:text="性別"
-                        android:textColor="@color/colorDeepBlue"
+                        android:layout_marginTop="16dp"
+                        android:ems="10"
+                        android:hint="@string/addGroupPeople"
+                        android:inputType="text"
+                        android:text="Name"
                         app:layout_constraintStart_toEndOf="@+id/imageView25"
-                        app:layout_constraintTop_toTopOf="@+id/imageView25" />
+                        app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
-                    <RadioGroup
-                        android:id="@+id/radGGender"
+                    <TextView
+                        android:id="@+id/textView17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="24dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toEndOf="@+id/textView10"
-                        app:layout_constraintTop_toBottomOf="@+id/spinner">
-
-                        <RadioButton
-                            android:id="@+id/radBtMale"
-                            style="@style/RadioBtNull"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:background="@drawable/male_selector" />
-
-                        <RadioButton
-                            android:id="@+id/radBtFemale"
-                            style="@style/RadioBtNull"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:background="@drawable/female_selector" />
-
-                        <RadioButton
-                            android:id="@+id/radBtThird"
-                            style="@style/RadioBtNull"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:background="@drawable/third_selector" />
-                    </RadioGroup>
-
-
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:text="人"
+                        android:textColor="@color/colorDeepBlue"
+                        app:layout_constraintStart_toEndOf="@+id/addGroupPeople"
+                        app:layout_constraintTop_toTopOf="@+id/imageView25" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clGroupMemo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/group_detail_item_bg"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+
+                    <TextView
+                        android:id="@+id/tvGroupMemo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="28dp"
+                        android:paddingTop="15dp"
+                        android:paddingRight="3dp"
+                        android:paddingBottom="15dp"
+                        android:text="fnae;;naenvkoeanvkeark;vkeamr;mvkearmvp'aemrknvjaerkjgikfanoihreijfniorehivokenroi[vkner[ojvekrniov[jivo[;jew「ㄊㄨㄛjifo'e"
+                        android:textColor="@color/colorDeepBlue"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -268,3 +278,4 @@
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
