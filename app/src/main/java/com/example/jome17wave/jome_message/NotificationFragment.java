@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jome17wave.Common;
+import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
@@ -49,7 +50,7 @@ public class NotificationFragment extends Fragment {
     private Button btFriendInvitation;
     private TextView tvFriendInvitationTitle, tvFriendInvitationDescription;
     private RecyclerView rvNotification;
-    private CommonTask notificationGetAllTask;
+    private CommonTask notificationGetAllTask, clickItemTask;
     private List<Notify> notifications;
 
 
@@ -230,8 +231,23 @@ public class NotificationFragment extends Fragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("notification", notification);
+                    Bundle bundle = getBundle(notification);
+
+                    switch (notification.getType()){
+                        case 1:
+                            Navigation.findNavController(v).navigate(R.id.action_notificationFragment_to_fragmentGroupDetail, bundle);
+                            break;
+                        case 2:
+                            Navigation.findNavController(v).navigate(R.id.action_notificationFragment_to_nearMemberFragment, bundle);
+                            break;
+                        case 3:
+                            Navigation.findNavController(v).navigate(R.id.action_notificationFragment_to_ratingPageFragment, bundle);
+                            break;
+                        default:
+                            Log.d("TAG", "error");
+                            break;
+                    }
+
 //                    bundle.putSerializable("image", (Serializable) imageTasks);
 //                    Navigation.findNavController(v).navigate(R.id.action_bookListFragment_to_bookDetailFragment, bundle);
                 }
@@ -259,6 +275,69 @@ public class NotificationFragment extends Fragment {
             }
         }
     }
+
+    @SuppressLint("LongLogTag")
+    private Bundle getBundle(Notify notification) {
+        String key = null;
+        if (Common.networkConnected(activity)){
+            String url = null;
+            JsonObject jsonObject = new JsonObject();
+
+            switch (notification.getType()){
+                case 1: //Body: attender ID
+                    // notification.getNotificationBody() -> 這個是Attender資料表的ID
+                    url = Common.URL_SERVER + "NotificationServlet";
+                    jsonObject.addProperty("action", "getGroupBundle");
+                    jsonObject.addProperty("attenderNo", notification.getNotificationBody());
+
+                    break;
+                case 2: //Body: friendList uID
+                    // notification.getNotificationBody() -> 這個是friendList資料表的uID
+
+                    url = Common.URL_SERVER + "NotificationServlet";
+                    jsonObject.addProperty("action", "getFriendBundle");
+                    jsonObject.addProperty("uId",notification.getNotificationBody());
+                    jsonObject.addProperty("myselfId",notification.getMemberId());
+                    break;
+                case 3: //Body: score ID
+                    // notification.getNotificationBody() -> 這個是GroupId
+                    break;
+            }
+            String jsonOut = jsonObject.toString();
+            clickItemTask = new CommonTask(url, jsonOut);
+            try {
+                String inStr = clickItemTask.execute().get();
+//                    Log.d(TAG,"inStr: "+inStr);
+                JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
+                key = jsonIn.get("getKey").getAsString();
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        }else {
+            Common.showToast(activity, R.string.no_network_connection_available);
+        }
+
+        Bundle bundle = new Bundle();
+        switch (notification.getType()){
+            case 1: //Body: attender ID
+                // 連線SV取得GroupId，裝入bundle
+                PersonalGroupBean groupBean = new PersonalGroupBean();
+                groupBean.setGroupId(key);
+                bundle.putSerializable("newGroup", groupBean);
+                break;
+            case 2: //Body: friendList uID
+                // 連線SV取得對方ID設定成JomeMember物件.setMember_id()，裝入bundle
+                JomeMember friend = new JomeMember();
+                friend.setMember_id(key);
+                bundle.putSerializable("friend", friend);
+                break;
+            case 3: //Body: group ID
+                bundle.putSerializable("groupId", notification.getNotificationBody());
+                break;
+        }
+        return bundle;
+    }
+
 
     @Override
     public void onStop() {

@@ -323,8 +323,8 @@ public class mainFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("startGroup", startGroup);
-//                    Navigation.findNavController(v).navigate(, bundle);
+                    bundle.putSerializable("newGroup", startGroup);
+                    Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_fragmentGroupDetail, bundle);
                 }
             });
         }

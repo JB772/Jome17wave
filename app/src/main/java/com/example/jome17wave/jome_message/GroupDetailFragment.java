@@ -12,6 +12,9 @@ import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -83,6 +86,7 @@ public class GroupDetailFragment extends Fragment {
 
         llButton = view.findViewById(R.id.llButton);
         clGroupMemo = view.findViewById(R.id.clGroupMemo);
+//        clGroupMemo.setVisibility(View.GONE);
 
 
         showGroupDetail();
@@ -158,7 +162,7 @@ public class GroupDetailFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null){
             PersonalGroupBean groupBean = (PersonalGroupBean)bundle.getSerializable("newGroup");
-            Log.d(TAG,"bundleGroupBean: " +  groupBean.getMemberId());
+//            Log.d(TAG,"bundleGroupBean: " +  groupBean.getMemberId());
             String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
             int imageSize = getResources().getDisplayMetrics().widthPixels / 2;
 
@@ -214,11 +218,11 @@ public class GroupDetailFragment extends Fragment {
 //            tvGroupGender.setText(groupBean.getGender());
 
             //備註內文
-            if (groupBean.getNotice() != null ){
+            if (groupBean.getNotice() != ""){
+                clGroupMemo.setVisibility(View.VISIBLE);
                 tvGroupMemo.setText(groupBean.getNotice());
-            }else {
-                clGroupMemo.setVisibility(View.GONE);
             }
+
 
             //判斷角色
             int status = myGroup.getAttenderStatus();
@@ -262,7 +266,25 @@ public class GroupDetailFragment extends Fragment {
             }
         }
 
+
+
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.creat, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Navigation.findNavController(llButton).popBackStack();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
