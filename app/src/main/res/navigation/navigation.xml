@@ -65,6 +65,12 @@
             <action
                 android:id="@+id/action_notificationFragment_to_ratingPageFragment"
                 app:destination="@id/ratingPageFragment" />
+            <action
+                android:id="@+id/action_notificationFragment_to_fragmentGroupDetail"
+                app:destination="@id/fragmentGroupDetail" />
+            <action
+                android:id="@+id/action_notificationFragment_to_nearMemberFragment"
+                app:destination="@id/nearMemberFragment" />
         </fragment>
 
         <fragment
