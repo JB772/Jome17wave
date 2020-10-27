@@ -1,7 +1,5 @@
 package com.example.jome17wave;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,13 +11,10 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
-
+import androidx.fragment.app.Fragment;
 
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
-import com.example.jome17wave.jome_member.MemberProfileFragment;
 
-import java.io.File;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -117,7 +112,7 @@ public class Common {
 
 
 //    檢驗是否登入，用在頁面onStart
-    public static void loginCheck(MemberProfileFragment fragment, int REQ_LOGIN){
+    public static void loginCheck(Fragment fragment, int REQ_LOGIN){
         Intent loginIntend = new Intent(fragment.getActivity(), LoginActivity.class);
         fragment.startActivityForResult(loginIntend, REQ_LOGIN);
         

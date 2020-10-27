@@ -29,7 +29,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
-import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.GroupImageTask;
@@ -334,7 +333,7 @@ public class mainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        Common.loginCheck(this, REQ_LOGIN);
+        Common.loginCheck(this, REQ_LOGIN);
     }
 
     private class serConnection implements ServiceConnection {

@@ -1,6 +1,13 @@
 package com.example.jome17wave.jome_member;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,19 +18,10 @@ import androidx.navigation.Navigation;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.jome17wave.Common;
-import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
-import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -173,9 +171,9 @@ public class MyRecordFragment extends Fragment {
             List<PersonalGroupBean> mainGroups = new ArrayList<>();
             List<PersonalGroupBean> attendGroups = new ArrayList<>();
             for (PersonalGroupBean myGroup: myGroups){
-                if (myGroup.getRole() == 1){
+                if (myGroup.getRole() == 1 && myGroup.getAttenderStatus() != 0 && myGroup.getGroupStatus() != 0){
                     mainGroups.add(myGroup);
-                }else if (myGroup.getRole() ==2){
+                }else if (myGroup.getRole() == 2 && myGroup.getAttenderStatus() != 0 && myGroup.getGroupStatus() != 0){
                     attendGroups.add(myGroup);
                 }
             }

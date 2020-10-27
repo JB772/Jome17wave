@@ -45,6 +45,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_will_start" />
+
+            <ImageView
+                android:id="@+id/igProcessing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_group_prcessin" />
+
+            <ImageView
+                android:id="@+id/igCollecting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_group_joined" />
+
+            <ImageView
+                android:id="@+id/igChecking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_group_checking" />
         </LinearLayout>
 
         <TextView

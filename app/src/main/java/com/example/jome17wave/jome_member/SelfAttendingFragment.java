@@ -2,13 +2,6 @@ package com.example.jome17wave.jome_member;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.jome17wave.Common;
-import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.jome_group.Group;
+import com.example.jome17wave.main.MainActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,7 +57,11 @@ public class SelfAttendingFragment extends Fragment {
         rvSelfRecord = view.findViewById(R.id.rvSelfRecord);
         rvSelfRecord.setLayoutManager(new LinearLayoutManager(activity));
         groups = getGroups();
-        rvSelfRecord.setAdapter(new SelfRecordAdapter(activity, groups ));
+        SelfRecordAdapter selfRecordAdapter = new SelfRecordAdapter(activity, groups);
+        selfRecordAdapter.notifyDataSetChanged();
+        rvSelfRecord.setAdapter(selfRecordAdapter);
+
+
     }
     private class SelfRecordAdapter extends RecyclerView.Adapter<SelfRecordAdapter.MyViewHolder>{
         Context context;
@@ -83,6 +86,9 @@ public class SelfAttendingFragment extends Fragment {
             ImageView igJLose;
             ImageView igAlreadyEnd;
             ImageView igWillStart;
+            ImageView igProcessing;
+            ImageView igCollecting;
+            ImageView igChecking;
             TextView tvRecordResult;
 
             public MyViewHolder(@NonNull View itemView) {
@@ -91,10 +97,17 @@ public class SelfAttendingFragment extends Fragment {
                 igJLose = itemView.findViewById(R.id.igJLose);
                 igAlreadyEnd = itemView.findViewById(R.id.igAlreadyEnd);
                 igWillStart = itemView.findViewById(R.id.igWillStart);
+                igProcessing = itemView.findViewById(R.id.igProcessing);
+                igCollecting = itemView.findViewById(R.id.igCollecting);
+                igChecking = itemView.findViewById(R.id.igChecking);
                 igJSuccess.setVisibility(View.GONE);
                 igJLose.setVisibility(View.GONE);
                 igAlreadyEnd.setVisibility(View.GONE);
                 igWillStart.setVisibility(View.GONE);
+                igProcessing.setVisibility(View.GONE);
+                igCollecting.setVisibility(View.GONE);
+                igChecking.setVisibility(View.GONE);
+
                 tvRecordResult = itemView.findViewById(R.id.tvRecordResult);
             }
         }
@@ -121,10 +134,12 @@ public class SelfAttendingFragment extends Fragment {
                               case 1:
                                   if (nowTime.before(signUpEnd)){
                                       //顯示「募集中」
+                                      viewHolder.igCollecting.setVisibility(View.VISIBLE);
                                   }else if (nowTime.after(signUpEnd) && nowTime.before(assembleTime)){
                                       viewHolder.igWillStart.setVisibility(View.VISIBLE);
                                   }else if (nowTime.after(assembleTime) && nowTime.before(groupEndTime)){
                                       //顯示「進行中」
+                                      viewHolder.igProcessing.setVisibility(View.VISIBLE);
                                   }else if (nowTime.after(groupEndTime)){
                                       viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
                                   }else {
@@ -142,6 +157,8 @@ public class SelfAttendingFragment extends Fragment {
                       case 2:      //團員
                           int attendStatus = group.getAttenderStatus();
                           switch (attendStatus){
+                              case 0:
+                                  viewHolder.tvRecordResult.setVisibility(View.GONE);
                               case 1:
                                   if (nowTime.before(signUpEnd)){
                                       viewHolder.igJSuccess.setVisibility(View.VISIBLE);
@@ -149,7 +166,7 @@ public class SelfAttendingFragment extends Fragment {
                                       viewHolder.igWillStart.setVisibility(View.VISIBLE);
                                   }else if (nowTime.after(assembleTime) && nowTime.before(groupEndTime)){
                                       //顯示「進行中」
-
+                                      viewHolder.igProcessing.setVisibility(View.VISIBLE);
                                   }else if(nowTime.after(groupEndTime)){
                                       viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
                                   }else {
@@ -162,6 +179,7 @@ public class SelfAttendingFragment extends Fragment {
                               case 3:
                                   if (nowTime.before(assembleTime)){
                                      //顯示待審核
+                                      viewHolder.igChecking.setVisibility(View.VISIBLE);
                                   }
                                   break;
                               default:
