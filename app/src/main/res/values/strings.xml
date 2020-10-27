@@ -127,6 +127,10 @@
     <string name="change_successful">申請成功</string>
     <string name="accountIsExist">帳號已存在，請重新註冊</string>
     <string name="ratingPageTitle">活動滿意度</string>
+    <string name="newGroupName">給揪團一個標題吧 ! (限10字元)</string>
+    <string name="addGroupDate">日期</string>
+    <string name="addGroupTime">時間</string>
+    <string name="addGroupPeople">請輸入人數</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>

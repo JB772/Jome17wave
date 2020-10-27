@@ -35,7 +35,7 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CreateFragment extends Fragment {
+public class TestCreateFragment extends Fragment {
     private static final String TAG = "MainFragment";
     private static final int PER_EXTERNAL_STORAGE = 0;
     private static final int REQ_PICK_PICTURE = 1;

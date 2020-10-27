@@ -12,7 +12,7 @@
         android:title="@string/BottomBarMap" />
 
     <item
-        android:id="@+id/creatFragment"
+        android:id="@+id/addGroupFragment"
         android:icon="@drawable/icon_awesome_plus"
         android:title="增加揪團" />
 

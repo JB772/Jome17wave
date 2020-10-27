@@ -21,12 +21,12 @@
             <action
                 android:id="@+id/action_mainFragment_to_notificationFragment"
                 app:destination="@id/notificationFragment" />
-            <action
-                android:id="@+id/action_mainFragment_to_creatFragment"
-                app:destination="@id/creatFragment" />
         <action
             android:id="@+id/action_mainFragment_to_fragmentGroupDetail"
             app:destination="@id/fragmentGroupDetail" />
+        <action
+            android:id="@+id/action_mainFragment_to_addGroupFragment"
+            app:destination="@id/addGroupFragment" />
 
 
     </fragment>
@@ -104,16 +104,6 @@
         android:label="fragment_member"
         tools:layout="@layout/fragment_member" />
     <fragment
-        android:id="@+id/groupFragment"
-        android:name="com.example.jome17wave.jome_group.GroupFragment"
-        android:label="fragment_group"
-        tools:layout="@layout/fragment_group" />
-    <fragment
-        android:id="@+id/creatFragment"
-        android:name="com.example.jome17wave.jome_group.CreatFragment"
-        android:label="fragment_create"
-        tools:layout="@layout/fragment_creat" />
-    <fragment
         android:id="@+id/search_Group_MemberFragment"
         android:name="com.example.jome17wave.jome_group.SearchMemberFragment"
         android:label="fragment_search__group__member"
@@ -138,6 +128,11 @@
         android:name="com.example.jome17wave.RatingPageFragment"
         android:label="fragment_rating_page"
         tools:layout="@layout/fragment_rating_page" />
+    <fragment
+        android:id="@+id/addGroupFragment"
+        android:name="com.example.jome17wave.jome_group.AddGroupFragment"
+        android:label="fragment_add_group"
+        tools:layout="@layout/fragment_add_group" />
 
 </navigation>
 
