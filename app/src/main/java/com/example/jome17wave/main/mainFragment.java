@@ -102,15 +102,7 @@ public class mainFragment extends Fragment {
                 diverseStartGroups();
                 diverseNewGroups();
                 showGroups(newGroups);
-                for(PersonalGroupBean newGroup: newGroups){
-                    Log.d(TAG, "newGroups :" + newGroup.getGroupName());
-                }
-
                 showStartGroups(startGroups);
-                for(PersonalGroupBean startGroup: startGroups){
-                    Log.d(TAG, "startGroups :" + startGroup.getGroupName());
-                }
-
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
