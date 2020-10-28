@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -61,6 +62,7 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
     private ImageView ivAddGroup;
     private ImageButton addGroupImage;
     private Spinner spSurfPoint;
+    private int surfPoint = 0;
     private TextView tvGroupDate, tvGroupTime;
     private EditText addGroupName, addGroupPeople, addGroupNotice;
     private byte[] image;
@@ -71,6 +73,8 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
     private Uri imageUri;
     private JomeMember member;
     private String pickDateTime;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +103,8 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
         addGroupPeople = view.findViewById(R.id.addGroupPeople);
         addGroupNotice = view.findViewById(R.id.addGroupNotice);
         spSurfPoint = view.findViewById(R.id.spSurfPoint);
+        spSurfPoint.setSelection(0, true);
+        spSurfPoint.setOnItemSelectedListener(listener);
 
         tvGroupDate = view.findViewById(R.id.tvGroupDate);
         tvGroupDate.setOnClickListener(new View.OnClickListener() {
@@ -173,41 +179,41 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
                 String name = addGroupName.getText().toString().trim();
                 String people = addGroupPeople.getText().toString().trim();
                 String notice = "";
-                String surfPoint = spSurfPoint.toString().trim();
-                int intSurfPoint = 0;
-                switch (surfPoint){
-                    case "金山中角灣浪點":
-                        intSurfPoint = 1;
-                        break;
-                    case "翡翠灣浪點":
-                        intSurfPoint = 2;
-                        break;
-                    case "福隆浪點":
-                        intSurfPoint = 3;
-                        break;
-                    case "雙獅浪點":
-                        intSurfPoint = 4;
-                        break;
-                    case "烏石港北堤浪點":
-                        intSurfPoint = 5;
-                        break;
-                    case "金樽浪點":
-                        intSurfPoint = 6;
-                        break;
-                    case "南灣浪點":
-                        intSurfPoint = 7;
-                        break;
-                    case "佳樂水浪點":
-                        intSurfPoint = 8;
-                        break;
-                    case "漁光島馬場浪點":
-                        intSurfPoint = 9;
-                        break;
-                    case "竹南浪點":
-                        intSurfPoint = 10;
-                        break;
-
-                }
+//                String surfPoint = spSurfPoint.toString().trim();
+//                int intSurfPoint = 0;
+//                switch (surfPoint){
+//                    case "金山中角灣浪點":
+//                        intSurfPoint = 1;
+//                        break;
+//                    case "翡翠灣浪點":
+//                        intSurfPoint = 2;
+//                        break;
+//                    case "福隆浪點":
+//                        intSurfPoint = 3;
+//                        break;
+//                    case "雙獅浪點":
+//                        intSurfPoint = 4;
+//                        break;
+//                    case "烏石港北堤浪點":
+//                        intSurfPoint = 5;
+//                        break;
+//                    case "金樽浪點":
+//                        intSurfPoint = 6;
+//                        break;
+//                    case "南灣浪點":
+//                        intSurfPoint = 7;
+//                        break;
+//                    case "佳樂水浪點":
+//                        intSurfPoint = 8;
+//                        break;
+//                    case "漁光島馬場浪點":
+//                        intSurfPoint = 9;
+//                        break;
+//                    case "竹南浪點":
+//                        intSurfPoint = 10;
+//                        break;
+//
+//                }
 
                 if (name.isEmpty()) {
                     addGroupName.setError("請輸入團名");
@@ -243,7 +249,7 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
                 if (Common.networkConnected(activity)) {
                     String url = Common.URL_SERVER + "/jome_member/GroupOperateServlet";
                     PersonalGroupBean personalGroupBean = new PersonalGroupBean(memberId, 1, 1, Common.getDateTimeId(), name, assembleDateTime,
-                            groupEndTime, SignUpEndTime, intSurfPoint, Integer.valueOf(people), 1, notice);
+                            groupEndTime, SignUpEndTime, surfPoint, Integer.valueOf(people), 1, notice);
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("action", "creatAGroup");
                     jsonObject.addProperty("inGroup", new Gson().toJson(personalGroupBean));
@@ -252,16 +258,18 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
 
                     }
                     int count = 0;
+                    String jsonIn = "";
                     try {
-                        String result = new CommonTask(url, jsonObject.toString()).execute().get();
-                        count = Integer.parseInt(result);
+                        jsonIn = new CommonTask(url, jsonObject.toString()).execute().get();
                     } catch (Exception e) {
                         Log.e(TAG, e.toString());
                     }
-                    if (count == 0) {
-                        Common.showToast(activity, R.string.createGroupFail);
-                    } else {
+                    jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+                    int createResult = jsonObject.get("creatResult").getAsInt();
+                    if (createResult == 1) {
                         Common.showToast(activity, R.string.createGroupSuccessfully);
+                    } else {
+                        Common.showToast(activity, R.string.createGroupFail);
                     }
                 } else {
                     Common.showToast(activity,R.string.textNoNetwork);
@@ -270,6 +278,20 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
             }
         });
     }
+
+    Spinner.OnItemSelectedListener listener = new Spinner.OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            spSurfPoint.setSelection(position, true);
+            surfPoint = position + 1;
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     /* --------------------------- 選擇日期與時間 -------------------------- */
     @Override
