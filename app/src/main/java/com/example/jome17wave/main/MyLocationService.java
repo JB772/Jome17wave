@@ -163,7 +163,7 @@ public class MyLocationService extends Service {
                 public void onComplete(@NonNull Task<Location> task) {
                     if (task.isSuccessful()) {
                         lastLocation = task.getResult();
-                        Log.d(TAG, "Lat :"+String.valueOf(lastLocation.getLatitude()));
+//                        Log.d(TAG, "Lat :"+String.valueOf(lastLocation.getLatitude()));
                         updateLastLocationInfo(lastLocation);
                     }
                 }

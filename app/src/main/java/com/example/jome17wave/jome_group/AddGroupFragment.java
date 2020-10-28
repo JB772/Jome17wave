@@ -5,14 +5,26 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.solver.state.State;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,19 +33,34 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.main.MainActivity;
+import com.example.jome17wave.task.CommonTask;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.yalantis.ucrop.UCrop;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
+
+import static android.app.Activity.RESULT_OK;
 
 public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
     private final static String TAG = "TAG_AddGroupFragment";
     private MainActivity activity;
     private ImageView ivAddGroup;
     private ImageButton addGroupImage;
+    private Spinner spSurfPoint;
     private TextView tvGroupDate, tvGroupTime;
     private EditText addGroupName, addGroupPeople, addGroupNotice;
     private byte[] image;
@@ -41,8 +68,9 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
     private static final int REQ_PICK_PICTURE = 1;
     private static final int REQ_CROP_PICTURE = 2;
     private static int year, month, day, hour, minute;
-
-
+    private Uri imageUri;
+    private JomeMember member;
+    private String pickDateTime;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,12 +90,15 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
         super.onViewCreated(view, savedInstanceState);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle("新增揪團");
+        final NavController navController = Navigation.findNavController(view);
 
 
         ivAddGroup = view.findViewById(R.id.ivAddGroup);
+        ivAddGroup.setImageResource(R.drawable.surf1);
         addGroupName = view.findViewById(R.id.addGroupName);
         addGroupPeople = view.findViewById(R.id.addGroupPeople);
         addGroupNotice = view.findViewById(R.id.addGroupNotice);
+        spSurfPoint = view.findViewById(R.id.spSurfPoint);
 
         tvGroupDate = view.findViewById(R.id.tvGroupDate);
         tvGroupDate.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +128,7 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
             }
         });
         showNow();
-
+        /* --------------------------- 新增照片(可拍照或選照片) -------------------------- */
         addGroupImage = view.findViewById(R.id.addGroupImage);
         addGroupImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +140,18 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
+                            File file = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                            file = new File(file, "picture.jpg");
+                            imageUri = FileProvider.getUriForFile(activity, activity.getOpPackageName() + ".provider", file);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                            if (intent.resolveActivity(activity.getPackageManager()) != null) {
+                                startActivityForResult(intent, REQ_TAKE_PICTURE);
+                            } else {
+                                Common.showToast(activity, R.string.textNoCameraAppFound);
+                            }
+                        } else {
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, REQ_PICK_PICTURE);
                         }
                     }
                 })
@@ -118,8 +160,118 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
                         .show();
             }
         });
+        /* --------------------------- 新增照片(可拍照或選照片) -------------------------- */
+
+        Button btAddNewGroup = view.findViewById(R.id.btAddNewGroup);
+        btAddNewGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+                member = new Gson().fromJson(memberStr, JomeMember.class);
+                String memberId = member.getMember_id();
+                boolean textError = true;
+                String name = addGroupName.getText().toString().trim();
+                String people = addGroupPeople.getText().toString().trim();
+                String notice = "";
+                String surfPoint = spSurfPoint.toString().trim();
+                int intSurfPoint = 0;
+                switch (surfPoint){
+                    case "金山中角灣浪點":
+                        intSurfPoint = 1;
+                        break;
+                    case "翡翠灣浪點":
+                        intSurfPoint = 2;
+                        break;
+                    case "福隆浪點":
+                        intSurfPoint = 3;
+                        break;
+                    case "雙獅浪點":
+                        intSurfPoint = 4;
+                        break;
+                    case "烏石港北堤浪點":
+                        intSurfPoint = 5;
+                        break;
+                    case "金樽浪點":
+                        intSurfPoint = 6;
+                        break;
+                    case "南灣浪點":
+                        intSurfPoint = 7;
+                        break;
+                    case "佳樂水浪點":
+                        intSurfPoint = 8;
+                        break;
+                    case "漁光島馬場浪點":
+                        intSurfPoint = 9;
+                        break;
+                    case "竹南浪點":
+                        intSurfPoint = 10;
+                        break;
+
+                }
+
+                if (name.isEmpty()) {
+                    addGroupName.setError("請輸入團名");
+                    textError = false;
+                }
+                if (tvGroupDate.length() <= 0) {
+                    textError = false;
+                    Common.showToast(activity, R.string.addGroupDate);
+                }
+                if (tvGroupTime.length() <= 0) {
+                    textError = false;
+                    Common.showToast(activity, R.string.addGroupTime);
+                }
+                if (people.isEmpty()) {
+                    addGroupPeople.setError("請輸入人數");
+                    textError = false;
+                }
+                if (!textError) {
+                    return;
+                }
+                if (!addGroupNotice.getText().toString().isEmpty()) {
+                    notice = addGroupNotice.getText().toString();
+                }
+
+//                String assembleDate = tvGroupDate.getText().toString().trim();
+//                String assembleTime = tvGroupTime.getText().toString().trim();
+
+                String assembleDateTime = pickDateTime;
+                Log.d(TAG, "assembleDateTime: " + assembleDateTime);
+                String groupEndTime = Common.getGroupEndTime(assembleDateTime);
+                String SignUpEndTime = Common.getSignUpEnd(assembleDateTime);
+
+                if (Common.networkConnected(activity)) {
+                    String url = Common.URL_SERVER + "/jome_member/GroupOperateServlet";
+                    PersonalGroupBean personalGroupBean = new PersonalGroupBean(memberId, 1, 1, Common.getDateTimeId(), name, assembleDateTime,
+                            groupEndTime, SignUpEndTime, intSurfPoint, Integer.valueOf(people), 1, notice);
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("action", "creatAGroup");
+                    jsonObject.addProperty("inGroup", new Gson().toJson(personalGroupBean));
+                    if (image != null) {
+                        jsonObject.addProperty("imageBase64", Base64.encodeToString(image, Base64.DEFAULT));
+
+                    }
+                    int count = 0;
+                    try {
+                        String result = new CommonTask(url, jsonObject.toString()).execute().get();
+                        count = Integer.parseInt(result);
+                    } catch (Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
+                    if (count == 0) {
+                        Common.showToast(activity, R.string.createGroupFail);
+                    } else {
+                        Common.showToast(activity, R.string.createGroupSuccessfully);
+                    }
+                } else {
+                    Common.showToast(activity,R.string.textNoNetwork);
+                }
+                navController.popBackStack();
+            }
+        });
     }
 
+    /* --------------------------- 選擇日期與時間 -------------------------- */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
         AddGroupFragment.year = year;
@@ -145,12 +297,25 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
         minute = calendar.get(Calendar.MINUTE);
     }
 
+
+//    String assembleTime = tvGroupTime.getText().toString().trim();
+//    String assembleDate = tvGroupDate.getText().toString().trim();
+//    String groupEndTime = Common.getGroupEndTime(assembleTime);
+
+
+
     private void updateDisplay() {
         tvGroupDate.setText(new StringBuilder().append(year).append("-")
         .append(pad(month + 1)).append("-").append(pad(day)));
 
+
         tvGroupTime.setText(new StringBuilder().append(hour).append(":")
         .append(pad(minute)));
+
+        pickDateTime = new StringBuilder().append(year).append("-")
+                .append(pad(month + 1)).append("-").append(pad(day)).append(" ").append(hour).append(":")
+                .append(pad(minute)).toString();
+
     }
 
     private String pad(int number) {
@@ -160,4 +325,57 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
             return "0" + number;
         }
     }
+    /* --------------------------- 選擇日期與時間 -------------------------- */
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQ_TAKE_PICTURE:
+                    crop(imageUri);
+                case REQ_PICK_PICTURE:
+                    crop(intent.getData());
+                case REQ_CROP_PICTURE:
+                    handleCropResult(intent);
+                    break;
+            }
+        }
+    }
+
+    private void crop(Uri sourceImageUri) {
+        File file = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        file = new File(file, "picture_cropped.jpg");
+        Uri destinationUri = Uri.fromFile(file);
+        UCrop.of(sourceImageUri, destinationUri).start(activity, this, REQ_CROP_PICTURE);
+    }
+
+    private void handleCropResult(Intent intent) {
+        Uri resultUri = UCrop.getOutput(intent);
+        if (resultUri == null) {
+            return;
+        }
+        Bitmap bitmap = null;
+        try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+                bitmap = BitmapFactory.decodeStream(
+                        activity.getContentResolver().openInputStream(resultUri));
+            } else {
+                ImageDecoder.Source source =
+                        ImageDecoder.createSource(activity.getContentResolver(), resultUri);
+                bitmap = ImageDecoder.decodeBitmap(source);
+            }
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            image = out.toByteArray();
+        } catch (IOException e) {
+            Log.e(TAG, e.toString());
+        }
+        if (bitmap != null) {
+            ivAddGroup.setImageBitmap(bitmap);
+        } else {
+            ivAddGroup.setImageResource(R.drawable.no_image);
+        }
+    }
+
 }

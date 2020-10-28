@@ -84,6 +84,7 @@
                                 android:layout_marginEnd="8dp"
                                 android:layout_marginBottom="8dp"
                                 android:background="@android:color/transparent"
+                                android:tint="@color/colorOrange"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:srcCompat="@drawable/icon_awesome_camera" />
@@ -95,7 +96,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout4"
                     android:layout_width="match_parent"
-                    android:layout_height="270dp"
+                    android:layout_height="280dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="8dp"
@@ -146,7 +147,8 @@
                         android:layout_marginTop="4dp"
                         android:text="日期"
                         android:textColor="@color/colorDeepBlue"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/ivDate"
                         app:layout_constraintTop_toTopOf="@+id/ivDate" />
 
@@ -157,7 +159,8 @@
                         android:layout_marginStart="24dp"
                         android:text="團名"
                         android:textColor="@color/colorDeepBlue"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/imageView20"
                         app:layout_constraintTop_toTopOf="@+id/imageView20" />
 
@@ -209,7 +212,8 @@
                         android:layout_marginTop="4dp"
                         android:text="時間"
                         android:textColor="@color/colorDeepBlue"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/ivTime"
                         app:layout_constraintTop_toTopOf="@+id/ivTime" />
 
@@ -231,7 +235,8 @@
                         android:layout_marginTop="4dp"
                         android:text="地點"
                         android:textColor="@color/colorDeepBlue"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/imageView24"
                         app:layout_constraintTop_toTopOf="@+id/imageView24" />
 
@@ -257,7 +262,7 @@
 
                     <EditText
                         android:id="@+id/addGroupPeople"
-                        android:layout_width="50dp"
+                        android:layout_width="70dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
@@ -276,7 +281,8 @@
                         android:layout_marginTop="4dp"
                         android:text="人"
                         android:textColor="@color/colorDeepBlue"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/addGroupPeople"
                         app:layout_constraintTop_toTopOf="@+id/imageView25" />
 

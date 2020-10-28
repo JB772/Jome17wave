@@ -30,6 +30,21 @@ public class PersonalGroupBean implements Serializable {
         this.groupId = groupId;
     }
 
+    public PersonalGroupBean(String memberId, int attenderStatus, int role, String groupId, String groupName, String assembleTime, String groupEndTime, String signUpEnd, int surfPointId, int groupLimit, int groupStatus, String notice) {
+        this.memberId = memberId;
+        this.attenderStatus = attenderStatus;
+        this.role = role;
+        this.groupId = groupId;
+        this.groupName = groupName;
+        this.assembleTime = assembleTime;
+        this.groupEndTime = groupEndTime;
+        this.signUpEnd = signUpEnd;
+        this.surfPointId = surfPointId;
+        this.groupLimit = groupLimit;
+        this.groupStatus = groupStatus;
+        this.notice = notice;
+    }
+
     public PersonalGroupBean() {
     }
 

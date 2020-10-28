@@ -8,7 +8,7 @@
     <string name="BottomBarMember">會員中心</string>
     <string name="SearchViewText">請輸入浪點</string>
     <string name="MapAppName">地圖</string>
-    <string name="textNoNetwork">no network connection available</string>
+    <string name="textNoNetwork">沒有網路連線</string>
     <string name="textNoMapsFound">no maps found</string>
     <string name="textNoGroupsFound">目前沒有揪團</string>
     <string name="thisWeekTitle">本週</string>
@@ -127,11 +127,13 @@
     <string name="change_successful">申請成功</string>
     <string name="accountIsExist">帳號已存在，請重新註冊</string>
     <string name="ratingPageTitle">活動滿意度</string>
-    <string name="newGroupName">給揪團一個標題吧 ! (限10字元)</string>
+    <string name="newGroupName">請輸入團名 (限10字元)</string>
     <string name="addGroupDate">請選擇日期</string>
     <string name="addGroupTime">請選擇時間</string>
     <string name="addGroupPeople">人數</string>
     <string name="addGroupNotic">給團友的話(限50字元)</string>
+    <string name="createGroupFail">建立揪團失敗</string>
+    <string name="createGroupSuccessfully">建立揪團成功</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>
