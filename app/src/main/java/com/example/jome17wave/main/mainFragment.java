@@ -53,9 +53,10 @@ public class mainFragment extends Fragment {
     private RecyclerView rvStart;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CommonTask GroupGetAllTask;
-    private List<PersonalGroupBean> groups;
     private List<GroupImageTask> imageTasks;
     private String memberId;
+    private  List<PersonalGroupBean> startGroups = new ArrayList<>();
+    private  List<PersonalGroupBean> newGroups = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,22 +86,12 @@ public class mainFragment extends Fragment {
         rvStart = view.findViewById(R.id.rvStart);
         rvStart.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
 
+        diverseStartGroups();
+        diverseNewGroups();
+        showGroups(newGroups);
+        showStartGroups(startGroups);
 
-        groups = getGroups();       //all
 
-        List<PersonalGroupBean> startGroups = new ArrayList<>();
-        List<PersonalGroupBean> newGroups = new ArrayList<>();
-        if (groups != null){
-            for (PersonalGroupBean group : groups) {
-                if (group.getGroupStatus() == 1) {
-                    newGroups.add(group);
-                } else if (group.getGroupStatus() == 2) {
-                    startGroups.add(group);
-                }
-            }
-            showGroups(newGroups);
-            showStartGroups(startGroups);
-        }
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
@@ -108,8 +99,18 @@ public class mainFragment extends Fragment {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
+                diverseStartGroups();
+                diverseNewGroups();
                 showGroups(newGroups);
+                for(PersonalGroupBean newGroup: newGroups){
+                    Log.d(TAG, "newGroups :" + newGroup.getGroupName());
+                }
+
                 showStartGroups(startGroups);
+                for(PersonalGroupBean startGroup: startGroups){
+                    Log.d(TAG, "startGroups :" + startGroup.getGroupName());
+                }
+
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -130,17 +131,17 @@ public class mainFragment extends Fragment {
                     showGroups(searchGroups);
                 }
 
-//                if (newText.isEmpty()) {
-//                    showStartGroups(startGroups);
-//                } else {
-//                    List<PersonalGroupBean> searchGroups = new ArrayList<>();
-//                    for (PersonalGroupBean group: startGroups) {
-//                        if (group.getGroupName().toUpperCase().contains(newText.toUpperCase())) {
-//                            searchGroups.add(group);
-//                        }
-//                    }
-//                    showStartGroups(searchGroups);
-//                }
+                if (newText.isEmpty()) {
+                    showStartGroups(startGroups);
+                } else {
+                    List<PersonalGroupBean> searchGroups = new ArrayList<>();
+                    for (PersonalGroupBean group: startGroups) {
+                        if (group.getGroupName().toUpperCase().contains(newText.toUpperCase())) {
+                            searchGroups.add(group);
+                        }
+                    }
+                    showStartGroups(searchGroups);
+                }
                 return false;
             }
 
@@ -150,6 +151,31 @@ public class mainFragment extends Fragment {
             }
 
         });
+    }
+
+    private void diverseNewGroups(){
+        List<PersonalGroupBean> groups = getGroups();//all
+        newGroups.clear();
+        if (groups != null){
+            for (PersonalGroupBean group : groups) {
+                if (group.getGroupStatus() == 1) {
+                    newGroups.add(group);
+                }
+            }
+        }
+    }
+
+    private void diverseStartGroups() {
+        List<PersonalGroupBean> groups = getGroups();       //all
+        startGroups.clear();
+        if (groups != null){
+            for (PersonalGroupBean group : groups) {
+                if (group.getGroupStatus() == 2) {
+
+                    startGroups.add(group);
+                }
+            }
+        }
     }
 
     private List<PersonalGroupBean> getGroups() {
