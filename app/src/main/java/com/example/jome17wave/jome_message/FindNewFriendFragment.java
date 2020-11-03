@@ -137,6 +137,7 @@ public class FindNewFriendFragment extends Fragment {
 //                Log.d(TAG, "inviteId: " + member.getMember_id());
                 friendListBean.setInvite_M_ID(member.getMember_id());
                 friendListBean.setAccept_M_ID(newFriend.getMember_id());
+                friendListBean.setFriend_Status(3);
 
                 jsonObject.addProperty("action", "addNewFriend");
                 jsonObject.addProperty("addNewFriend", new Gson().toJson(friendListBean));

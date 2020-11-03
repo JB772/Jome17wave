@@ -115,7 +115,7 @@ public class OtherMemberFragment extends Fragment {
                 JsonObject jsonObject = new JsonObject();
                 String mainStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 String mainId = new Gson().fromJson(mainStr, JomeMember.class).getMember_id();
-                FriendListBean Relation = new FriendListBean(mainId, friend.getMember_id(), relationCode);
+                FriendListBean relation = new FriendListBean(mainId, friend.getMember_id(), relationCode);
                 boolean connectServer = false;
                 switch (v.getId()) {
                     case R.id.ibtFriendStory:
@@ -136,17 +136,23 @@ public class OtherMemberFragment extends Fragment {
                         if (relationCode == -1){
                             //陌生人
                             socialAction = "addNewFriend";
-                            jsonObject.addProperty("addNewFriend", new Gson().toJson(Relation));
+                            jsonObject.addProperty("addNewFriend", new Gson().toJson(relation));
                         } else if (relationCode == 2 ){
                             //曾拒絕
                             socialAction = "addNewFriend";
-                            Relation.setFriend_Status(3);
-                            jsonObject.addProperty("addNewFriend", new Gson().toJson(Relation));
+                            relation.setFriend_Status(3);
+                            jsonObject.addProperty("addNewFriend", new Gson().toJson(relation));
                         }else if (relationCode == 4){
                             //別人邀請，等待我回應
                             ibtFriendAdd.setVisibility(View.GONE);
                             socialAction = "clickAgree";
-                            jsonObject.addProperty("agreeBean", new Gson().toJson(Relation));
+                            String inviteMember = relation.getAccept_M_ID();
+                            Log.d(TAG,"inviteMember"+inviteMember);
+                            String acceptMember = relation.getInvite_M_ID();
+                            Log.d(TAG, "acceptMember" + acceptMember);
+                            relation.setInvite_M_ID(inviteMember);
+                            relation.setAccept_M_ID(acceptMember);
+                            jsonObject.addProperty("agreeBean", new Gson().toJson(relation));
                         }
                         connectServer = true;
                         break;
@@ -154,7 +160,7 @@ public class OtherMemberFragment extends Fragment {
                         ibtFriendAdd.setVisibility(View.VISIBLE);
                         //如果是取消pending，整筆交友資料刪除
                         socialAction = "deleteRelation";
-                        jsonObject.addProperty("deleteFriend", new Gson().toJson(Relation));
+                        jsonObject.addProperty("deleteFriend", new Gson().toJson(relation));
                         connectServer = true;
                         break;
                     default:
