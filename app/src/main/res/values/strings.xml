@@ -134,6 +134,8 @@
     <string name="addGroupNotic">給團友的話(限50字元)</string>
     <string name="createGroupFail">建立揪團失敗</string>
     <string name="createGroupSuccessfully">建立揪團成功</string>
+    <string name="default_notification_channel_id">default_channel_id</string>
+    <string name="default_notification_channel_name">default_channel_name</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>

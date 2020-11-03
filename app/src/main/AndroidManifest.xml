@@ -22,10 +22,30 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
 
+<!--        設定FirebaseMessaging的icon-->
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
+<!--            android:resource=""/>-->
+
+<!--        設定FirebaseMessaging的顏色-->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorOrange"/>
+
+<!--        設定FirebaseMessaging的channelID-->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:resource="@string/default_notification_channel_id"/>
+
         <service
             android:name=".main.MyLocationService"
             android:enabled="true"
             android:exported="false" />
+        <service android:name=".main.MyFirebaseMessagingService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAC-r1zWx-Dt5yemYUdgeldyLx4gB_qUbo" />

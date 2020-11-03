@@ -30,8 +30,10 @@ import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
 import com.example.jome17wave.main.MainActivity;
+import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,6 +43,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.concurrent.ExecutionException;
 
 public class MemberProfileFragment extends Fragment {
     private static final String TAG = "MemberProfileFragment";
@@ -96,6 +99,21 @@ public class MemberProfileFragment extends Fragment {
             public void onClick(View view) {
                 switch (view.getId()){
                     case R.id.btConnectUs:
+                        String url = Common.URL_SERVER + "jome_member/FcmBasicServlet";
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("action", "singleFcm");
+                        jsonObject.addProperty("title", "TestTitle");
+                        jsonObject.addProperty("body", "TestBody");
+                        jsonObject.addProperty("data", "TestData");
+                        CommonTask commonTask = new CommonTask(url, jsonObject.toString());
+                        try {
+                            String result = commonTask.execute().get();
+                            Log.d(TAG, "containUs: " + result);
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         break;
 
                     case R.id.btLogOut:
@@ -127,6 +145,7 @@ public class MemberProfileFragment extends Fragment {
                 }
             }
         };
+        btConnectUs.setOnClickListener(onClickListener);
         btLogOut.setOnClickListener(onClickListener);
         clFriendList.setOnClickListener(onClickListener);
         clScore.setOnClickListener(onClickListener);

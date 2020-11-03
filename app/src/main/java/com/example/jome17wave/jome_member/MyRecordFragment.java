@@ -115,18 +115,19 @@ public class MyRecordFragment extends Fragment {
             super(fragmentActivity);
 
             //左頁
-            Bundle attendingBundle = new Bundle();
-            attendingBundle.putInt("showRecord", 1);
-            Fragment attendingFragment = new SelfAttendingFragment();
-            attendingFragment.setArguments(attendingBundle);
-            fragments.add(attendingFragment);
 
-            //右頁
             Bundle myGroupBundle = new Bundle();
-            myGroupBundle.putInt("showRecord", 2);
+            myGroupBundle.putInt("showRecord", 1);
             Fragment myGroupFragment = new SelfAttendingFragment();
             myGroupFragment.setArguments(myGroupBundle);
             fragments.add(myGroupFragment);
+
+            //右頁
+            Bundle attendingBundle = new Bundle();
+            attendingBundle.putInt("showRecord", 2);
+            Fragment attendingFragment = new SelfAttendingFragment();
+            attendingFragment.setArguments(attendingBundle);
+            fragments.add(attendingFragment);
         }
 
         @NonNull

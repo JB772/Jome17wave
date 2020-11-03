@@ -57,6 +57,9 @@ public class SelfAttendingFragment extends Fragment {
         rvSelfRecord = view.findViewById(R.id.rvSelfRecord);
         rvSelfRecord.setLayoutManager(new LinearLayoutManager(activity));
         groups = getGroups();
+        for (PersonalGroupBean myGroup: groups){
+            Log.d(TAG, "groups61 :" + myGroup.getGroupName());
+        }
         SelfRecordAdapter selfRecordAdapter = new SelfRecordAdapter(activity, groups);
         selfRecordAdapter.notifyDataSetChanged();
         rvSelfRecord.setAdapter(selfRecordAdapter);
@@ -122,7 +125,7 @@ public class SelfAttendingFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int position) {
             final PersonalGroupBean group = groups.get(position);
-              if (group.getGroupStatus() == 1 || group.getGroupStatus() == 2){
+              if (group.getGroupStatus() == 1 || group.getGroupStatus() == 2 ){
                   Date assembleTime = Common.str2Date(group.getAssembleTime());      //集合時間
                   Date signUpEnd = Common.str2Date(group.getSignUpEnd());           //報名截止時間
                   Date groupEndTime = Common.str2Date(group.getGroupEndTime());     //活動結束時間
@@ -130,23 +133,29 @@ public class SelfAttendingFragment extends Fragment {
                   switch (group.getRole()){
                       case 1:       //團長
                           int groupStatus = group.getGroupStatus();
+                          Log.d(TAG, "groupName: "+group.getGroupName() + "groupStatus: "+group.getGroupStatus());
                           switch (groupStatus){
                               case 1:
                                   if (nowTime.before(signUpEnd)){
                                       //顯示「募集中」
                                       viewHolder.igCollecting.setVisibility(View.VISIBLE);
                                   }else if (nowTime.after(signUpEnd) && nowTime.before(assembleTime)){
+                                      //顯示「即將開始」
                                       viewHolder.igWillStart.setVisibility(View.VISIBLE);
                                   }else if (nowTime.after(assembleTime) && nowTime.before(groupEndTime)){
                                       //顯示「進行中」
                                       viewHolder.igProcessing.setVisibility(View.VISIBLE);
                                   }else if (nowTime.after(groupEndTime)){
+                                      //顯示「已經結束」
                                       viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
                                   }else {
                                       viewHolder.setIsRecyclable(false);
                                   }
                                   break;
                               case 2:
+                                  viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
+                                  break;
+                              case 3:
                                   viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
                                   break;
                               default:
@@ -157,39 +166,51 @@ public class SelfAttendingFragment extends Fragment {
                       case 2:      //團員
                           int attendStatus = group.getAttenderStatus();
                           switch (attendStatus){
+                              //離開
                               case 0:
-                                  viewHolder.tvRecordResult.setVisibility(View.GONE);
+                                  viewHolder.itemView.setVisibility(View.GONE);
+                              //同意加入
                               case 1:
                                   if (nowTime.before(signUpEnd)){
+                                      //加入成功
                                       viewHolder.igJSuccess.setVisibility(View.VISIBLE);
                                   }else if (nowTime.after(signUpEnd) && nowTime.before(assembleTime)){
+                                      //顯示「即將開始」
                                       viewHolder.igWillStart.setVisibility(View.VISIBLE);
                                   }else if (nowTime.after(assembleTime) && nowTime.before(groupEndTime)){
                                       //顯示「進行中」
                                       viewHolder.igProcessing.setVisibility(View.VISIBLE);
                                   }else if(nowTime.after(groupEndTime)){
+                                      //顯示「已結束』
                                       viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
                                   }else {
-                                      viewHolder.setIsRecyclable(false);
+                                      viewHolder.itemView.setVisibility(View.GONE);
                                   }
                                   break;
+                              //拒絕
                               case 2:
+                                  //顯示「加入失敗」
                                   viewHolder.igJLose.setVisibility(View.VISIBLE);
                                   break;
+                              //待審
                               case 3:
                                   if (nowTime.before(assembleTime)){
                                      //顯示待審核
                                       viewHolder.igChecking.setVisibility(View.VISIBLE);
+                                  }else {
+                                      viewHolder.igJLose.setVisibility(View.VISIBLE);
                                   }
                                   break;
                               default:
-                                  viewHolder.setIsRecyclable(false);
+                                  viewHolder.itemView.setVisibility(View.GONE);
                           }
                           break;
                   }
 
+              }else if(group.getGroupStatus() == 3){
+                  viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
               }else {
-                  viewHolder.setIsRecyclable(false);
+                  viewHolder.itemView.setVisibility(View.GONE);
               }
 
             viewHolder.tvRecordResult.setText(group.toString());
@@ -197,25 +218,25 @@ public class SelfAttendingFragment extends Fragment {
     }
 
     private List<PersonalGroupBean> getGroups() {
-        List<PersonalGroupBean> groups = new ArrayList<>();
+        List<PersonalGroupBean> allGroups = new ArrayList<>();
         Bundle bundle = this.getArguments();
         if (bundle != null){
             Group group = null;
             int showRecord = bundle.getInt("showRecord");
 
             if (showRecord == 1){
-                Log.d("TAG", "attendingFragment1 : " + showRecord);
+                Log.d("TAG", "myGroupFragment1 : " + showRecord);
                 if (new File(activity.getFilesDir(), "mainGroups").exists()){
-                    groups = (List< PersonalGroupBean >) openFile_getFileDir("mainGroups");
+                    allGroups = (List< PersonalGroupBean >) openFile_getFileDir("mainGroups");
                 }
             }else if (showRecord == 2){
-                Log.d("TAG", "myGroupFragment2 : " + showRecord);
+                Log.d("TAG", "attendingFragment2 : " + showRecord);
                 if (new File(activity.getFilesDir(), "attendGroups").exists()){
-                    groups = (List<PersonalGroupBean>) openFile_getFileDir("attendGroups");
+                    allGroups = (List<PersonalGroupBean>) openFile_getFileDir("attendGroups");
                 }
             }
         }
-        return groups;
+        return allGroups;
     }
 
     private Object openFile_getFileDir(String fileName){

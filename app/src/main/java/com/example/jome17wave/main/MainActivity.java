@@ -1,70 +1,21 @@
 package com.example.jome17wave.main;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.navigation.NavController;
-
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-
-import android.Manifest;
-import android.app.Activity;
-
-import androidx.navigation.NavDestination;
-import androidx.navigation.NavHostController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.content.Intent;
-import android.content.IntentSender;
-import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
-
-import android.location.Location;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
-import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
-import com.example.jome17wave.jome_Bean.JomeMember;
-import com.example.jome17wave.jome_Bean.PersonalGroupBean;
-import com.example.jome17wave.jome_loginRegister.LoginActivity;
-import com.example.jome17wave.task.CommonTask;
-import com.example.jome17wave.task.GroupImageTask;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
-    public static MainActivity activity;
-    private static final int REQ_LOGIN = 2;
-    private static final int PER_ACCESS_LOCATION = 201;
-    private MyLocationService myLocationService;
 
 
     @Override
@@ -72,6 +23,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //設定app在背景時收到FCM，會自動顯示notification（前景時則不會自動顯示）
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT));
+        }
+        // 當notification被點擊時才會取得自訂資料
+        //notification點擊開啟，開的是activity，開activity用intent()，intent可以帶bundle
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            String data = bundle.getString("data");
+            Log.d(TAG, "data :" + data);
+        }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.fragment);

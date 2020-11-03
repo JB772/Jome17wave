@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
+import com.example.jome17wave.task.CommonTask;
+import com.google.gson.JsonObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,6 +63,23 @@ public class Common {
             }
         }
         return false;
+    }
+
+    /**
+     * 將registration token傳送至server
+     */
+    public static void sendTokenToServer(String token, Context context) {
+        if (Common.networkConnected(context)) {
+            String url = Common.URL_SERVER + "jome_member/FcmBasicServlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "register");
+            jsonObject.addProperty("registrationToken", token);
+            String jsonOut = jsonObject.toString();
+            CommonTask commonTask  = new CommonTask(url, jsonOut);
+            commonTask.execute();
+        } else {
+            Common.showToast(context, R.string.textNoNetwork);
+        }
     }
 
     public static void showToast(Context context, int messageResId) {

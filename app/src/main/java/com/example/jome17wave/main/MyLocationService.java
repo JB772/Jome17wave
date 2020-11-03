@@ -5,20 +5,16 @@ import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.preference.PreferenceFragment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.jome_Bean.JomeMember;
@@ -113,8 +109,6 @@ public class MyLocationService extends Service {
             return MyLocationService.this;
         }
     }
-    //開新的執行緒
-    // 開啟執行緒
 
     // 檢查裝置是否開啟Location設定
     private void checkLocationSettings() {
@@ -133,13 +127,6 @@ public class MyLocationService extends Service {
             public void onFailure(@NonNull Exception e) {
                 if (e instanceof ResolvableApiException) {
                     Log.e(TAG, e.getMessage());
-//                    try {
-//                        ResolvableApiException resolvable = (ResolvableApiException) e;
-//                        // 跳出Location設定的對話視窗
-//                        resolvable.startResolutionForResult(activity, REQ_CHECK_SETTINGS);
-//                    } catch (IntentSender.SendIntentException sendEx) {
-//                        Log.e(TAG, e.getMessage());
-//                    }
                 }
             }
         });

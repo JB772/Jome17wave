@@ -2,13 +2,10 @@ package com.example.jome17wave.main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +26,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.GroupImageTask;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -46,15 +47,11 @@ public class mainFragment extends Fragment {
     public static MainActivity activity;
     private static final int REQ_LOGIN = 2;
     private static final int PER_ACCESS_LOCATION = 201;
-    private MyLocationService myLocationService;
-    private ServiceConnection serConnection = new serConnection();
-    private boolean myBound = false;
     private RecyclerView rvNewGroup;
     private RecyclerView rvStart;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CommonTask GroupGetAllTask;
     private List<GroupImageTask> imageTasks;
-    private String memberId;
     private  List<PersonalGroupBean> startGroups = new ArrayList<>();
     private  List<PersonalGroupBean> newGroups = new ArrayList<>();
 
@@ -64,6 +61,9 @@ public class mainFragment extends Fragment {
         activity = (MainActivity) getActivity();
         setHasOptionsMenu(true);
         imageTasks = new ArrayList<>();
+
+//        Intent sendMessageIntent = new Intent(activity, MyFirebaseMessagingService.class);
+//        activity.startService(sendMessageIntent);
     }
 
     @Override
@@ -82,7 +82,6 @@ public class mainFragment extends Fragment {
 
         rvNewGroup = view.findViewById(R.id.rvNewGroup);
         rvNewGroup.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
-
         rvStart = view.findViewById(R.id.rvStart);
         rvStart.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
 
@@ -354,33 +353,46 @@ public class mainFragment extends Fragment {
         Common.loginCheck(this, REQ_LOGIN);
     }
 
-    private class serConnection implements ServiceConnection {
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MyLocationService.LocalBinder binder = (MyLocationService.LocalBinder) service;
-            myLocationService = binder.getService();
-            myBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            myBound = false;
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_LOGIN) {
             if (resultCode == Activity.RESULT_OK) {
                 Log.d(TAG, "onActivityResult");
+                getTokenId();
                 askAccessLocationPermission();
             }
         }
     }
+    /**
+     * 取得手機tokenId
+     */
+    private void getTokenId(){
 
-    // 請求user同意定位
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()){
+                    if(task.getResult() != null){
+                        String tokenId = task.getResult();
+
+                        String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+                        JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
+                        mainMember.setToken_id(tokenId);
+                        Common.usePreferences(activity, Common.PREF_FILE).edit()
+                                                    .putString("registrationToken", tokenId)
+                                                    .putString("loginMember", new Gson().toJson(mainMember))
+                                                    .apply();
+                        Common.sendTokenToServer(tokenId, activity);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 請求手機定位Permission
+     */
     private void askAccessLocationPermission() {
         String[] permissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -389,14 +401,11 @@ public class mainFragment extends Fragment {
         int result = ActivityCompat.checkSelfPermission(activity, permissions[0]);
         if (result == PackageManager.PERMISSION_DENIED) {
             requestPermissions(permissions, PER_ACCESS_LOCATION);
-        } else {
-            //intent service開始抓位置
+        }
+        else {
+//            intent service開始抓位置
             Intent intent = new Intent(activity, MyLocationService.class);
             activity.startService(intent);
-
-//            //onBindService開始抓位置
-//        Intent myLocationSerIntent = new Intent(activity, MyLocationService.class);
-//        activity.bindService(myLocationSerIntent, serConnection, Context.BIND_AUTO_CREATE);
         }
     }
 
