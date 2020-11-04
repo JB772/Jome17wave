@@ -14,7 +14,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.example.jome17wave.Common;
+import com.example.jome17wave.FcmSender;
 import com.example.jome17wave.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -46,7 +46,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String tokenId) {
         Log.d( TAG, "onNewToken: " + tokenId);
-        Common.sendTokenToServer(tokenId, this);
+        new FcmSender().sendTokenToServer(tokenId, this);
+//        Common.sendTokenToServer(tokenId, this);
     }
 
     private void sendNotification(String title, String body){

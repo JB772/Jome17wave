@@ -9,16 +9,6 @@ import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -35,10 +25,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.example.jome17wave.Common;
-import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -141,8 +139,9 @@ public class ModifyProfileFragment extends Fragment {
         etCheckPw = view.findViewById(R.id.etCheckPw);
         etModifyNn = view.findViewById(R.id.etModifyNn);
         //個人資料
-        String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-        loginMember = new Gson().fromJson(memberStr, JomeMember.class);
+//        String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+//        loginMember = new Gson().fromJson(memberStr, JomeMember.class);
+        loginMember = Common.getSelfFromPreference(activity);
         int genderStr = -1;
         switch (loginMember.getGender()){
             case 1:

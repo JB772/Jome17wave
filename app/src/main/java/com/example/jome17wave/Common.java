@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_loginRegister.LoginActivity;
-import com.example.jome17wave.task.CommonTask;
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,8 +28,6 @@ public class Common {
     private static final String TAG = "TAG_Common";
     //    public static String URL_SERVER = "http://192.168.196.189:8080/Spot_MySQL_Web/";
     public static String URL_SERVER = "http://10.0.2.2:8080/Jome17wave_Web/";
-
-
     public final static String PREF_FILE = "preference";
 
 
@@ -65,22 +63,28 @@ public class Common {
         return false;
     }
 
+    public static JomeMember getSelfFromPreference(Context context){
+        String memberStr = Common.usePreferences(context, Common.PREF_FILE).getString("loginMember", "");
+        JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
+        return mainMember;
+    }
+
     /**
      * 將registration token傳送至server
      */
-    public static void sendTokenToServer(String token, Context context) {
-        if (Common.networkConnected(context)) {
-            String url = Common.URL_SERVER + "jome_member/FcmBasicServlet";
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("action", "register");
-            jsonObject.addProperty("registrationToken", token);
-            String jsonOut = jsonObject.toString();
-            CommonTask commonTask  = new CommonTask(url, jsonOut);
-            commonTask.execute();
-        } else {
-            Common.showToast(context, R.string.textNoNetwork);
-        }
-    }
+//    public static void sendTokenToServer(String token, Context context) {
+//        if (Common.networkConnected(context)) {
+//            String url = Common.URL_SERVER + "jome_member/FcmBasicServlet";
+//            JsonObject jsonObject = new JsonObject();
+//            jsonObject.addProperty("action", "register");
+//            jsonObject.addProperty("registrationToken", token);
+//            String jsonOut = jsonObject.toString();
+//            CommonTask commonTask  = new CommonTask(url, jsonOut);
+//            commonTask.execute();
+//        } else {
+//            Common.showToast(context, R.string.textNoNetwork);
+//        }
+//    }
 
     public static void showToast(Context context, int messageResId) {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();

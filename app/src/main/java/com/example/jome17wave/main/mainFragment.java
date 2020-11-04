@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.jome17wave.Common;
+import com.example.jome17wave.FcmSender;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
@@ -383,7 +384,7 @@ public class mainFragment extends Fragment {
                                                     .putString("registrationToken", tokenId)
                                                     .putString("loginMember", new Gson().toJson(mainMember))
                                                     .apply();
-                        Common.sendTokenToServer(tokenId, activity);
+                        new FcmSender().sendTokenToServer(tokenId, activity);
                     }
                 }
             }
