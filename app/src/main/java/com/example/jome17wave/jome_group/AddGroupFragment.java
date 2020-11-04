@@ -62,7 +62,7 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
     private ImageView ivAddGroup;
     private ImageButton addGroupImage;
     private Spinner spSurfPoint;
-    private int surfPoint = 0;
+    private int surfPoint = 1;
     private TextView tvGroupDate, tvGroupTime;
     private EditText addGroupName, addGroupPeople, addGroupNotice;
     private byte[] image;
@@ -255,7 +255,9 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
                     jsonObject.addProperty("inGroup", new Gson().toJson(personalGroupBean));
                     if (image != null) {
                         jsonObject.addProperty("imageBase64", Base64.encodeToString(image, Base64.DEFAULT));
-
+                    } else {
+                        Common.showToast(activity, R.string.addImagePlease);
+                        return;
                     }
                     int count = 0;
                     String jsonIn = "";
@@ -284,7 +286,9 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             spSurfPoint.setSelection(position, true);
-            surfPoint = position + 1;
+            surfPoint = position +1;
+//            surfPoint = position + 1;
+//            Log.d(TAG, "surfPoint123: " + surfPoint);
         }
 
         @Override

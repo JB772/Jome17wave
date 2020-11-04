@@ -134,6 +134,7 @@
     <string name="addGroupNotic">給團友的話(限50字元)</string>
     <string name="createGroupFail">建立揪團失敗</string>
     <string name="createGroupSuccessfully">建立揪團成功</string>
+    <string name="addImagePlease">請選擇照片</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>
