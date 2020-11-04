@@ -1,4 +1,4 @@
-package com.example.jome17wave;
+package com.example.jome17wave.jome_message;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -7,16 +7,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.JoGroupBean;
+import com.example.jome17wave.jome_Bean.ScoreBean;
 import com.example.jome17wave.main.MainActivity;
+import com.example.jome17wave.task.CommonTask;
+import com.example.jome17wave.task.ImageTask;
 import com.example.jome17wave.task.MemberImageTask;
 
 import java.util.List;
@@ -30,7 +39,10 @@ public class RatingPageFragment extends Fragment {
     private Bitmap bitmap;
     private RecyclerView rvRatingList;
     private List<MemberImageTask> imageTasks;
-//    private List<評分Bean> ratings;
+    private JoGroupBean groupBean;
+    private List<ScoreBean> ratings;
+    private Bitmap groupImageBitmap;
+    private CommonTask getRatingList, submitRated;
 
 
     @Override
@@ -60,7 +72,44 @@ public class RatingPageFragment extends Fragment {
         tvRatedGroupName = view.findViewById(R.id.tvRatedGroupName);
         btRatingSubmit = view.findViewById(R.id.btRatingSubmit);
 
-        
+        groupBean = getGroupBean();
+//        showGroupInfo(groupBean);
+//        ratings = getRatings();
+//        showRatings(ratings);
 
+//        btRatingSubmit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+
+    }
+
+    private JoGroupBean getGroupBean() {
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            String groupId = (String) bundle.getSerializable("groupId");
+            groupBean.setGroupId(groupId);
+
+        }
+        return groupBean;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.creat, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Navigation.findNavController(rvRatingList).popBackStack();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
