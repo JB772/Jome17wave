@@ -131,7 +131,7 @@
         tools:layout="@layout/fragment_group_detail" />
     <fragment
         android:id="@+id/ratingPageFragment"
-        android:name="com.example.jome17wave.RatingPageFragment"
+        android:name="com.example.jome17wave.jome_message.RatingPageFragment"
         android:label="fragment_rating_page"
         tools:layout="@layout/fragment_rating_page" />
     <fragment
