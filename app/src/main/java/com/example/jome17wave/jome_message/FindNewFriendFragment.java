@@ -267,6 +267,7 @@ public class FindNewFriendFragment extends Fragment {
 //            imageTasks.add(memberImageTask);
             tvOtherName.setText(newFriend.getNickname());
 
+            Log.d(TAG, "showNewFriendProfile裡的friendRelation: "+friendRelation);
             switch (friendRelation){
                 case "insert":
                     //顯示“加入好友”按鈕
@@ -300,6 +301,7 @@ public class FindNewFriendFragment extends Fragment {
                     answerLinearLayout.setVisibility(View.VISIBLE);
 //                    ibtAgree.setVisibility(View.VISIBLE);
 //                    ibtDecline.setVisibility(View.VISIBLE);
+                    break;
                 case "myself":
                     btAddNewFriend.setVisibility(View.GONE);
                     tvWasFriend.setText(R.string.myself);
@@ -332,6 +334,7 @@ public class FindNewFriendFragment extends Fragment {
                 jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
                 newFriend = new Gson().fromJson(jsonObject.get("theStranger").getAsString(), JomeMember.class);
                 friendRelation = jsonObject.get("friendRelation").getAsString();
+                Log.d(TAG, "getStranger裡的friendRelation: "+friendRelation);
 
             } catch (Exception e) {
                 Log.d(TAG, e.toString());
