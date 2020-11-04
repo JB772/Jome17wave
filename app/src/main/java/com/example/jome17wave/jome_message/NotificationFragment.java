@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jome17wave.Common;
+import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
@@ -282,11 +283,12 @@ public class NotificationFragment extends Fragment {
         if (Common.networkConnected(activity)){
             String url = null;
             JsonObject jsonObject = new JsonObject();
+            url = Common.URL_SERVER + "NotificationServlet";
 
             switch (notification.getType()){
                 case 1: //Body: attender ID
                     // notification.getNotificationBody() -> 這個是Attender資料表的ID
-                    url = Common.URL_SERVER + "NotificationServlet";
+//                    url = Common.URL_SERVER + "NotificationServlet";
                     jsonObject.addProperty("action", "getGroupBundle");
                     jsonObject.addProperty("attenderNo", notification.getNotificationBody());
 
@@ -294,7 +296,7 @@ public class NotificationFragment extends Fragment {
                 case 2: //Body: friendList uID
                     // notification.getNotificationBody() -> 這個是friendList資料表的uID
 
-                    url = Common.URL_SERVER + "NotificationServlet";
+//                    url = Common.URL_SERVER + "NotificationServlet";
                     jsonObject.addProperty("action", "getFriendBundle");
                     jsonObject.addProperty("uId",notification.getNotificationBody());
                     jsonObject.addProperty("myselfId",notification.getMemberId());
@@ -321,8 +323,10 @@ public class NotificationFragment extends Fragment {
         switch (notification.getType()){
             case 1: //Body: attender ID
                 // 連線SV取得GroupId，裝入bundle
-                PersonalGroupBean groupBean = new PersonalGroupBean();
-                groupBean.setGroupId(key);
+                Log.d(TAG, "key: "+ key);
+                PersonalGroupBean groupBean = new Gson().fromJson(key, PersonalGroupBean.class);
+//                groupBean.setGroupId(key);
+                Log.d(TAG, "groupBean: " + groupBean.getAttenderStatus());
                 bundle.putSerializable("newGroup", groupBean);
                 break;
             case 2: //Body: friendList uID
