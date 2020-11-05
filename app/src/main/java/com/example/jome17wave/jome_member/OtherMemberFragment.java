@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jome17wave.Common;
+import com.example.jome17wave.FcmSender;
 import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
@@ -169,7 +170,7 @@ public class OtherMemberFragment extends Fragment {
                 FriendListBean afterRelation = null;
                 if (connectServer == true){
                     if (Common.networkConnected(activity)){
-                        String url = Common.URL_SERVER + "FindNewFriendServlet";
+                        String url = Common.URL_SERVER + "FriendServlet";
                         jsonObject.addProperty("action", socialAction);
                         String jsonIn = "";
                         socialTask = new CommonTask(url, jsonObject.toString());
@@ -184,6 +185,11 @@ public class OtherMemberFragment extends Fragment {
                         }
                     }
                     if (afterRelation != null){
+
+                        //發送FCM
+                        FcmSender fcmSender = new FcmSender();
+                        fcmSender.friendFcmSender(activity, afterRelation);
+
                         relationCode = afterRelation.getFriend_Status();
                         jsonObject.addProperty("relationCode", relationCode);
                         File file = new File(activity.getFilesDir(), "otherMember");
