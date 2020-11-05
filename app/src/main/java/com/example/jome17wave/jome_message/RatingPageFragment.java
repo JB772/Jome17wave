@@ -27,18 +27,19 @@ import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.jome_Bean.JoGroupBean;
+import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.ScoreBean;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.GroupImageTask;
-import com.example.jome17wave.task.ImageTask;
 import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class RatingPageFragment extends Fragment {
     private String TAG = "TAG_RatingPage";
@@ -50,9 +51,9 @@ public class RatingPageFragment extends Fragment {
     private RecyclerView rvRatingList;
     private List<MemberImageTask> imageTasks;
     private JoGroupBean groupBean;
-    private List<ScoreBean> ratings;
+    private List<ScoreBean> ratings, ratingsResult;
     private Bitmap groupImageBitmap;
-    private CommonTask getRatingList, submitRated, getGroupBean;
+    private CommonTask getRatingsTask, submitRatedTask, getGroupBeanTask;
 
 
     @Override
@@ -82,17 +83,37 @@ public class RatingPageFragment extends Fragment {
         tvRatedGroupName = view.findViewById(R.id.tvRatedGroupName);
         btRatingSubmit = view.findViewById(R.id.btRatingSubmit);
 
+        //取得相關資料
         groupBean = getGroupBean();
         showGroupInfo(groupBean);
         ratings = getRatings(groupBean.getGroupId());
         showRatings(ratings);
 
-//        btRatingSubmit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+
+
+        //按下"確認送出"按鈕
+        btRatingSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = Common.URL_SERVER + "/jome_member/GroupOperateServlet";
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("action", "updateScoreList");
+                jsonObject.addProperty("ratingsResult", ratingsResult.toString());
+                String jsonOut = jsonObject.toString();
+                submitRatedTask = new CommonTask(url, jsonOut);
+                try {
+                    String inStr = submitRatedTask.execute().get();
+                    JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
+                    int resultCode = jsonIn.get("resultCode").getAsInt();
+                    if (resultCode == 1){
+                        Navigation.findNavController(v).popBackStack();
+                        Common.showToast(activity, R.string.ratingsFinished);
+                    }
+                }catch (Exception e){
+
+                }
+            }
+        });
 
     }
 
@@ -115,12 +136,36 @@ public class RatingPageFragment extends Fragment {
     private List<ScoreBean> getRatings(String groupId) {
         List<ScoreBean> ratings = new ArrayList<>();
         if (Common.networkConnected(activity)){
+            String url = Common.URL_SERVER + "/jome_member/GroupOperateServlet";
+            JsonObject jsonObject = new JsonObject();
 
+            String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+            JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
+            String memberId = member.getMember_id();
+
+            if (memberId != null){
+                jsonObject.addProperty("action", "getRatings");
+                jsonObject.addProperty("memberId", memberId);
+                jsonObject.addProperty("groupId", groupId);
+            }
+            String jsonOut = jsonObject.toString();
+            getRatingsTask = new CommonTask(url, jsonOut);
+            try {
+                String inStr = getRatingsTask.execute().get();
+                Log.d(TAG, "inStr: " + inStr);
+                JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
+                String ratingsStr = jsonIn.get("ratings").getAsString();
+                Type listType = new TypeToken<List<ScoreBean>>(){}.getType();
+                ratings = new Gson().fromJson(ratingsStr, listType);
+                return ratings;
+            }catch (Exception e){
+                Log.e(TAG, e.toString());
+            }
         }else {
             Common.showToast(activity, R.string.no_network_connection_available);
         }
 
-        return  ratings;
+        return  null;
     }
 
     private void showGroupInfo(JoGroupBean groupBean) {
@@ -157,9 +202,9 @@ public class RatingPageFragment extends Fragment {
                     jsonObject.addProperty("groupId", groupId);
                 }
                 String jsonOut = jsonObject.toString();
-                getGroupBean = new CommonTask(url, jsonOut);
+                getGroupBeanTask = new CommonTask(url, jsonOut);
                 try {
-                   String inStr = getGroupBean.execute().get();
+                   String inStr = getGroupBeanTask.execute().get();
                    JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
                    groupBean = new Gson().fromJson(jsonIn.get("getAResult").toString(), JoGroupBean.class);
                 } catch (Exception e) {
@@ -233,6 +278,14 @@ public class RatingPageFragment extends Fragment {
                     holder.tvRatedScore.setText(ratedScore);
 
                     //還要寫更新資料
+                    ScoreBean ratingResult = new ScoreBean();
+                    ratingResult.setMemberId(scoreBean.getMemberId());
+                    ratingResult.setBeRatedId(scoreBean.getBeRatedId());
+                    ratingResult.setBeRatedName(scoreBean.getBeRatedName());
+                    ratingResult.setGroupId(scoreBean.getGroupId());
+                    ratingResult.setScore(Integer.valueOf(ratedScore));
+
+                    ratingsResult.add(ratingResult);
 
                 }
             });
@@ -267,10 +320,10 @@ public class RatingPageFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-//        if (invitationGetAllTask != null){
-//            invitationGetAllTask.cancel(true);
-//            invitationGetAllTask = null;
-//        }
+        if (getRatingsTask != null){
+            getRatingsTask.cancel(true);
+            getRatingsTask = null;
+        }
 
         if (imageTasks != null && imageTasks.size() > 0){
             for (MemberImageTask imageTask : imageTasks){

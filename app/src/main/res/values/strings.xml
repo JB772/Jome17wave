@@ -137,6 +137,7 @@
     <string name="default_notification_channel_id">default_channel_id</string>
     <string name="default_notification_channel_name">default_channel_name</string>
     <string name="addImagePlease">請選擇照片</string>
+    <string name="ratingsFinished">完成評分</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>
