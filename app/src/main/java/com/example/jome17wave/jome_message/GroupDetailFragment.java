@@ -266,8 +266,6 @@ public class GroupDetailFragment extends Fragment {
             }
         }
 
-
-
     }
 
 

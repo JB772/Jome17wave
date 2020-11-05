@@ -163,7 +163,7 @@ public class MyLocationService extends Service {
     }
 
     private void updateLastLocationInfo(Location lastLocation){
-        Log.d(TAG, lastLocation.toString());
+//        Log.d(TAG, lastLocation.toString());
         String url = Common.URL_SERVER + "jome_member/LoginServlet";
             String memberStr = Common.usePreferences(this, Common.PREF_FILE).getString("loginMember", "");
             JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
