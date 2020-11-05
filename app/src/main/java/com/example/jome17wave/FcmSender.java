@@ -100,10 +100,13 @@ public class FcmSender {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "singleFcm");
             titleStr = "揪團通知";
+            if(perGroupBean.getRole() == 1){
 
+            }else if (perGroupBean.getRole() == 2){
+
+            }
         }
     }
-
     /**
      * 評分Fcm
      */
