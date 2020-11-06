@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 
 import com.example.jome17wave.Common;
+import com.example.jome17wave.FcmSender;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.FriendListBean;
@@ -129,7 +130,7 @@ public class FindNewFriendFragment extends Fragment {
             @SuppressLint("LongLogTag")
             @Override
             public void onClick(View v) {
-                String url = Common.URL_SERVER + "FindNewFriendServlet";
+                String url = Common.URL_SERVER + "FriendServlet";
                 JsonObject jsonObject = new JsonObject();
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
@@ -155,6 +156,12 @@ public class FindNewFriendFragment extends Fragment {
                         btAddNewFriend.setVisibility(View.GONE);
                         tvWasFriend.setText(R.string.pedding);
                         tvWasFriend.setVisibility(View.VISIBLE);
+
+                        //發送FCM
+                        FriendListBean afterRelation = new Gson().fromJson(jo.get("afterRelation").getAsString(), FriendListBean.class);
+                        FcmSender fcmSender = new FcmSender();
+                        fcmSender.friendFcmSender(activity, afterRelation);
+
                     }else {
                         Common.showToast(activity, R.string.friend_invitation_fail);
                     }
@@ -168,13 +175,13 @@ public class FindNewFriendFragment extends Fragment {
         ibtAgree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = Common.URL_SERVER + "FindNewFriendServlet";
+                String url = Common.URL_SERVER + "FriendServlet";
                 JsonObject jsonObject = new JsonObject();
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
                 friendListBean.setInvite_M_ID(newFriend.getMember_id());
                 friendListBean.setAccept_M_ID(member.getMember_id());
-                friendListBean.setFriend_Status(3);
+//                friendListBean.setFriend_Status(3);
                 jsonObject.addProperty("action", "clickAgree");
                 jsonObject.addProperty("agreeBean", new Gson().toJson(friendListBean));
                 String jsonOut = jsonObject.toString();
@@ -192,6 +199,13 @@ public class FindNewFriendFragment extends Fragment {
 //                        ibtDecline.setVisibility(View.GONE);
                         answerLinearLayout.setVisibility(View.GONE);
                         tvWasFriend.setVisibility(View.VISIBLE);
+
+                        //發送FCM
+                        FriendListBean afterRelation = new Gson().fromJson(jo.get("afterRelation").getAsString(), FriendListBean.class);
+                        Log.d(TAG, "afterRelation: " + afterRelation);
+                        FcmSender fcmSender = new FcmSender();
+                        fcmSender.friendFcmSender(activity, afterRelation);
+
                     }else {
                         Common.showToast(activity, R.string.change_fail);
                     }
@@ -205,7 +219,7 @@ public class FindNewFriendFragment extends Fragment {
         ibtDecline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = Common.URL_SERVER + "FindNewFriendServlet";
+                String url = Common.URL_SERVER + "FriendServlet";
                 JsonObject jsonObject = new JsonObject();
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
@@ -315,7 +329,7 @@ public class FindNewFriendFragment extends Fragment {
     @SuppressLint("LongLogTag")
     private JomeMember getStranger(FindNewFriend findNewFriend) {
         if (Common.networkConnected(activity)){
-            String url = Common.URL_SERVER + "FindNewFriendServlet";
+            String url = Common.URL_SERVER + "FriendServlet";
             JsonObject jsonObject = new JsonObject();
 
             String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");

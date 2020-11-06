@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jome17wave.Common;
+import com.example.jome17wave.FcmSender;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.FriendListBean;
@@ -264,6 +265,11 @@ public class FriendInvitationFragment extends Fragment {
                             invitations.remove(friendListBean);
                             FriendInvitationAdapter.this.notifyDataSetChanged();
                             Common.showToast(activity, R.string.was_friend);
+
+                            //發送FCM
+                            FriendListBean afterRelation = new Gson().fromJson(jo.get("afterRelation").getAsString(), FriendListBean.class);
+                            FcmSender fcmSender = new FcmSender();
+                            fcmSender.friendFcmSender(activity, afterRelation);
                         }
                     } catch (Exception e) {
                         Log.d(TAG, e.toString());
