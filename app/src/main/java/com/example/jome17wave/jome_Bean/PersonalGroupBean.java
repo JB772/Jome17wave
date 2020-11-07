@@ -10,7 +10,7 @@ public class PersonalGroupBean implements Serializable {
     private int attenderId = -1;
     private int attenderStatus = -1;
     private int role = -1;
-    private String surfName = "";
+    private String surfName = "noData";
     private String groupId = "";
     private String groupName = "";
     private String assembleTime = "";

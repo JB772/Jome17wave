@@ -3,27 +3,45 @@ package com.example.jome17wave.jome_Bean;
 public class ScoreBean {
     private String groupId = "";
     private String beRatedId = "";
-    private  String beRatedName = "";
     private String memberId = "";
-    private int score = -1;
+    private int ratingScore = -1;
+    private int scoreId;
+    private String groupName, beRatedName;
 
-    public ScoreBean(String groupId, String beRatedId, String memberId, int score) {
+    public ScoreBean(String groupId, String beRatedId, String memberId, int ratingScore) {
+        super();
         this.groupId = groupId;
         this.beRatedId = beRatedId;
         this.memberId = memberId;
-        this.score = score;
+        this.ratingScore = ratingScore;
     }
 
-    public ScoreBean(String groupId, String beRatedId, String beRatedName, String memberId, int score) {
+
+
+    public ScoreBean(String groupId, String beRatedId, String memberId, int ratingScore, int scoreId, String groupName) {
+        super();
         this.groupId = groupId;
         this.beRatedId = beRatedId;
-        this.beRatedName = beRatedName;
         this.memberId = memberId;
-        this.score = score;
+        this.ratingScore = ratingScore;
+        this.scoreId = scoreId;
+        this.groupName = groupName;
+    }
+
+    public ScoreBean(String groupId, String beRatedId, String memberId, int ratingScore, int scoreId, String groupName, String beRatedName) {
+        this.groupId = groupId;
+        this.beRatedId = beRatedId;
+        this.memberId = memberId;
+        this.ratingScore = ratingScore;
+        this.scoreId = scoreId;
+        this.groupName = groupName;
+        this.beRatedName = beRatedName;
     }
 
     public ScoreBean() {
+        super();
     }
+
 
     public String getGroupId() {
         return groupId;
@@ -49,12 +67,36 @@ public class ScoreBean {
         this.memberId = memberId;
     }
 
-    public int getScore() {
-        return score;
+    public int getRatingScore() {
+        return ratingScore;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setRatingScore(int ratingScore) {
+        this.ratingScore = ratingScore;
+    }
+
+
+
+    public int getScoreId() {
+        return scoreId;
+    }
+
+
+
+    public void setScoreId(int scoreId) {
+        this.scoreId = scoreId;
+    }
+
+
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public String getBeRatedName() {

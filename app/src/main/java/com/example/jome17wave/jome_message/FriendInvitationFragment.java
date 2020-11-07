@@ -101,27 +101,6 @@ public class FriendInvitationFragment extends Fragment {
 
     @SuppressLint("LongLogTag")
     private List<FriendListBean> getInvitations() {
-//        List<FriendInvitation> invitations = new ArrayList<>();
-//        List<FriendInvitation> testInvitations = new ArrayList<>();
-//        testInvitations.add(
-//                new FriendInvitation(1, 2, 3, "王小美", new Date(System.currentTimeMillis())));
-//        testInvitations.add(
-//                new FriendInvitation(2, 3, 3, "李阿智", new Date(System.currentTimeMillis())));
-//        testInvitations.add(
-//                new FriendInvitation(3, 4, 3, "廖凡凡", new Date(System.currentTimeMillis())));
-//        testInvitations.add(
-//                new FriendInvitation(1, 5, 3, "孫美美", new Date(System.currentTimeMillis())));
-//        testInvitations.add(
-//                new FriendInvitation(1, 2, 3, "王小美", new Date(System.currentTimeMillis())));
-//        testInvitations.add(
-//                new FriendInvitation(2, 3, 3, "李阿智", new Date(System.currentTimeMillis())));
-//        testInvitations.add(
-//                new FriendInvitation(3, 4, 3, "廖凡凡", new Date(System.currentTimeMillis())));
-//        testInvitations.add(
-//                new FriendInvitation(1, 5, 3, "孫美美", new Date(System.currentTimeMillis())));
-//
-//        invitations = testInvitations;
-//        return invitations;
         List<FriendListBean> invitations = new ArrayList<>();
         if (Common.networkConnected(activity)){
             String url = Common.URL_SERVER + "FriendInvitationServlet";
@@ -224,16 +203,16 @@ public class FriendInvitationFragment extends Fragment {
              *
              */
             holder.tvName.setText(friendListBean.getInviteName());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @SuppressLint("LongLogTag")
-                @Override
-                public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("friendListBean",friendListBean);
-//                    Navigation.findNavController(view, R.id.action) // 未指定頁面
-                    Log.d(TAG, "尚未指定轉跳頁面");
-                }
-            });
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @SuppressLint("LongLogTag")
+//                @Override
+//                public void onClick(View view) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("friendListBean",friendListBean);
+////                    Navigation.findNavController(view, R.id.action) // 未指定頁面
+//                    Log.d(TAG, "尚未指定轉跳頁面");
+//                }
+//            });
 
             holder.ibtAgree.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("LongLogTag")

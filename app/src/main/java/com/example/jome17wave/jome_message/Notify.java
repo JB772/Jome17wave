@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Notify implements Serializable{
-    private int notificationId, type, notificationBody;
-    private String memberId, notificationDetail;
+    private int notificationId, type;
+    private String memberId, notificationDetail, notificationBody;
     private Date buildDate;
 
     public Notify() {
         super();
     }
 
-    public Notify(int notificationId, int type, int notificationBody, String memberId) {
+    public Notify(int notificationId, int type, String notificationBody, String memberId) {
         super();
         this.notificationId = notificationId;
         this.type = type;
@@ -22,7 +22,7 @@ public class Notify implements Serializable{
 
 
 
-    public Notify(int notificationId, int type, int notificationBody, String memberId, String notificationDetail,
+    public Notify(int notificationId, int type, String notificationBody, String memberId, String notificationDetail,
                   Date buildDate) {
         super();
         this.notificationId = notificationId;
@@ -33,7 +33,7 @@ public class Notify implements Serializable{
         this.buildDate = buildDate;
     }
 
-    public Notify(int notificationId, int type, int notificationBody, String memberId, String notificationDetail) {
+    public Notify(int notificationId, int type, String notificationBody, String memberId, String notificationDetail) {
         this.notificationId = notificationId;
         this.type = type;
         this.notificationBody = notificationBody;
@@ -57,11 +57,11 @@ public class Notify implements Serializable{
         this.type = type;
     }
 
-    public int getNotificationBody() {
+    public String getNotificationBody() {
         return notificationBody;
     }
 
-    public void setNotificationBody(int notificationBody) {
+    public void setNotificationBody(String notificationBody) {
         this.notificationBody = notificationBody;
     }
 
