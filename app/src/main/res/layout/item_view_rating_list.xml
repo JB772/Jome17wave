@@ -6,49 +6,114 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="10dp">
 
-    <TextView
-        android:id="@+id/tvRatedName"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:text="RatedName"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/cvRatedImage"
+        android:layout_marginStart="24dp"
         app:layout_constraintStart_toEndOf="@+id/cvRatedImage"
-        app:layout_constraintTop_toTopOf="@+id/cvRatedImage"
-        app:layout_constraintVertical_bias="0.11" />
+        android:layout_marginVertical="5dp"
+        tools:ignore="MissingConstraints">
 
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="@+id/tvRatedName"
-        app:layout_constraintTop_toBottomOf="@+id/tvRatedName" />
+        <TextView
+            android:id="@+id/tvRatedName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RatedName"
+            android:textSize="16sp"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="@+id/tvRatedName"
+            app:layout_constraintTop_toBottomOf="@+id/tvRatedName">
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/ibtStar1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#00000000"
+                    app:srcCompat="@drawable/star1"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageButton
+                    android:id="@+id/ibtStar2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="#00000000"
+                    app:srcCompat="@drawable/star1"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageButton
+                    android:id="@+id/ibtStar3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="#00000000"
+                    app:srcCompat="@drawable/star1"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageButton
+                    android:id="@+id/ibtStar4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="#00000000"
+                    app:srcCompat="@drawable/star1"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageButton
+                    android:id="@+id/ibtStar5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="#00000000"
+                    app:srcCompat="@drawable/star1"
+                    tools:ignore="MissingConstraints" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvRatedScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="0.0"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+                app:layout_constraintTop_toTopOf="@+id/linearLayout5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvRatedImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:cardCornerRadius="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
-    <ImageView
-        android:id="@+id/ivRatedImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/ivRatedImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:srcCompat="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/tvRatedScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:text="0.0"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ratingBar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

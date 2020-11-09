@@ -52,8 +52,8 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="535dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="355dp"
         android:orientation="vertical"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,7 +65,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMap"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" />
     </LinearLayout>
 

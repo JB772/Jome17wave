@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +54,7 @@ public class NotificationFragment extends Fragment {
     private RecyclerView rvNotification;
     private CommonTask notificationGetAllTask, clickItemTask;
     private List<Notify> notifications;
+    private SwipeRefreshLayout swipeRefreshNoti;
 
 
 
@@ -87,8 +89,19 @@ public class NotificationFragment extends Fragment {
         ivNextPoint = view.findViewById(R.id.ivNextPoint);
         btFriendInvitation = view.findViewById(R.id.btFriendInvitation);
         tvFriendInvitationTitle = view.findViewById(R.id.tvFriendInvitationTitle);
-        tvFriendInvitationDescription = view.findViewById(R.id.tvFriendInvitationDescription);
+//        tvFriendInvitationDescription = view.findViewById(R.id.tvFriendInvitationDescription);
         rvNotification = view.findViewById(R.id.rvNotification);
+        swipeRefreshNoti = view.findViewById(R.id.swipeRefreshNoti);
+
+        swipeRefreshNoti.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshNoti.setRefreshing(true);
+                notifications = getNotifications();
+                showNotification(notifications);
+                swipeRefreshNoti.setRefreshing(false);
+            }
+        });
 
 //        btFriendInvitation.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -305,15 +318,18 @@ public class NotificationFragment extends Fragment {
                     // notification.getNotificationBody() -> 這個是GroupId
                     break;
             }
-            String jsonOut = jsonObject.toString();
-            clickItemTask = new CommonTask(url, jsonOut);
-            try {
-                String inStr = clickItemTask.execute().get();
+            if (jsonObject != null ){
+                Log.d(TAG, "jsonObject != null");
+                String jsonOut = jsonObject.toString();
+                clickItemTask = new CommonTask(url, jsonOut);
+                try {
+                    String inStr = clickItemTask.execute().get();
 //                    Log.d(TAG,"inStr: "+inStr);
-                JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
-                key = jsonIn.get("getKey").getAsString();
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
+                    JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
+                    key = jsonIn.get("getKey").getAsString();
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
             }
         }else {
             Common.showToast(activity, R.string.no_network_connection_available);
