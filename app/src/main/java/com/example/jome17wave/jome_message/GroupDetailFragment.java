@@ -2,14 +2,6 @@ package com.example.jome17wave.jome_message;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,14 +14,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.example.jome17wave.Common;
+import com.example.jome17wave.FcmSender;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.GroupImageTask;
-import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -44,8 +43,8 @@ public class GroupDetailFragment extends Fragment {
     private ConstraintLayout clGroupMemo;
     private Bitmap bitmap;
     private CommonTask joinGroupTask, getMyGroupTask;
-    private  PersonalGroupBean myGroup;
-    private  JomeMember myself;
+    private PersonalGroupBean myGroup, groupBean;
+    private JomeMember selfMember;
 
 
     @Override
@@ -88,17 +87,16 @@ public class GroupDetailFragment extends Fragment {
         clGroupMemo = view.findViewById(R.id.clGroupMemo);
 //        clGroupMemo.setVisibility(View.GONE);
 
-
         showGroupDetail();
 
         //點擊 “查看團員”按鈕
         btGroupTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = getArguments();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("groupData", myGroup);
                 Navigation.findNavController(v)
-                        .navigate(R.id.action_friendInvitationFragment_to_findNewFriendFragment, bundle);
-                Log.d(TAG, "action箭頭指向錯誤：要去查看團員才對啦");
+                        .navigate(R.id.action_fragmentGroupDetail_to_groupAttenderFragment, bundle);
             }
         });
 
@@ -116,39 +114,35 @@ public class GroupDetailFragment extends Fragment {
                             .navigate(R.id.action_friendInvitationFragment_to_findNewFriendFragment, bundle);
                     Log.d(TAG, "action箭頭指向錯誤：要去修改揪團才對啦");
 
-                }else if(btGroupSetting.getText() == "申請加入"){
+                }else if(v.getId() == R.id.btGroupSetting) {
                     //點擊 “申請加入”按鈕
                     String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
                     JsonObject jsonObject = new JsonObject();
+                    selfMember = Common.getSelfFromPreference(activity);
+                    groupBean.setMemberId(selfMember.getMember_id());
+                    groupBean.setRole(2);
+                    groupBean.setAttenderStatus(3);
 
-                    Bundle bundle = getArguments();
-                    if (bundle != null) {
-                        PersonalGroupBean groupBean = (PersonalGroupBean) bundle.getSerializable("groupBean");
-
-                        String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-                        JomeMember myself = new Gson().fromJson(memberStr, JomeMember.class);
-                        groupBean.setMemberId(myself.getMember_id());
-
-                        jsonObject.addProperty("action", "joinGroup");
-                        jsonObject.addProperty("groupBean", new Gson().toJson(groupBean));
-//                        jsonObject.addProperty("myselfId", myself.getMember_id());
-                        String jsonOut = jsonObject.toString();
-                        joinGroupTask = new CommonTask(url, jsonOut);
-                        try {
-                            String jsonIn = joinGroupTask.execute().get();
-                            JsonObject jo = new Gson().fromJson(jsonIn, JsonObject.class);
-                            int resultCode = jo.get("joinResult").getAsInt();
-                            if (resultCode == 1){
-                                Common.showToast(activity, R.string.change_successful);
-                            }else {
-                                Common.showToast(activity, R.string.change_fail);
-                            }
-                        } catch (Exception e) {
-                            Log.d(TAG, e.toString());
-                        }
-
+                    jsonObject.addProperty("action", "joinGroup");
+                    jsonObject.addProperty("groupBean", new Gson().toJson(groupBean));
+                    joinGroupTask = new CommonTask(url, jsonObject.toString());
+                    try {
+                        String jsonIn = joinGroupTask.execute().get();
+                        jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
+                    } catch (Exception e) {
+                        Log.d(TAG, e.toString());
                     }
-
+                    int resultCode = jsonObject.get("joinResult").getAsInt();
+                    if (resultCode == 1){
+                        Common.showToast(activity, R.string.change_successful);
+                        FcmSender fcmSender = new FcmSender();
+                        String groupHeadId = jsonObject.get("groupHeadId").getAsString();
+                        PersonalGroupBean onlyHeadIdGroup = new PersonalGroupBean();
+                        onlyHeadIdGroup.setMemberId(groupHeadId);
+                        fcmSender.groupFcmSender(activity, onlyHeadIdGroup);
+                    }else {
+                        Common.showToast(activity, R.string.change_fail);
+                    }
                 }else {
                     //  動作失效
                     Common.showToast(activity,R.string.change_fail);
@@ -161,7 +155,7 @@ public class GroupDetailFragment extends Fragment {
     private void showGroupDetail() {
         Bundle bundle = getArguments();
         if (bundle != null){
-            PersonalGroupBean groupBean = (PersonalGroupBean)bundle.getSerializable("newGroup");
+            groupBean = (PersonalGroupBean)bundle.getSerializable("newGroup");
 //            Log.d(TAG,"bundleGroupBean: " +  groupBean.getMemberId());
             String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
             int imageSize = getResources().getDisplayMetrics().widthPixels / 2;
@@ -183,8 +177,8 @@ public class GroupDetailFragment extends Fragment {
                 JsonObject jsonObject = new JsonObject();
 
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-                myself = new Gson().fromJson(memberStr,JomeMember.class);
-                String myMemberId = myself.getMember_id();
+                selfMember = new Gson().fromJson(memberStr,JomeMember.class);
+                String myMemberId = selfMember.getMember_id();
 
                 if (myMemberId != null) {
                     jsonObject.addProperty("action", "getMyGroup");
@@ -226,7 +220,7 @@ public class GroupDetailFragment extends Fragment {
 
             //判斷角色
             int status = myGroup.getAttenderStatus();
-            if (status == 1 && groupBean.getMemberId() == myself.getMember_id()){
+            if (status == 1 && groupBean.getMemberId() == selfMember.getMember_id()){
                 //  我是團長 - 按鈕：查看團員、修改揪團
                 tvWord.setVisibility(View.GONE);
                 llButton.setVisibility(View.VISIBLE);

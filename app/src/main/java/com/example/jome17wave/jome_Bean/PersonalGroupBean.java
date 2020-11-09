@@ -1,7 +1,6 @@
 package com.example.jome17wave.jome_Bean;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class PersonalGroupBean implements Serializable {
     private String memberId = "";
@@ -24,10 +23,12 @@ public class PersonalGroupBean implements Serializable {
     private String notice = "";
     private byte[] gImage = null;
 
-    public PersonalGroupBean(String memberId, int attenderId, String groupId) {
+    public PersonalGroupBean(String memberId, int attenderId, String groupId, int attenderStatus, int role) {
         this.memberId = memberId;
         this.attenderId = attenderId;
         this.groupId = groupId;
+        this.attenderStatus = attenderStatus;
+        this.role = role;
     }
 
     public PersonalGroupBean(String memberId, int attenderStatus, int role, String groupId, String groupName, String assembleTime, String groupEndTime, String signUpEnd, int surfPointId, int groupLimit, int groupStatus, String notice) {

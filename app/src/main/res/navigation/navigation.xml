@@ -128,7 +128,11 @@
         android:id="@+id/fragmentGroupDetail"
         android:name="com.example.jome17wave.jome_message.GroupDetailFragment"
         android:label="fragment_group_detail"
-        tools:layout="@layout/fragment_group_detail" />
+        tools:layout="@layout/fragment_group_detail" >
+        <action
+            android:id="@+id/action_fragmentGroupDetail_to_groupAttenderFragment"
+            app:destination="@id/groupAttenderFragment" />
+    </fragment>
     <fragment
         android:id="@+id/ratingPageFragment"
         android:name="com.example.jome17wave.jome_message.RatingPageFragment"
@@ -139,6 +143,11 @@
         android:name="com.example.jome17wave.jome_group.AddGroupFragment"
         android:label="fragment_add_group"
         tools:layout="@layout/fragment_add_group" />
+    <fragment
+        android:id="@+id/groupAttenderFragment"
+        android:name="com.example.jome17wave.GroupAttenderFragment"
+        android:label="fragment_group_attender"
+        tools:layout="@layout/fragment_group_attender" />
 
 </navigation>
 

@@ -163,8 +163,8 @@ public class mainFragment extends Fragment {
         if (groups != null){
             for (PersonalGroupBean group : groups) {
                 if (group.getGroupStatus() == 2) {
-
                     startGroups.add(group);
+                    Log.d(TAG, "groupHeadName :" + group.getGroupName() + "groupHeadId :" + group.getGroupId());
                 }
             }
         }
