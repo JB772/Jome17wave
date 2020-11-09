@@ -118,7 +118,6 @@ public class GroupDetailFragment extends Fragment {
                     //點擊 “申請加入”按鈕
                     String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
                     JsonObject jsonObject = new JsonObject();
-                    selfMember = Common.getSelfFromPreference(activity);
                     groupBean.setMemberId(selfMember.getMember_id());
                     groupBean.setRole(2);
                     groupBean.setAttenderStatus(3);
@@ -137,9 +136,13 @@ public class GroupDetailFragment extends Fragment {
                         Common.showToast(activity, R.string.change_successful);
                         FcmSender fcmSender = new FcmSender();
                         String groupHeadId = jsonObject.get("groupHeadId").getAsString();
-                        PersonalGroupBean onlyHeadIdGroup = new PersonalGroupBean();
-                        onlyHeadIdGroup.setMemberId(groupHeadId);
-                        fcmSender.groupFcmSender(activity, onlyHeadIdGroup);
+                        PersonalGroupBean fcmGroup = new PersonalGroupBean();
+                        fcmGroup.setMemberId(groupHeadId);
+                        fcmGroup.setRole(2);
+                        fcmGroup.setAttenderStatus(3);
+                        fcmGroup.setNickname(selfMember.getNickname());
+                        fcmGroup.setGroupName(groupBean.getGroupName());
+                        fcmSender.groupFcmSender(activity, fcmGroup);
                     }else {
                         Common.showToast(activity, R.string.change_fail);
                     }
@@ -175,9 +178,7 @@ public class GroupDetailFragment extends Fragment {
                 }
 
                 JsonObject jsonObject = new JsonObject();
-
-                String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-                selfMember = new Gson().fromJson(memberStr,JomeMember.class);
+                selfMember = Common.getSelfFromPreference(activity);
                 String myMemberId = selfMember.getMember_id();
 
                 if (myMemberId != null) {
