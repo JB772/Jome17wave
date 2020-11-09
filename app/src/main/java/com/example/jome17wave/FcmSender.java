@@ -123,12 +123,10 @@ public class FcmSender {
                         break;
                 }
             }
-
             dataStr = "messageCenter";
             jsonObject.addProperty("title", titleStr);
             jsonObject.addProperty("body", bodyStr);
             jsonObject.addProperty("data", dataStr);
-            Log.d(TAG, 128 + " :" + jsonObject.toString());
             fcmTask = new CommonTask(url, jsonObject.toString());
             try {
                 String senderResult = fcmTask.execute().get();
@@ -144,7 +142,25 @@ public class FcmSender {
     /**
      * 評分Fcm
      */
-    public void scoreFcmSender() {
-
+    public void scoreFcmSender(Context context, PersonalGroupBean scoreGroup) {
+        if (Common.networkConnected(context)){
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "timerGroupFcm");
+            jsonObject.addProperty("timerGroupId", scoreGroup.getGroupId());
+            titleStr = "評分通知";
+            bodyStr = scoreGroup.getGroupName() + "已結束，幫同伴評分吧！" ;
+            dataStr = "messageCenter";
+            jsonObject.addProperty("title", titleStr);
+            jsonObject.addProperty("body", bodyStr);
+            jsonObject.addProperty("data", dataStr);
+            fcmTask = new CommonTask(url, jsonObject.toString());
+            try {
+                String senderResult = fcmTask.execute().get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

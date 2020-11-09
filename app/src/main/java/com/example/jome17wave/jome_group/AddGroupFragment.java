@@ -11,16 +11,6 @@ import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.solver.state.State;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -35,11 +25,19 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.example.jome17wave.Common;
+import com.example.jome17wave.FcmSender;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
@@ -270,6 +268,8 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
                     int createResult = jsonObject.get("creatResult").getAsInt();
                     if (createResult == 1) {
                         Common.showToast(activity, R.string.createGroupSuccessfully);
+                        FcmSender fcmSender = new FcmSender();
+                        fcmSender.scoreFcmSender(activity, personalGroupBean);
                     } else {
                         Common.showToast(activity, R.string.createGroupFail);
                     }

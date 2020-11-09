@@ -1,4 +1,4 @@
-package com.example.jome17wave;
+package com.example.jome17wave.jome_group;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -24,6 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
 
+import com.example.jome17wave.Common;
+import com.example.jome17wave.FcmSender;
+import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;

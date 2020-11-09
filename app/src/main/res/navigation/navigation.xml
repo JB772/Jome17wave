@@ -145,7 +145,7 @@
         tools:layout="@layout/fragment_add_group" />
     <fragment
         android:id="@+id/groupAttenderFragment"
-        android:name="com.example.jome17wave.GroupAttenderFragment"
+        android:name="com.example.jome17wave.jome_group.GroupAttenderFragment"
         android:label="fragment_group_attender"
         tools:layout="@layout/fragment_group_attender" />
 
