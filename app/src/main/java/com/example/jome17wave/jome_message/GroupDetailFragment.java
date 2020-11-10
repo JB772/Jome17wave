@@ -133,6 +133,9 @@ public class GroupDetailFragment extends Fragment {
                     }
                     int resultCode = jsonObject.get("joinResult").getAsInt();
                     if (resultCode == 1){
+                        llButton.setVisibility(View.GONE);
+                        tvWord.setText("揪團申請審核中");
+                        tvWord.setVisibility(View.VISIBLE);
                         Common.showToast(activity, R.string.change_successful);
                         FcmSender fcmSender = new FcmSender();
                         String groupHeadId = jsonObject.get("groupHeadId").getAsString();
