@@ -63,8 +63,6 @@ public class mainFragment extends Fragment {
         setHasOptionsMenu(true);
         imageTasks = new ArrayList<>();
 
-//        Intent sendMessageIntent = new Intent(activity, MyFirebaseMessagingService.class);
-//        activity.startService(sendMessageIntent);
     }
 
     @Override
@@ -151,6 +149,7 @@ public class mainFragment extends Fragment {
         if (groups != null){
             for (PersonalGroupBean group : groups) {
                 if (group.getGroupStatus() == 1) {
+Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.getSurfPointId());
                     newGroups.add(group);
                 }
             }
@@ -163,8 +162,8 @@ public class mainFragment extends Fragment {
         if (groups != null){
             for (PersonalGroupBean group : groups) {
                 if (group.getGroupStatus() == 2) {
+Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.getSurfPointId() + "\t");
                     startGroups.add(group);
-                    Log.d(TAG, "groupHeadName :" + group.getGroupName() + "groupHeadId :" + group.getGroupId());
                 }
             }
         }

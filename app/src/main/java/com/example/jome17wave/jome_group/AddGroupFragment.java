@@ -286,7 +286,7 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             spSurfPoint.setSelection(position, true);
-            surfPoint = position +1;
+            surfPoint = position ;
 //            surfPoint = position + 1;
 //            Log.d(TAG, "surfPoint123: " + surfPoint);
         }

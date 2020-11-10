@@ -34,13 +34,6 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT));
         }
 
-        NavController navController = Navigation.findNavController(this, R.id.fragment);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         // 當notification被點擊時才會取得自訂資料
         //notification點擊開啟，開的是activity，開activity用intent()，intent可以帶bundle
         Bundle bundle = getIntent().getExtras();
@@ -48,15 +41,25 @@ public class MainActivity extends AppCompatActivity {
             String data = bundle.getString("data");
             Log.d(TAG, "data :" + data);
             if (data.equals("messageCenter")){
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                Log.d(TAG, "before navController: 45");
-                NavController navController = Navigation.findNavController(this, R.id.fragment);
-//                NavController navController = Navigation.setViewNavController(th, R.id.fragment);
-                Log.d(TAG, "before navigate 48");
-                navController.navigate(R.id.notificationFragment);
-                Log.d(TAG, "after navController: 50");
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
+//                NavController navController = Navigation.findNavController(this, R.id.fragment);
+//                navController.navigate(R.id.notificationFragment);
+                Navigation.findNavController(this, R.id.mainFragment).navigate(R.id.notificationFragment);
             }
+        }else {
+            NavController navController = Navigation.findNavController(this, R.id.fragment);
+            NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        }
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int messageType = getIntent().getIntExtra("message", 1);
+        if (messageType != 0){
+            Navigation.findNavController(this, R.id.mainFragment).navigate(R.id.notificationFragment);
         }
     }
 }
