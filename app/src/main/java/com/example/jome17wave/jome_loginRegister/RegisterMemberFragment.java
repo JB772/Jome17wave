@@ -209,9 +209,9 @@ Log.d(TAG, "phone: " + phone);
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             btRegisterVCode.setVisibility(View.GONE);
-                            btReSendVerify.setVisibility(View.GONE);
                             clVerifying.setVisibility(View.GONE);
                             ibtRegister.setVisibility(View.VISIBLE);
+                            etRegisterPh.setEnabled(false);
                         } else {
                             btRegisterVCode.setVisibility(View.GONE);
                             btReSendVerify.setVisibility(View.VISIBLE);
@@ -261,8 +261,7 @@ Log.d(TAG, "phone: " + phone);
             verificationId = id;
             resendToken = token;
             // 顯示填寫驗證碼版面
-            etRegisterPhV.setVisibility(View.VISIBLE);
-            tvRegisterPV.setVisibility(View.VISIBLE);
+            clVerifying.setVisibility(View.VISIBLE);
         }
     };
 
