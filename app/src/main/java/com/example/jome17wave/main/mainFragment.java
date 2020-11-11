@@ -84,10 +84,10 @@ public class mainFragment extends Fragment {
         rvStart = view.findViewById(R.id.rvStart);
         rvStart.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
 
-        diverseStartGroups();
-        diverseNewGroups();
-        showGroups(newGroups);
-        showStartGroups(startGroups);
+//        diverseStartGroups();
+//        diverseNewGroups();
+//        showGroups(newGroups);
+//        showStartGroups(startGroups);
 
 
 
@@ -361,6 +361,10 @@ Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.ge
                 Log.d(TAG, "onActivityResult");
                 getTokenId();
                 askAccessLocationPermission();
+                diverseStartGroups();
+                diverseNewGroups();
+                showGroups(newGroups);
+                showStartGroups(startGroups);
             }
         }
     }

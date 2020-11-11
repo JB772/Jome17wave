@@ -5,18 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.jome17wave.Common;
 import com.example.jome17wave.R;
@@ -64,7 +63,9 @@ public class LoginFragment extends Fragment {
         ibtForgetPw = view.findViewById(R.id.ibtforgetPw);
         ibtRegister = view.findViewById(R.id.ibtRegister);
         ibtFbLogin = view.findViewById(R.id.ibtFbLogin);
+        ibtFbLogin.setVisibility(View.GONE);
         ibtGoogleLogin = view.findViewById(R.id.ibtGoogleLogin);
+        ibtGoogleLogin.setVisibility(View.GONE);
         etLoginAc = view.findViewById(R.id.etLoginAc);
         etLoginPw = view.findViewById(R.id.etLoginPw);
 

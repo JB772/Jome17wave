@@ -55,6 +55,7 @@ public class MemberProfileFragment extends Fragment {
     private ConstraintLayout clFriendList, clScore, clGroupRecord, clJoinRecord;
     private TextView tvFriendList, tvScore, tvGroupRecord, tvJoinRecord, tvMemberNickname;
     private JomeMember jomeMember;
+    private CommonTask selfTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -156,12 +157,26 @@ public class MemberProfileFragment extends Fragment {
     public void showMember(){
         String url = Common.URL_SERVER + "jome_member/LoginServlet";
         int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
-        if (Common.usePreferences(activity, Common.PREF_FILE).equals(null)){
-            jomeMember = new JomeMember();
-        }else {
-            String jsonMember = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-            jomeMember = new Gson().fromJson(jsonMember, JomeMember.class);
+//        if (Common.usePreferences(activity, Common.PREF_FILE).equals(null)){
+//            jomeMember = new JomeMember();
+//        }else {
+//            String jsonMember = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+//            jomeMember = new Gson().fromJson(jsonMember, JomeMember.class);
+//        }
+        JsonObject jsonObject  = new JsonObject();
+        jsonObject.addProperty("action", "selfGet");
+        jsonObject.addProperty("selfId", Common.getSelfFromPreference(activity).getMember_id());
+        String jsoIn = "";
+        selfTask = new CommonTask(url, jsonObject.toString());
+        try {
+            jsoIn = selfTask.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        jsonObject = new Gson().fromJson(jsoIn, JsonObject.class);
+        jomeMember = new Gson().fromJson(jsonObject.get("selfMember").getAsString(), JomeMember.class);
         String memberID = jomeMember.getMember_id();
 
 
@@ -173,7 +188,6 @@ public class MemberProfileFragment extends Fragment {
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
-                Log.d(TAG, "bitmap2: " + bitmap);
                 if (bitmap == null){
                     igMember.setImageResource(R.drawable.no_image);
                 }else {

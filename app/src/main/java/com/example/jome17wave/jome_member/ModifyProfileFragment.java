@@ -101,12 +101,6 @@ public class ModifyProfileFragment extends Fragment {
             imageModify.setImageResource(R.drawable.no_image);
         }
 
-//        Bitmap bitmap = loadFile_getFilesDir("imageProfile");
-//        if(bitmap == null){
-//            imageModify.setImageResource(R.drawable.no_image);
-//        }else {
-//            imageModify.setImageBitmap(bitmap);
-//        }
         ibtCamera = view.findViewById(R.id.ibtCamera);
         ibtCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,6 +269,8 @@ public class ModifyProfileFragment extends Fragment {
                 break;
             case R.id.member_check_item:
                 if (submitModifyData() == 1){
+                    Bitmap bitmapNewProfile = BitmapFactory.decodeByteArray(image, 0, image.length);
+                    saveFile_getFilesDir("imageProfile", bitmapNewProfile);
                     Common.showToast(activity, R.string.successModify);
                     //反回前頁
                     Navigation.findNavController(imageModify).popBackStack();
@@ -333,15 +329,21 @@ public class ModifyProfileFragment extends Fragment {
             loginMember.setNickname(nickname);
         }
         if (modifyPw.equals("")|| modifyPw.isEmpty()){
+            etCheckPw.setError(getString(R.string.passwordIsError));
             Common.showToast(activity, R.string.passwordIsError);
+            return -1;
         }
         if (checkPw.equals("")|| checkPw.isEmpty()){
+            etCheckPw.setError(getString(R.string.passwordIsError));
             Common.showToast(activity, R.string.passwordIsError);
+            return -1;
         }
         if (modifyPw.equals(checkPw)){
             loginMember.setPassword(modifyPw);
         }else {
+            etCheckPw.setError(getString(R.string.passwordIsError));
             Common.showToast(activity, R.string.passwordIsError);
+            return -1;
         }
 
         //上傳更新

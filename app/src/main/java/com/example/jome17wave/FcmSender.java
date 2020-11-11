@@ -88,8 +88,6 @@ public class FcmSender {
             } catch (InterruptedException e) {
                 Log.e(TAG, e.toString());
             }
-
-
         }
     }
 
