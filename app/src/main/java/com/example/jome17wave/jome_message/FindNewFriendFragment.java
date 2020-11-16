@@ -136,8 +136,8 @@ public class FindNewFriendFragment extends Fragment {
                 JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
 //                    String inviteId = member.getMember_id();
 //                Log.d(TAG, "inviteId: " + member.getMember_id());
-                friendListBean.setInvite_M_ID(member.getMember_id());
-                friendListBean.setAccept_M_ID(newFriend.getMember_id());
+                friendListBean.setInvite_M_ID(member.getMemberId());
+                friendListBean.setAccept_M_ID(newFriend.getMemberId());
                 friendListBean.setFriend_Status(3);
 
                 jsonObject.addProperty("action", "addNewFriend");
@@ -179,8 +179,8 @@ public class FindNewFriendFragment extends Fragment {
                 JsonObject jsonObject = new JsonObject();
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
-                friendListBean.setInvite_M_ID(newFriend.getMember_id());
-                friendListBean.setAccept_M_ID(member.getMember_id());
+                friendListBean.setInvite_M_ID(newFriend.getMemberId());
+                friendListBean.setAccept_M_ID(member.getMemberId());
 //                friendListBean.setFriend_Status(3);
                 jsonObject.addProperty("action", "clickAgree");
                 jsonObject.addProperty("agreeBean", new Gson().toJson(friendListBean));
@@ -223,8 +223,8 @@ public class FindNewFriendFragment extends Fragment {
                 JsonObject jsonObject = new JsonObject();
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
-                friendListBean.setInvite_M_ID(member.getMember_id());
-                friendListBean.setAccept_M_ID(newFriend.getMember_id());
+                friendListBean.setInvite_M_ID(member.getMemberId());
+                friendListBean.setAccept_M_ID(newFriend.getMemberId());
                 friendListBean.setFriend_Status(3);
                 jsonObject.addProperty("action", "clickDecline");
                 jsonObject.addProperty("declineBean", new Gson().toJson(friendListBean));
@@ -266,7 +266,7 @@ public class FindNewFriendFragment extends Fragment {
         }else{
             constraintLayoutProfile.setVisibility(View.VISIBLE);
             String url = Common.URL_SERVER + "jome_member/LoginServlet";
-            String memberID = newFriend.getMember_id();
+            String memberID = newFriend.getMemberId();
             try {
                 bitmap = new MemberImageTask(url, memberID, imageSize).execute().get();
             } catch (Exception e) {
@@ -334,7 +334,7 @@ public class FindNewFriendFragment extends Fragment {
 
             String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
             JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
-            String inviteId = member.getMember_id();
+            String inviteId = member.getMemberId();
             if (inviteId != null) {
                 jsonObject.addProperty("action", "searchMember");
                 jsonObject.addProperty("account", findNewFriend.getMemberAccount());

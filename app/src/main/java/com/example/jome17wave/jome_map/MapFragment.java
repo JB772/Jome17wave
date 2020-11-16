@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -287,7 +286,7 @@ public class MapFragment extends Fragment {
                 users = getUsers();
                 for (JomeMember user : users) {
                     LatLng latLng = new LatLng(user.getLatitude(), user.getLongitude());
-                    Marker userMarker = addUserMarker(latLng, user.getNickname(),user.getMember_id());
+                    Marker userMarker = addUserMarker(latLng, user.getNickname(),user.getMemberId());
                     userMarkers.add(userMarker);
                 }
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -361,7 +360,7 @@ public class MapFragment extends Fragment {
             String url = Common.URL_SERVER + "jome_member/CenterServiceServlet";
             String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
             JomeMember member = new Gson().fromJson(memberStr, JomeMember.class);
-            String memberID = member.getMember_id();
+            String memberID = member.getMemberId();
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getAllMember");
             jsonObject.addProperty("ID", memberID);

@@ -181,7 +181,7 @@ public class ProfileScoreFragment extends Fragment {
             String url = Common.URL_SERVER + "jome_member/LoginServlet";
             String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
             JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
-            String memberId = mainMember.getMember_id();
+            String memberId = mainMember.getMemberId();
             String jsonIn = "";
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "scoreCounts");

@@ -88,7 +88,7 @@ public class GroupAttenderFragment extends Fragment {
             }
         }
         List<PersonalGroupBean> attenders = getAllAttenders(groupId);
-        selfId = Common.getSelfFromPreference(activity).getMember_id();
+        selfId = Common.getSelfFromPreference(activity).getMemberId();
         for (PersonalGroupBean attender: attenders){
             if (selfId.equals(attender.getMemberId())){
                 selfRole = attender.getRole();
