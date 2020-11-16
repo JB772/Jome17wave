@@ -138,7 +138,7 @@ public class MemberProfileFragment extends Fragment {
                         break;
                     case R.id.clGroupRecord:
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("member", jomeMember.getMember_id());
+                        bundle.putSerializable("member", jomeMember.getMemberId());
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_myRecordFragment, bundle);
                         break;
                     default:
@@ -165,7 +165,7 @@ public class MemberProfileFragment extends Fragment {
 //        }
         JsonObject jsonObject  = new JsonObject();
         jsonObject.addProperty("action", "selfGet");
-        jsonObject.addProperty("selfId", Common.getSelfFromPreference(activity).getMember_id());
+        jsonObject.addProperty("selfId", Common.getSelfFromPreference(activity).getMemberId());
         String jsoIn = "";
         selfTask = new CommonTask(url, jsonObject.toString());
         try {
@@ -177,7 +177,7 @@ public class MemberProfileFragment extends Fragment {
         }
         jsonObject = new Gson().fromJson(jsoIn, JsonObject.class);
         jomeMember = new Gson().fromJson(jsonObject.get("selfMember").getAsString(), JomeMember.class);
-        String memberID = jomeMember.getMember_id();
+        String memberID = jomeMember.getMemberId();
 
 
         //先檢查手機有沒有存大頭貼，如果沒有再檢查連線取照片

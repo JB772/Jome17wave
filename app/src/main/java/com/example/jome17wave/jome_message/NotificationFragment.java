@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jome17wave.Common;
-import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.jome_Bean.PersonalGroupBean;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
@@ -170,7 +169,7 @@ public class NotificationFragment extends Fragment {
 
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
-                String memberId = member.getMember_id();
+                String memberId = member.getMemberId();
 
                 if (memberId != null){
                     jsonObject.addProperty("action", "getAllNotification");
@@ -348,7 +347,7 @@ public class NotificationFragment extends Fragment {
             case 2: //Body: friendList uID
                 // 連線SV取得對方ID設定成JomeMember物件.setMember_id()，裝入bundle
                 JomeMember friend = new JomeMember();
-                friend.setMember_id(key);
+                friend.setMemberId(key);
                 bundle.putSerializable("friend", friend);
                 break;
             case 3: //Body: group ID

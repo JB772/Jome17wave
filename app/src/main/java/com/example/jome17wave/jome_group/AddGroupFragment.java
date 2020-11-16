@@ -182,7 +182,7 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
             public void onClick(View v) {
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 member = new Gson().fromJson(memberStr, JomeMember.class);
-                String memberId = member.getMember_id();
+                String memberId = member.getMemberId();
                 boolean textError = true;
                 String name = addGroupName.getText().toString().trim();
                 String people = addGroupPeople.getText().toString().trim();

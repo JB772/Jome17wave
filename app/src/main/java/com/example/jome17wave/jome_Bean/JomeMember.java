@@ -1,19 +1,18 @@
 package com.example.jome17wave.jome_Bean;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class JomeMember implements Serializable {
-    private String member_id;
-    private int account_status;
-    private String phone_number;
+    private String memberId;
+    private int accountStatus;
+    private String phoneNumber;
     private String nickname;
     private String account;
     private String password;
     private int gender;
     private double latitude;
     private double longitude;
-    private String token_id;
+    private String tokenId;
     private byte[] image;
     private String friendCount = "";
     private String scoreAverage = "";
@@ -29,28 +28,28 @@ public class JomeMember implements Serializable {
         this.password = password;
     }
 
-    public JomeMember(String member_id, double latitude, double longitude) {
-        this.member_id = member_id;
+    public JomeMember(String memberId, double latitude, double longitude) {
+        this.memberId = memberId;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public JomeMember(String member_id , String account, String password, int gender, String phone_number, String nickname) {
-        this.member_id = member_id;
+    public JomeMember(String memberId, String account, String password, int gender, String phoneNumber, String nickname) {
+        this.memberId = memberId;
         this.account = account;
         this.password = password;
         this.gender = gender;
-        this.phone_number = phone_number;
+        this.phoneNumber = phoneNumber;
         this.nickname = nickname;
     }
 
 
-    public String getMember_id() {
-        return member_id;
+    public String getMemberId() {
+        return memberId;
     }
 
-    public void setMember_id(String member_id) {
-        this.member_id = member_id;
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
     }
 
     public byte[] getImage() {
@@ -85,20 +84,20 @@ public class JomeMember implements Serializable {
         this.gender = gender;
     }
 
-    public int getAccount_status() {
-        return account_status;
+    public int getAccountStatus() {
+        return accountStatus;
     }
 
-    public void setAccount_status(int account_status) {
-        this.account_status = account_status;
+    public void setAccountStatus(int accountStatus) {
+        this.accountStatus = accountStatus;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getNickname() {
@@ -125,12 +124,12 @@ public class JomeMember implements Serializable {
         this.longitude = longitude;
     }
 
-    public String getToken_id() {
-        return token_id;
+    public String getTokenId() {
+        return tokenId;
     }
 
-    public void setToken_id(String token_id) {
-        this.token_id = token_id;
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
     }
 
     public String getFriendCount() {

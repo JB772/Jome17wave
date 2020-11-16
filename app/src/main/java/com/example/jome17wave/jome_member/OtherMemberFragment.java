@@ -113,8 +113,8 @@ public class OtherMemberFragment extends Fragment {
                 String socialAction = "";
                 JsonObject jsonObject = new JsonObject();
                 String mainStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-                String mainId = new Gson().fromJson(mainStr, JomeMember.class).getMember_id();
-                FriendListBean relation = new FriendListBean(mainId, friend.getMember_id(), relationCode);
+                String mainId = new Gson().fromJson(mainStr, JomeMember.class).getMemberId();
+                FriendListBean relation = new FriendListBean(mainId, friend.getMemberId(), relationCode);
                 boolean connectServer = false;
                 switch (v.getId()) {
                     case R.id.ibtFriendStory:
@@ -122,7 +122,7 @@ public class OtherMemberFragment extends Fragment {
                         try {
                             FileOutputStream fileOutput = new FileOutputStream(file);
                             ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
-                            objectOutput.writeObject(friend.getMember_id());
+                            objectOutput.writeObject(friend.getMemberId());
                         } catch (FileNotFoundException e) {
                             Log.e(TAG, e.toString());
                         } catch (IOException e) {
@@ -246,7 +246,7 @@ public class OtherMemberFragment extends Fragment {
         }else {
             if (Common.networkConnected(activity)) {
                 String url = Common.URL_SERVER + "jome_member/LoginServlet";
-                String friendId = friend.getMember_id();
+                String friendId = friend.getMemberId();
                 int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
 
                 try {

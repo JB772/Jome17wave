@@ -156,7 +156,7 @@ public class FriendsListFragment extends Fragment {
         public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int position) {
             final JomeMember friend = friends.get(position);
             String url = Common.URL_SERVER + "jome_member/LoginServlet";
-            String memberId = friend.getMember_id();
+            String memberId = friend.getMemberId();
             getFriendImageTask = new MemberImageTask(url, memberId, imageSize, viewHolder.imageFriend);
             getFriendImageTask.execute();
             viewHolder.tvFriendName.setText(friend.getNickname());
@@ -187,7 +187,7 @@ public class FriendsListFragment extends Fragment {
         if (Common.networkConnected(activity)){
         JsonObject jsonOut = new JsonObject();
         jsonOut.addProperty("action", "getFriendList");
-        jsonOut.addProperty("memberId", member.getMember_id());
+        jsonOut.addProperty("memberId", member.getMemberId());
         getFriendsTask = new CommonTask(url,jsonOut.toString());
         try {
             String inStr = getFriendsTask.execute().get();

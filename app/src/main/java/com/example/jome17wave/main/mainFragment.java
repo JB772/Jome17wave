@@ -382,7 +382,7 @@ Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.ge
 
                         String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                         JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
-                        mainMember.setToken_id(tokenId);
+                        mainMember.setTokenId(tokenId);
                         Common.usePreferences(activity, Common.PREF_FILE).edit()
                                                     .putString("registrationToken", tokenId)
                                                     .putString("loginMember", new Gson().toJson(mainMember))
