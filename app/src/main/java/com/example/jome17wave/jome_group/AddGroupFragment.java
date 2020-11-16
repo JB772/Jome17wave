@@ -94,6 +94,16 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
         toolbar.setTitle("新增揪團");
         final NavController navController = Navigation.findNavController(view);
 
+        Button BtFast = view.findViewById(R.id.BtFast);
+        BtFast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addGroupName.setText("大家一起出來浪");
+                addGroupPeople.setText("4");
+                addGroupNotice.setText("請自備盥洗用具以及毛巾");
+            }
+        });
+
 
         ivAddGroup = view.findViewById(R.id.ivAddGroup);
         ivAddGroup.setImageResource(R.drawable.surf1);

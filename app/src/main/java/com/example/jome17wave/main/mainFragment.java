@@ -274,7 +274,7 @@ Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.ge
 
     private void showStartGroups(List<PersonalGroupBean> startGroups) {
         if (startGroups == null || startGroups.isEmpty()) {
-            Common.showToast(activity, R.string.textNoGroupsFound);
+//            Common.showToast(activity, R.string.textNoGroupsFound);
         }
         StartGroupAdapter groupAdapter = (StartGroupAdapter) rvStart.getAdapter();
         if (groupAdapter == null) {
