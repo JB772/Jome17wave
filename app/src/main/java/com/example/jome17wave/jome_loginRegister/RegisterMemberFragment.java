@@ -102,7 +102,6 @@ public class RegisterMemberFragment extends Fragment {
                         }else{
 Log.d(TAG, "phone: " + phone);
                             sendVerificationCode(phone);
-                            clVerifying.setVisibility(View.VISIBLE);
                         }
                         break;
 
