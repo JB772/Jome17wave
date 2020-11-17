@@ -190,9 +190,12 @@ public class GroupDetailFragment extends Fragment {
                     jsonObject.addProperty("groupId", groupBean.getGroupId());
                 }
                 String jsonOut = jsonObject.toString();
+                Log.d(TAG, "jsonOut193: " + jsonOut);
+//                String jsonOut = new Gson().toJson(jsonObject);
                 getMyGroupTask = new CommonTask(url, jsonOut);
                 try {
                     String inStr = getMyGroupTask.execute().get();
+                    Log.d(TAG, "inStr: " + inStr);
                     JsonObject jsonIn = new Gson().fromJson(inStr, JsonObject.class);
                     myGroup = new Gson().fromJson(jsonIn.get("myGroup").getAsString(), PersonalGroupBean.class);
                 } catch (Exception e) {

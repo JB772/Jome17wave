@@ -115,7 +115,7 @@ public class Common {
         Date assembleTime = str2Date(assembleStr);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(assembleTime);
-        calendar.add(Calendar.HOUR, 2);
+        calendar.add(Calendar.MINUTE, 2);
         return date2StrHm (calendar.getTime());
     }
 
@@ -123,7 +123,7 @@ public class Common {
         Date assembleTime = str2Date(assembleStr);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(assembleTime);
-        calendar.add(Calendar.MINUTE, -30);
+        calendar.add(Calendar.MINUTE, -15);
         return date2StrHm(calendar.getTime());
     }
 
