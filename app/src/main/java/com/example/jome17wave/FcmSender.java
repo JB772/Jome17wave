@@ -44,7 +44,7 @@ public class FcmSender {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "singleFcm");
             titleStr = "好友通知";
-            if (mainMember.getMember_id().equals(relationBean.getInvite_M_ID())) {
+            if (mainMember.getMemberId().equals(relationBean.getInvite_M_ID())) {
                 jsonObject.addProperty("memberId", relationBean.getAccept_M_ID());
                 switch (relationBean.getFriend_Status()) {
                     case 1:
@@ -60,7 +60,7 @@ public class FcmSender {
                     default:
                         return;
                 }
-            } else if (mainMember.getMember_id().equals(relationBean.getAccept_M_ID())) {
+            } else if (mainMember.getMemberId().equals(relationBean.getAccept_M_ID())) {
                 jsonObject.addProperty("memberId", relationBean.getInvite_M_ID());
                 switch (relationBean.getFriend_Status()) {
                     case 1:
@@ -88,8 +88,6 @@ public class FcmSender {
             } catch (InterruptedException e) {
                 Log.e(TAG, e.toString());
             }
-
-
         }
     }
 

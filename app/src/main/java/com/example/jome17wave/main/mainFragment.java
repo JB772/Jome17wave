@@ -63,8 +63,6 @@ public class mainFragment extends Fragment {
         setHasOptionsMenu(true);
         imageTasks = new ArrayList<>();
 
-//        Intent sendMessageIntent = new Intent(activity, MyFirebaseMessagingService.class);
-//        activity.startService(sendMessageIntent);
     }
 
     @Override
@@ -86,10 +84,10 @@ public class mainFragment extends Fragment {
         rvStart = view.findViewById(R.id.rvStart);
         rvStart.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
 
-        diverseStartGroups();
-        diverseNewGroups();
-        showGroups(newGroups);
-        showStartGroups(startGroups);
+//        diverseStartGroups();
+//        diverseNewGroups();
+//        showGroups(newGroups);
+//        showStartGroups(startGroups);
 
 
 
@@ -151,6 +149,7 @@ public class mainFragment extends Fragment {
         if (groups != null){
             for (PersonalGroupBean group : groups) {
                 if (group.getGroupStatus() == 1) {
+Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.getSurfPointId());
                     newGroups.add(group);
                 }
             }
@@ -163,8 +162,8 @@ public class mainFragment extends Fragment {
         if (groups != null){
             for (PersonalGroupBean group : groups) {
                 if (group.getGroupStatus() == 2) {
+Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.getSurfPointId() + "\t");
                     startGroups.add(group);
-                    Log.d(TAG, "groupHeadName :" + group.getGroupName() + "groupHeadId :" + group.getGroupId());
                 }
             }
         }
@@ -275,7 +274,7 @@ public class mainFragment extends Fragment {
 
     private void showStartGroups(List<PersonalGroupBean> startGroups) {
         if (startGroups == null || startGroups.isEmpty()) {
-            Common.showToast(activity, R.string.textNoGroupsFound);
+//            Common.showToast(activity, R.string.textNoGroupsFound);
         }
         StartGroupAdapter groupAdapter = (StartGroupAdapter) rvStart.getAdapter();
         if (groupAdapter == null) {
@@ -362,6 +361,10 @@ public class mainFragment extends Fragment {
                 Log.d(TAG, "onActivityResult");
                 getTokenId();
                 askAccessLocationPermission();
+                diverseStartGroups();
+                diverseNewGroups();
+                showGroups(newGroups);
+                showStartGroups(startGroups);
             }
         }
     }
@@ -379,7 +382,7 @@ public class mainFragment extends Fragment {
 
                         String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                         JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);
-                        mainMember.setToken_id(tokenId);
+                        mainMember.setTokenId(tokenId);
                         Common.usePreferences(activity, Common.PREF_FILE).edit()
                                                     .putString("registrationToken", tokenId)
                                                     .putString("loginMember", new Gson().toJson(mainMember))

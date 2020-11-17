@@ -3,13 +3,6 @@ package com.example.jome17wave.jome_member;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,12 +14,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.example.jome17wave.Common;
 import com.example.jome17wave.FcmSender;
-import com.example.jome17wave.jome_Bean.FriendListBean;
-import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
+import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
@@ -40,7 +39,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.concurrent.ExecutionException;
 
 public class OtherMemberFragment extends Fragment {
@@ -115,8 +113,8 @@ public class OtherMemberFragment extends Fragment {
                 String socialAction = "";
                 JsonObject jsonObject = new JsonObject();
                 String mainStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-                String mainId = new Gson().fromJson(mainStr, JomeMember.class).getMember_id();
-                FriendListBean relation = new FriendListBean(mainId, friend.getMember_id(), relationCode);
+                String mainId = new Gson().fromJson(mainStr, JomeMember.class).getMemberId();
+                FriendListBean relation = new FriendListBean(mainId, friend.getMemberId(), relationCode);
                 boolean connectServer = false;
                 switch (v.getId()) {
                     case R.id.ibtFriendStory:
@@ -124,7 +122,7 @@ public class OtherMemberFragment extends Fragment {
                         try {
                             FileOutputStream fileOutput = new FileOutputStream(file);
                             ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
-                            objectOutput.writeObject(friend.getMember_id());
+                            objectOutput.writeObject(friend.getMemberId());
                         } catch (FileNotFoundException e) {
                             Log.e(TAG, e.toString());
                         } catch (IOException e) {
@@ -233,38 +231,10 @@ public class OtherMemberFragment extends Fragment {
             ibtFriendPandding.setVisibility(View.GONE);
             ibtFriendAdd.setVisibility(View.VISIBLE);
         }
-//        switch (relationCode){
-//            case 1:     //朋友
-//                ibtFriendAdd.setVisibility(View.GONE);
-//                ibtFriendPandding.setVisibility(View.GONE);
-//                ibtFriendStory.setVisibility(View.VISIBLE);
-////                ibtOtherMessage.setVisibility(View.VISIBLE);
-//                break;
-//            case 2:     //有拒絕記錄
-//                ibtFriendStory.setVisibility(View.GONE);
-//                ibtFriendPandding.setVisibility(View.GONE);
-//                ibtFriendAdd.setVisibility(View.VISIBLE);
-//                break;
-//            case 3:     //我等別人回應
-//                ibtFriendStory.setVisibility(View.GONE);
-//                ibtFriendAdd.setVisibility(View.GONE);
-//                ibtFriendPandding.setVisibility(View.VISIBLE);
-//                break;
-//            case 4:     //別人邀請，等待我回應
-//                ibtFriendStory.setVisibility(View.GONE);
-//                ibtFriendPandding.setVisibility(View.GONE);
-//                ibtFriendAdd.setVisibility(View.VISIBLE);
-//                break;
-//            default:
-//                ibtFriendStory.setVisibility(View.GONE);
-//                ibtFriendPandding.setVisibility(View.GONE);
-//                ibtFriendAdd.setVisibility(View.VISIBLE);
-//                break;
-//        }
         tvFDataName.setText(friend.getNickname());
         tvFriendCount.setText(friend.getFriendCount() + " 人");
         tvAverageScore.setText(friend.getScoreAverage());
-        tvAssembleCount.setText(friend.getGroupCount() + "");
+        tvAssembleCount.setText(friend.getCreateGroupCount());
         tvJointCount.setText(friend.getGroupCount());
 
         //拿圖
@@ -276,7 +246,7 @@ public class OtherMemberFragment extends Fragment {
         }else {
             if (Common.networkConnected(activity)) {
                 String url = Common.URL_SERVER + "jome_member/LoginServlet";
-                String friendId = friend.getMember_id();
+                String friendId = friend.getMemberId();
                 int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
 
                 try {

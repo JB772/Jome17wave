@@ -55,6 +55,7 @@ public class MemberProfileFragment extends Fragment {
     private ConstraintLayout clFriendList, clScore, clGroupRecord, clJoinRecord;
     private TextView tvFriendList, tvScore, tvGroupRecord, tvJoinRecord, tvMemberNickname;
     private JomeMember jomeMember;
+    private CommonTask selfTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -137,7 +138,7 @@ public class MemberProfileFragment extends Fragment {
                         break;
                     case R.id.clGroupRecord:
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("member", jomeMember.getMember_id());
+                        bundle.putSerializable("member", jomeMember.getMemberId());
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_myRecordFragment, bundle);
                         break;
                     default:
@@ -156,13 +157,27 @@ public class MemberProfileFragment extends Fragment {
     public void showMember(){
         String url = Common.URL_SERVER + "jome_member/LoginServlet";
         int imageSize = getResources().getDisplayMetrics().widthPixels / 3;
-        if (Common.usePreferences(activity, Common.PREF_FILE).equals(null)){
-            jomeMember = new JomeMember();
-        }else {
-            String jsonMember = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-            jomeMember = new Gson().fromJson(jsonMember, JomeMember.class);
+//        if (Common.usePreferences(activity, Common.PREF_FILE).equals(null)){
+//            jomeMember = new JomeMember();
+//        }else {
+//            String jsonMember = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
+//            jomeMember = new Gson().fromJson(jsonMember, JomeMember.class);
+//        }
+        JsonObject jsonObject  = new JsonObject();
+        jsonObject.addProperty("action", "selfGet");
+        jsonObject.addProperty("selfId", Common.getSelfFromPreference(activity).getMemberId());
+        String jsoIn = "";
+        selfTask = new CommonTask(url, jsonObject.toString());
+        try {
+            jsoIn = selfTask.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        String memberID = jomeMember.getMember_id();
+        jsonObject = new Gson().fromJson(jsoIn, JsonObject.class);
+        jomeMember = new Gson().fromJson(jsonObject.get("selfMember").getAsString(), JomeMember.class);
+        String memberID = jomeMember.getMemberId();
 
 
         //先檢查手機有沒有存大頭貼，如果沒有再檢查連線取照片
@@ -173,7 +188,6 @@ public class MemberProfileFragment extends Fragment {
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
-                Log.d(TAG, "bitmap2: " + bitmap);
                 if (bitmap == null){
                     igMember.setImageResource(R.drawable.no_image);
                 }else {

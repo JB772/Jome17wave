@@ -94,7 +94,7 @@ public class RatingPageFragment extends Fragment {
 
         String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
         JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
-        String memberId = member.getMember_id();
+        String memberId = member.getMemberId();
 
         //設定rv
         rvRatingList.setLayoutManager(new LinearLayoutManager(activity));
@@ -165,7 +165,7 @@ public class RatingPageFragment extends Fragment {
 
             String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
             JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
-            String memberId = member.getMember_id();
+            String memberId = member.getMemberId();
 
             if (memberId != null){
                 jsonObject.addProperty("action", "getRatings");

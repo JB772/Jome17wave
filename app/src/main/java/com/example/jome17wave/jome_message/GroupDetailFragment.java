@@ -118,7 +118,7 @@ public class GroupDetailFragment extends Fragment {
                     //點擊 “申請加入”按鈕
                     String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
                     JsonObject jsonObject = new JsonObject();
-                    groupBean.setMemberId(selfMember.getMember_id());
+                    groupBean.setMemberId(selfMember.getMemberId());
                     groupBean.setRole(2);
                     groupBean.setAttenderStatus(3);
 
@@ -182,7 +182,7 @@ public class GroupDetailFragment extends Fragment {
 
                 JsonObject jsonObject = new JsonObject();
                 selfMember = Common.getSelfFromPreference(activity);
-                String myMemberId = selfMember.getMember_id();
+                String myMemberId = selfMember.getMemberId();
 
                 if (myMemberId != null) {
                     jsonObject.addProperty("action", "getMyGroup");
@@ -227,7 +227,7 @@ public class GroupDetailFragment extends Fragment {
 
             //判斷角色
             int status = myGroup.getAttenderStatus();
-            if (status == 1 && groupBean.getMemberId() == selfMember.getMember_id()){
+            if (status == 1 && groupBean.getMemberId() == selfMember.getMemberId()){
                 //  我是團長 - 按鈕：查看團員、修改揪團
                 tvWord.setVisibility(View.GONE);
                 llButton.setVisibility(View.VISIBLE);

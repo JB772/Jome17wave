@@ -88,7 +88,7 @@ public class GroupAttenderFragment extends Fragment {
             }
         }
         List<PersonalGroupBean> attenders = getAllAttenders(groupId);
-        selfId = Common.getSelfFromPreference(activity).getMember_id();
+        selfId = Common.getSelfFromPreference(activity).getMemberId();
         for (PersonalGroupBean attender: attenders){
             if (selfId.equals(attender.getMemberId())){
                 selfRole = attender.getRole();
@@ -298,6 +298,8 @@ public class GroupAttenderFragment extends Fragment {
                             break;
                     }
                     PersonalGroupBean updateAttender = new PersonalGroupBean(attender.getMemberId(), attender.getAttenderId(), groupId, attenderStatus, attender.getRole());
+                    updateAttender.setSurfPointId(attender.getSurfPointId());
+                    updateAttender.setSurfName(attender.getSurfName());
                     jsonObject.addProperty("action", action);
                     jsonObject.addProperty("auditAttender", new Gson().toJson(updateAttender));
                     if (Common.networkConnected(activity)){

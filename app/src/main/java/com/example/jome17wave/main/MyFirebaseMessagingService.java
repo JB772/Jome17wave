@@ -24,6 +24,7 @@ import java.util.Map;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMessagingService ";
     @SuppressLint("LongLogTag")
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
@@ -38,6 +39,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String data = map.get("data");
         Log.d(TAG, "title: " + title + "\nbody: " + body + "\ndata: " + data);
     }
+
 
     /**
      *  當registration token更新時呼叫，將新的token傳送至server

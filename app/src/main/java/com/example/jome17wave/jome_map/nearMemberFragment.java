@@ -5,13 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 
@@ -20,7 +16,6 @@ import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.JomeMember;
 import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
-import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -58,9 +53,9 @@ public class nearMemberFragment extends Fragment {
         if (bundle != null) {
             JomeMember friend = (JomeMember) bundle.getSerializable("friend");
             if (friend != null) {
-                String friendId = friend.getMember_id();
+                String friendId = friend.getMemberId();
                 String maiMemberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-                String mainId = new Gson().fromJson(maiMemberStr, JomeMember.class).getMember_id();
+                String mainId = new Gson().fromJson(maiMemberStr, JomeMember.class).getMemberId();
                 JsonObject jsonObject = new JsonObject();
                 String jsonIn = "";
                 if (Common.networkConnected(activity)) {

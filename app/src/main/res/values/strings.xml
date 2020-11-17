@@ -139,6 +139,10 @@
     <string name="addImagePlease">請選擇照片</string>
     <string name="ratingsFinished">完成評分</string>
     <string name="textInvalidCode">驗証碼錯誤</string>
+    <string name="pwInconsistent">密碼欄位不一致</string>
+    <string name="phoneIsError">電話號碼錯誤</string>
+    <string name="textIsError">請輸入正確資料</string>
+    <string name="passwordResetFinish">密碼變更完成</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>

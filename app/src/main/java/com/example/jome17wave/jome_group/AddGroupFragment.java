@@ -94,6 +94,16 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
         toolbar.setTitle("新增揪團");
         final NavController navController = Navigation.findNavController(view);
 
+        Button BtFast = view.findViewById(R.id.BtFast);
+        BtFast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addGroupName.setText("大家一起出來浪");
+                addGroupPeople.setText("4");
+                addGroupNotice.setText("請自備盥洗用具以及毛巾");
+            }
+        });
+
 
         ivAddGroup = view.findViewById(R.id.ivAddGroup);
         ivAddGroup.setImageResource(R.drawable.surf1);
@@ -172,7 +182,7 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
             public void onClick(View v) {
                 String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                 member = new Gson().fromJson(memberStr, JomeMember.class);
-                String memberId = member.getMember_id();
+                String memberId = member.getMemberId();
                 boolean textError = true;
                 String name = addGroupName.getText().toString().trim();
                 String people = addGroupPeople.getText().toString().trim();
@@ -286,7 +296,7 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             spSurfPoint.setSelection(position, true);
-            surfPoint = position +1;
+            surfPoint = position ;
 //            surfPoint = position + 1;
 //            Log.d(TAG, "surfPoint123: " + surfPoint);
         }

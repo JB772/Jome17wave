@@ -15,7 +15,7 @@ public class PersonalGroupBean implements Serializable {
     private String assembleTime = "";
     private String groupEndTime = "";
     private String signUpEnd = "";
-    private int surfPointId = -1;
+    private int surfPointId = -30;
     private int groupLimit = -1;
     private int joinCountNow = 1;
     private int gender = -1;

@@ -1,20 +1,13 @@
 package com.example.jome17wave.jome_member;
 
-import android.app.Activity;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedDispatcherOwner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.List;
 
 public class ListToOtherFragment extends Fragment {
         private String TAG = "ListToOtherFragment";
@@ -60,9 +52,9 @@ public class ListToOtherFragment extends Fragment {
         if (bundle != null) {
             JomeMember friend = (JomeMember) bundle.getSerializable("friend");
             if (friend != null) {
-                String friendId = friend.getMember_id();
+                String friendId = friend.getMemberId();
                 String maiMemberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
-                String mainId = new Gson().fromJson(maiMemberStr, JomeMember.class).getMember_id();
+                String mainId = new Gson().fromJson(maiMemberStr, JomeMember.class).getMemberId();
                 JsonObject jsonObject = new JsonObject();
                 String jsonIn = "";
                 if (Common.networkConnected(activity)){
