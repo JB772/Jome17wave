@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -110,7 +111,6 @@ public class SelfAttendingFragment extends Fragment {
                 igProcessing.setVisibility(View.GONE);
                 igCollecting.setVisibility(View.GONE);
                 igChecking.setVisibility(View.GONE);
-
                 tvRecordResult = itemView.findViewById(R.id.tvRecordResult);
             }
         }
@@ -206,14 +206,24 @@ public class SelfAttendingFragment extends Fragment {
                           }
                           break;
                   }
-
               }else if(group.getGroupStatus() == 3){
                   viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
               }else {
                   viewHolder.itemView.setVisibility(View.GONE);
               }
-
             viewHolder.tvRecordResult.setText(group.toString());
+
+            /**設定itemView監聽器
+             *      使其可以轉跳到揪團資料頁
+             */
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("newGroup", group);
+                    Navigation.findNavController(rvSelfRecord).navigate(R.id.action_myRecordFragment_to_groupDetailFragment, bundle);
+                }
+            });
         }
     }
 

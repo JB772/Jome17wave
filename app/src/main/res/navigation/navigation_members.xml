@@ -60,10 +60,18 @@
         android:id="@+id/myRecordFragment"
         android:name="com.example.jome17wave.jome_member.MyRecordFragment"
         android:label="fragment_my_record"
-        tools:layout="@layout/fragment_my_record" />
+        tools:layout="@layout/fragment_my_record" >
+        <action
+            android:id="@+id/action_myRecordFragment_to_groupDetailFragment"
+            app:destination="@id/groupDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/listToOtherFragment"
         android:name="com.example.jome17wave.jome_member.ListToOtherFragment"
         android:label="fragment_list_to_other"
         tools:layout="@layout/fragment_list_to_other" />
+    <fragment
+        android:id="@+id/groupDetailFragment"
+        android:name="com.example.jome17wave.jome_message.GroupDetailFragment"
+        android:label="GroupDetailFragment" />
 </navigation>

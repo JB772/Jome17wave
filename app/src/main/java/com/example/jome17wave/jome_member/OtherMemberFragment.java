@@ -46,7 +46,7 @@ public class OtherMemberFragment extends Fragment {
     private MainActivity activity;
     private ImageView imageFProfile;
     private TextView tvFDataName, tvAverageScore, tvFriendCount, tvAssembleCount, tvJointCount;
-    private ImageButton ibtFriendStory, ibtOtherMessage, ibtFriendAdd, ibtFriendPandding;
+    private ImageButton ibtFriendStory, ibtOtherMessage, ibtFriendAdd, ibtFriendPandding, ibtFriendDelete;
     private MemberImageTask memberImageTask;
     private CommonTask socialTask;
     private JomeMember friend;
@@ -79,11 +79,13 @@ public class OtherMemberFragment extends Fragment {
         ibtOtherMessage = view.findViewById(R.id.ibtOtherMessage);
         ibtFriendAdd = view.findViewById(R.id.ibtFriendAdd);
         ibtFriendPandding = view.findViewById(R.id.ibtFriendPandding);
+        ibtFriendDelete = view.findViewById(R.id.ibtFriendDelete);
 
         ibtFriendStory.setVisibility(View.GONE);
         ibtOtherMessage.setVisibility(View.GONE);
         ibtFriendAdd.setVisibility(View.GONE);
         ibtFriendPandding.setVisibility(View.GONE);
+        ibtFriendDelete.setVisibility(View.GONE);
         //四格資訊
         tvFDataName = view.findViewById(R.id.tvFDataName);
         tvAverageScore = view.findViewById(R.id.tvAverageScore);
@@ -130,6 +132,7 @@ public class OtherMemberFragment extends Fragment {
                         }
                         Navigation.findNavController(view).navigate(R.id.action_otherMemberFragment_to_myRecordFragment2);
                         break;
+
                     case R.id.ibtFriendAdd:
                         ibtFriendAdd.setVisibility(View.GONE);
                         if (relationCode == -1){
@@ -155,6 +158,7 @@ public class OtherMemberFragment extends Fragment {
                         }
                         connectServer = true;
                         break;
+
                     case R.id.ibtFriendPandding:
                         ibtFriendAdd.setVisibility(View.VISIBLE);
                         //如果是取消pending，整筆交友資料刪除
@@ -162,6 +166,17 @@ public class OtherMemberFragment extends Fragment {
                         jsonObject.addProperty("deleteFriend", new Gson().toJson(relation));
                         connectServer = true;
                         break;
+
+                    case R.id.ibtFriendDelete:
+                        ibtFriendAdd.setVisibility(View.VISIBLE);
+                        ibtFriendStory.setVisibility(View.GONE);
+                        //如果是刪除好友，整筆交友資料刪除
+                        socialAction = "deleteRelation";
+                        jsonObject.addProperty("deleteFriend", new Gson().toJson(relation));
+                        connectServer = true;
+                        Log.d(TAG, "DeleteFriendClick");
+                        break;
+
                     default:
                         break;
                 }
@@ -183,20 +198,22 @@ public class OtherMemberFragment extends Fragment {
                         }
                     }
                     if (afterRelation != null){
-
-                        //發送FCM
-                        FcmSender fcmSender = new FcmSender();
-                        fcmSender.friendFcmSender(activity, afterRelation);
-
                         relationCode = afterRelation.getFriend_Status();
-                        jsonObject.addProperty("relationCode", relationCode);
-                        File file = new File(activity.getFilesDir(), "otherMember");
-                        try(ObjectOutputStream objectOutput = new ObjectOutputStream(new FileOutputStream(file));) {
-                            objectOutput.writeObject(jsonObject.toString());
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        if (relationCode != -1){
+                            //發送FCM
+                            FcmSender fcmSender = new FcmSender();
+                            fcmSender.friendFcmSender(activity, afterRelation);
+
+                            relationCode = afterRelation.getFriend_Status();
+                            jsonObject.addProperty("relationCode", relationCode);
+                            File file = new File(activity.getFilesDir(), "otherMember");
+                            try(ObjectOutputStream objectOutput = new ObjectOutputStream(new FileOutputStream(file));) {
+                                objectOutput.writeObject(jsonObject.toString());
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     showMember(relationCode);
@@ -206,6 +223,7 @@ public class OtherMemberFragment extends Fragment {
         ibtFriendStory.setOnClickListener(btOnclick);
         ibtFriendPandding.setOnClickListener(btOnclick);
         ibtFriendAdd.setOnClickListener(btOnclick);
+        ibtFriendDelete.setOnClickListener(btOnclick);
         ibtOtherMessage.setOnClickListener(btOnclick);
     }
 
@@ -215,6 +233,7 @@ public class OtherMemberFragment extends Fragment {
             ibtFriendAdd.setVisibility(View.GONE);
             ibtFriendPandding.setVisibility(View.GONE);
             ibtFriendStory.setVisibility(View.VISIBLE);
+            ibtFriendDelete.setVisibility(View.VISIBLE);
 //                ibtOtherMessage.setVisibility(View.VISIBLE);
         }else if (relationCode == 3){
             //我等別人回應
@@ -229,6 +248,7 @@ public class OtherMemberFragment extends Fragment {
              */
             ibtFriendStory.setVisibility(View.GONE);
             ibtFriendPandding.setVisibility(View.GONE);
+            ibtFriendDelete.setVisibility(View.GONE);
             ibtFriendAdd.setVisibility(View.VISIBLE);
         }
         tvFDataName.setText(friend.getNickname());

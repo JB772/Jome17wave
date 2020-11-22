@@ -161,7 +161,12 @@ public class GroupDetailFragment extends Fragment {
     private void showGroupDetail() {
         Bundle bundle = getArguments();
         if (bundle != null){
+            Log.d(TAG, "bundle is not null~~~~~~~~~~~~~~~");
             groupBean = (PersonalGroupBean)bundle.getSerializable("newGroup");
+        }else {
+            Log.d(TAG, "bundle is null~~~~~~~~~~~~~~~");
+            return;
+        }
 //            Log.d(TAG,"bundleGroupBean: " +  groupBean.getMemberId());
             String url = Common.URL_SERVER + "jome_member/GroupOperateServlet";
             int imageSize = getResources().getDisplayMetrics().widthPixels / 2;
@@ -265,7 +270,6 @@ public class GroupDetailFragment extends Fragment {
                 tvWord.setVisibility(View.GONE);
                 llButton.setVisibility(View.GONE);
             }
-        }
 
     }
 

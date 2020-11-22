@@ -37,6 +37,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -228,8 +229,9 @@ public class GroupAttenderFragment extends Fragment {
             MemberImageTask attenderImageTask = new MemberImageTask(url, memberId, imageSize, myViewHolder.ivProfileImg);
             attenderImageTask.execute();
 
-            //設定資料
-
+            /** 設定資料
+             *  判斷按鈕是否顯示？
+             */
             if (hasJoinCount > 0 && hasJoinCount >= attender.getGroupLimit()){
                 myViewHolder.clAuditMember.setVisibility(View.GONE);
                 myViewHolder.clKickMember.setVisibility(View.VISIBLE);
@@ -263,16 +265,23 @@ public class GroupAttenderFragment extends Fragment {
 
             String attenderId = attender.getMemberId();
             myViewHolder.ibtMemberExit.setVisibility(View.INVISIBLE);
-                if (selfRole == 1){
+            if (selfRole == 1){
+                myViewHolder.ibtMemberExit.setVisibility(View.VISIBLE);
+            }else if (selfRole == 2){
+                if (selfId.equals(attenderId) && selfRole == 2){
                     myViewHolder.ibtMemberExit.setVisibility(View.VISIBLE);
-                }else if (selfRole == 2){
-                    if (selfId.equals(attenderId) && selfRole == 2){
-                        myViewHolder.ibtMemberExit.setVisibility(View.VISIBLE);
-                    }else{
-                        myViewHolder.ibtMemberExit.setVisibility(View.INVISIBLE);
-                    }
+                }else{
+                    myViewHolder.ibtMemberExit.setVisibility(View.INVISIBLE);
                 }
+            }
 
+            Date signUPEndTime = Common.str2Date(attender.getSignUpEnd());
+            //如果現在時間比signUPEndTime 晚…
+            if (new Date().after(signUPEndTime)){
+                myViewHolder.ibtMemberExit.setVisibility(View.GONE);
+                myViewHolder.ibtAgreeAttender.setVisibility(View.GONE);
+                myViewHolder.ibtDeclineAttender.setVisibility(View.GONE);
+            }
 
             myViewHolder.tvAttenderName.setText(attender.getNickname());
 

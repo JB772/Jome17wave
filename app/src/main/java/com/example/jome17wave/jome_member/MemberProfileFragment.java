@@ -4,6 +4,7 @@ package com.example.jome17wave.jome_member;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -100,21 +101,11 @@ public class MemberProfileFragment extends Fragment {
             public void onClick(View view) {
                 switch (view.getId()){
                     case R.id.btConnectUs:
-                        String url = Common.URL_SERVER + "jome_member/FcmBasicServlet";
-                        JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty("action", "singleFcm");
-                        jsonObject.addProperty("title", "TestTitle");
-                        jsonObject.addProperty("body", "TestBody");
-                        jsonObject.addProperty("data", "TestData");
-                        CommonTask commonTask = new CommonTask(url, jsonObject.toString());
-                        try {
-                            String result = commonTask.execute().get();
-                            Log.d(TAG, "containUs: " + result);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        Intent intentEmail = new Intent(Intent.ACTION_SENDTO);
+                        intentEmail.setData(Uri.parse("mailto:jome17Wave@jomail.com"));
+                        intentEmail.putExtra(Intent.EXTRA_SUBJECT, "用戶反應");
+                        intentEmail.putExtra(Intent.EXTRA_TEXT, "來自用戶" + jomeMember.getAccount() + "的寶貴意見：");
+                        startActivity(intentEmail);
                         break;
 
                     case R.id.btLogOut:

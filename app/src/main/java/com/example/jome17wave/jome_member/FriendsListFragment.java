@@ -139,6 +139,7 @@ public class FriendsListFragment extends Fragment {
                 imageFriend = itemView.findViewById(R.id.imageFriend);
                 tvFriendName = itemView.findViewById(R.id.tvFriendName);
                 ibtMessage = itemView.findViewById(R.id.ibtMessage);
+                ibtMessage.setVisibility(View.GONE);
                 ibtDelete = itemView.findViewById(R.id.ibtDelete);
                 ibtDelete.setVisibility(View.GONE);
                 itemFriendCL = itemView.findViewById(R.id.itemFriendCL);
