@@ -32,6 +32,8 @@ import com.example.jome17wave.task.GroupImageTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.util.Date;
+
 public class GroupDetailFragment extends Fragment {
     private static final String TAG = "TAG_GroupDetail";
     private MainActivity activity;
@@ -216,7 +218,7 @@ public class GroupDetailFragment extends Fragment {
 
             tvCaptain.setText(groupBean.getNickname());
             tvGroupName.setText(groupBean.getGroupName());
-            tvGroupDate.setText(groupBean.getGroupEndTime());
+            tvGroupDate.setText(groupBean.getAssembleTime());
             tvGroupLocation.setText(groupBean.getSurfName());
             tvGroupLimit.setText(String.valueOf(groupBean.getGroupLimit())+ " 人" );
 
@@ -229,7 +231,7 @@ public class GroupDetailFragment extends Fragment {
                 tvGroupMemo.setText(groupBean.getNotice());
             }
 
-
+            Date signUPEndTime = Common.str2Date(groupBean.getSignUpEnd());
             //判斷角色
             int status = myGroup.getAttenderStatus();
             if (status == 1 && groupBean.getMemberId() == selfMember.getMemberId()){
@@ -247,15 +249,20 @@ public class GroupDetailFragment extends Fragment {
                 tvWord.setText("揪團申請審核中");
             }else  if (status == -1 || status == 0 || status == 2){
                 // 路人
-                if (groupBean.getGroupStatus() == 2){
+                if (groupBean.getGroupStatus() == 3){
                     //  揪團結束 - 文字：已結束
                     llButton.setVisibility(View.GONE);
                     tvWord.setText("揪團已結束");
                     tvWord.setVisibility(View.VISIBLE);
-                }else if (groupBean.getGroupLimit() == groupBean.getJoinCountNow()){
+                }else if (groupBean.getGroupStatus() == 2){
                     //  未結束，但滿團 - 文字：已滿團
                     llButton.setVisibility(View.GONE);
                     tvWord.setText("此團人數已滿");
+                    tvWord.setVisibility(View.VISIBLE);
+                }else if(new Date().after(signUPEndTime)){
+                    //  表定時間前1分鐘，未滿團 - 文字：即將開始
+                    llButton.setVisibility(View.GONE);
+                    tvWord.setText("此揪團即將開始");
                     tvWord.setVisibility(View.VISIBLE);
                 }else{
                     //  未結束也未滿團 - 按鈕：申請加入

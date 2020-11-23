@@ -149,7 +149,7 @@ public class mainFragment extends Fragment {
         if (groups != null){
             for (PersonalGroupBean group : groups) {
                 if (group.getGroupStatus() == 1) {
-Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.getSurfPointId());
+Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.getGroupStatus()+ "id" + group.getGroupId());
                     newGroups.add(group);
                 }
             }
