@@ -153,7 +153,7 @@ public class SelfAttendingFragment extends Fragment {
                                   }
                                   break;
                               case 2:
-                                  viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);
+                                  viewHolder.igWillStart.setVisibility(View.VISIBLE);
                                   break;
                               case 3:
                                   viewHolder.igAlreadyEnd.setVisibility(View.VISIBLE);

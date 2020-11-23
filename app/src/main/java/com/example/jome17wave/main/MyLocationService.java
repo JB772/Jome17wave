@@ -52,9 +52,9 @@ public class MyLocationService extends Service {
         locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 //每十秒抓一次位置，用秒來計很花耗電，盡量不要用秒來計
-                .setInterval(3000)//單位毫秒
+                .setInterval(6000)//單位毫秒
                 //至少要多遠才算發生位移，越大越省電
-                .setSmallestDisplacement(300);//單位公R
+                .setSmallestDisplacement(200);//單位公R
 
         locationCallback = new LocationCallback() {
             //十秒鐘抓一次位置與手機內存的最後一次位置資料比較，有發生位移才會呼叫onLocationResult()，重新抓資料來刷畫面
@@ -163,7 +163,8 @@ public class MyLocationService extends Service {
     }
 
     private void updateLastLocationInfo(Location lastLocation){
-//        Log.d(TAG, lastLocation.toString());
+
+
         String url = Common.URL_SERVER + "jome_member/LoginServlet";
             String memberStr = Common.usePreferences(this, Common.PREF_FILE).getString("loginMember", "");
             JomeMember mainMember = new Gson().fromJson(memberStr, JomeMember.class);

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -35,6 +36,7 @@ public class LoginFragment extends Fragment {
     private ImageButton ibtRegister;
     private ImageButton ibtFbLogin;
     private ImageButton ibtGoogleLogin;
+    private Button btQuickLogin1, btQuickLogin2;
     private EditText etLoginAc;
     private EditText etLoginPw;
     private CommonTask loginTask;
@@ -68,11 +70,21 @@ public class LoginFragment extends Fragment {
         ibtGoogleLogin.setVisibility(View.GONE);
         etLoginAc = view.findViewById(R.id.etLoginAc);
         etLoginPw = view.findViewById(R.id.etLoginPw);
+        btQuickLogin1 = view.findViewById(R.id.btQuickLogin1);
+        btQuickLogin2 = view.findViewById(R.id.btQuickLogin2);
 
         final View.OnClickListener btOnclick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
+                    case R.id.btQuickLogin1:
+                        etLoginAc.setText("gn1");
+                        etLoginPw.setText("password");
+                        break;
+                    case R.id.btQuickLogin2:
+                        etLoginAc.setText("g92");
+                        etLoginPw.setText("password");
+                        break;
                     case R.id.ibtforgetPw:
                         Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_forgetPwFragment);
                         break;
@@ -129,6 +141,8 @@ public class LoginFragment extends Fragment {
         ibtRegister.setOnClickListener(btOnclick);
         ibtFbLogin.setOnClickListener(btOnclick);
         ibtGoogleLogin.setOnClickListener(btOnclick);
+        btQuickLogin1.setOnClickListener(btOnclick);
+        btQuickLogin2.setOnClickListener(btOnclick);
     }
 
     //Server驗証帳密

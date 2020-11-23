@@ -3,15 +3,6 @@ package com.example.jome17wave.jome_message;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,12 +14,20 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.jome17wave.Common;
 import com.example.jome17wave.FcmSender;
-import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.R;
 import com.example.jome17wave.jome_Bean.FriendListBean;
 import com.example.jome17wave.jome_Bean.JomeMember;
+import com.example.jome17wave.main.MainActivity;
 import com.example.jome17wave.task.CommonTask;
 import com.example.jome17wave.task.MemberImageTask;
 import com.google.gson.Gson;
@@ -229,6 +228,7 @@ public class FriendInvitationFragment extends Fragment {
                     friendListBean.setFriend_Status(3);
                     jsonObject.addProperty("action", "clickAgree");
                     jsonObject.addProperty("agreeBean", new Gson().toJson(friendListBean));
+                    jsonObject.addProperty("friendId", "");
                     String jsonOut = jsonObject.toString();
                     agreeFriendTask = new CommonTask(url, jsonOut);
                     try {
@@ -267,6 +267,7 @@ public class FriendInvitationFragment extends Fragment {
                     friendListBean.setFriend_Status(3);
                     jsonObject.addProperty("action", "clickDecline");
                     jsonObject.addProperty("declineBean", new Gson().toJson(friendListBean));
+                    jsonObject.addProperty("friendId", "");
                     String jsonOut = jsonObject.toString();
                     declineFriendTask = new CommonTask(url, jsonOut);
                     try {

@@ -50,7 +50,7 @@
                             android:id="@+id/tvNickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="24dp"
+                            android:layout_marginBottom="8dp"
                             android:text="@string/Nickname"
                             android:textSize="18sp"
                             android:textColor="@color/colorDeepBlue"
@@ -196,7 +196,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.19">
+                app:layout_constraintVertical_bias="0.16">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -223,7 +223,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvOtherProfileImg"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="12dp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
