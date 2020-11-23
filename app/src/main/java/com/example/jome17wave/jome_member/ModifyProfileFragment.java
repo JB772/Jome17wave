@@ -269,8 +269,6 @@ public class ModifyProfileFragment extends Fragment {
                 break;
             case R.id.member_check_item:
                 if (submitModifyData() == 1){
-                    Bitmap bitmapNewProfile = BitmapFactory.decodeByteArray(image, 0, image.length);
-                    saveFile_getFilesDir("imageProfile", bitmapNewProfile);
                     Common.showToast(activity, R.string.successModify);
                     //反回前頁
                     Navigation.findNavController(imageModify).popBackStack();
@@ -354,7 +352,11 @@ public class ModifyProfileFragment extends Fragment {
             jsonObject.addProperty("action", "update");
             jsonObject.addProperty("memberUp", new Gson().toJson(loginMember));
             if (image != null){
+                Bitmap bitmapNewProfile = BitmapFactory.decodeByteArray(image, 0, image.length);
+                saveFile_getFilesDir("imageProfile", bitmapNewProfile);
                 jsonObject.addProperty("imageBase64", Base64.encodeToString(image, Base64.DEFAULT));
+            }else{
+                jsonObject.addProperty("imageBase64", "noImage");
             }
             String jsonIn = "";
             updateLatLngTask = new CommonTask(url, jsonObject.toString());
