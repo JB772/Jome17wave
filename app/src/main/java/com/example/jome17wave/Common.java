@@ -69,6 +69,7 @@ public class Common {
         return mainMember;
     }
 
+
     /**
      * 將registration token傳送至server
      */

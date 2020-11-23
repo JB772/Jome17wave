@@ -160,6 +160,15 @@ public class LoginFragment extends Fragment {
             loginResultCode = jsonObject.get("loginResultCode").getAsInt();
             if (loginResultCode == 1){
                 loginMember = jsonObject.get("loginMember").getAsString();
+                //將登入驗証結果存偏好設定檔
+                preferences = activity.getSharedPreferences(Common.PREF_FILE, Context.MODE_PRIVATE);
+                //存入偏好檔
+                preferences.edit()
+                        .putBoolean("login", true)
+                        .putString("account", account)
+                        .putString("password", password)
+                        .putString("loginMember", loginMember)
+                        .apply();
                 isAccountValid = true;
             }
         } catch (InterruptedException e) {

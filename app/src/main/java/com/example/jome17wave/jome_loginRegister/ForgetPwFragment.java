@@ -309,4 +309,16 @@ public class ForgetPwFragment extends Fragment {
         return  false;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (checkAccountTask != null){
+            checkAccountTask.cancel(true);
+            checkAccountTask = null;
+        }
+        if (resetPasswordTask != null){
+            resetPasswordTask.cancel(true);
+            resetPasswordTask = null;
+        }
+    }
 }

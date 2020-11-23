@@ -206,6 +206,15 @@ public class MemberProfileFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if (selfTask != null){
+            selfTask.cancel(true);
+            selfTask = null;
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.member_center_tool_bar, menu);

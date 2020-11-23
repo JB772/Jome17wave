@@ -317,4 +317,13 @@ Log.d(TAG, "phone: " + phone);
         }
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (registerTask != null){
+            registerTask.cancel(true);
+            registerTask = null;
+        }
+    }
 }

@@ -3,8 +3,10 @@ package com.example.jome17wave.main;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -51,7 +54,7 @@ public class mainFragment extends Fragment {
     private RecyclerView rvNewGroup;
     private RecyclerView rvStart;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private CommonTask GroupGetAllTask;
+    private CommonTask groupGetAllTask;
     private List<GroupImageTask> imageTasks;
     private  List<PersonalGroupBean> startGroups = new ArrayList<>();
     private  List<PersonalGroupBean> newGroups = new ArrayList<>();
@@ -149,7 +152,6 @@ public class mainFragment extends Fragment {
         if (groups != null){
             for (PersonalGroupBean group : groups) {
                 if (group.getGroupStatus() == 1) {
-Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.getGroupStatus()+ "id" + group.getGroupId());
                     newGroups.add(group);
                 }
             }
@@ -162,7 +164,6 @@ Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.ge
         if (groups != null){
             for (PersonalGroupBean group : groups) {
                 if (group.getGroupStatus() == 2) {
-Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.getSurfPointId() + "\t");
                     startGroups.add(group);
                 }
             }
@@ -177,9 +178,9 @@ Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.ge
             jsonObject.addProperty("action", "getAll");
 //            jsonObject.addProperty("memberId", memberId);
             String jsonOut = jsonObject.toString();
-            GroupGetAllTask = new CommonTask(url, jsonOut);
+            groupGetAllTask = new CommonTask(url, jsonOut);
             try {
-                String jsonIn = GroupGetAllTask.execute().get();
+                String jsonIn = groupGetAllTask.execute().get();
                 jsonObject = new Gson().fromJson(jsonIn, JsonObject.class);
                 String groupsStr = jsonObject.get("allGroup").getAsString();
                 Type listType = new TypeToken<List<PersonalGroupBean>>() {
@@ -359,8 +360,9 @@ Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.ge
         if (requestCode == REQ_LOGIN) {
             if (resultCode == Activity.RESULT_OK) {
                 Log.d(TAG, "onActivityResult");
-                getTokenId();
+                accountIsBan(activity);
                 askAccessLocationPermission();
+                getTokenId();
                 diverseStartGroups();
                 diverseNewGroups();
                 showGroups(newGroups);
@@ -368,6 +370,43 @@ Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.ge
             }
         }
     }
+
+    public void accountIsBan(Activity activity){
+        JomeMember jomeMember = Common.getSelfFromPreference(activity);
+        if (jomeMember.getAccountStatus() != 1){
+            new AlertDialog.Builder(activity)
+                    /* 設定標題 */
+                    .setTitle(R.string.accountIsBan)
+                    /* 設定圖示 */
+                    .setIcon(R.drawable.add_fail_icon)
+                    /* 設定訊息文字 */
+                    .setMessage(R.string.containUs)
+                    /* 設定positive與negative按鈕上面的文字與點擊事件監聽器 */
+                    .setPositiveButton(R.string.ourEmail, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intentEmail = new Intent(Intent.ACTION_SENDTO);
+                            intentEmail.setData(Uri.parse("mailto:jome17Wave@jomail.com"));
+                            intentEmail.putExtra(Intent.EXTRA_SUBJECT, "用戶反應");
+                            intentEmail.putExtra(Intent.EXTRA_TEXT, "來自用戶" + jomeMember.getAccount() + "的寶貴意見：");
+                            startActivity(intentEmail);
+                        }
+                    })
+                    .setNegativeButton(R.string.textNo, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            /* 關閉對話視窗 */
+//                        dialog.cancel();
+                            /* 結束此Activity頁面 */
+                            activity.finish();
+                            System.exit(0);
+                        }
+                    })
+                    .setCancelable(false) // 必須點擊按鈕方能關閉，預設為true
+                    .show();
+        }
+    }
+
     /**
      * 取得手機tokenId
      */
@@ -425,5 +464,12 @@ Log.d(TAG, "groupHeadName :" + group.getGroupName() + "surfPointId :" + group.ge
         }
     }
 
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (groupGetAllTask != null){
+            groupGetAllTask.cancel(true);
+            groupGetAllTask = null;
+        }
+    }
 }

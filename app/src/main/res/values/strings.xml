@@ -143,6 +143,10 @@
     <string name="phoneIsError">電話號碼錯誤</string>
     <string name="textIsError">請輸入正確資料</string>
     <string name="passwordResetFinish">密碼變更完成</string>
+    <string name="accountIsBan">停權帳號</string>
+    <string name="containUs">請與我們聯絡</string>
+    <string name="ourEmail">Email</string>
+    <string name="textNo">離開App</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>
