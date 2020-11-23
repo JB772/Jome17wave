@@ -223,7 +223,7 @@ public class FriendInvitationFragment extends Fragment {
 //                        friendInvitation.setFriendStatus(1);
 //                    }
 
-                    String url = Common.URL_SERVER + "FindNewFriendServlet";
+                    String url = Common.URL_SERVER + "FriendServlet";;
                     JsonObject jsonObject = new JsonObject();
                     friendListBean.setFriend_Status(3);
                     jsonObject.addProperty("action", "clickAgree");
@@ -260,7 +260,7 @@ public class FriendInvitationFragment extends Fragment {
                 @SuppressLint("LongLogTag")
                 @Override
                 public void onClick(View view) {
-                    String url = Common.URL_SERVER + "FindNewFriendServlet";
+                    String url = Common.URL_SERVER + "FriendServlet";;
                     JsonObject jsonObject = new JsonObject();
                     String memberStr = Common.usePreferences(activity, Common.PREF_FILE).getString("loginMember", "");
                     JomeMember member = new Gson().fromJson(memberStr,JomeMember.class);
