@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -45,6 +46,7 @@ public class RegisterMemberFragment extends Fragment {
     private ConstraintLayout clPhoneNumber, clVerifying;
     private EditText etRegisterMail, etRegisterPw, etRegisterCheckPw, etRegisterNn, etRegisterPh, etRegisterPhV;
     private TextView tvRegisterPV;
+    private Button btQuickEnter;
     private ImageButton ibtRegister, btRegisterVCode, btReSendVerify, btEnterVerify;
     private RadioGroup radGGender;
     private RadioButton radBtMale, radBtFemale, radBtThird;
@@ -89,11 +91,18 @@ public class RegisterMemberFragment extends Fragment {
         radBtMale = view.findViewById(R.id.radBtMale);
         radBtFemale = view.findViewById(R.id.radBtFemale);
         radBtThird = view.findViewById(R.id.radBtThird);
+        btQuickEnter = view.findViewById(R.id.btQuickEnter);
         View.OnClickListener btOnClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String phone = "";
                 switch (v.getId()) {
+                    case R.id.btQuickEnter:
+                        etRegisterMail.setText("gn1234");
+                        etRegisterPw.setText("password");
+                        etRegisterNn.setText("PeterPan");
+                        break;
+
                     case R.id.btRegisterVCode:
                         phone = "+886" + etRegisterPh.getText().toString().trim();
                         if (phone.isEmpty() || phone.equals("+886")) {
@@ -169,6 +178,7 @@ Log.d(TAG, "phone: " + phone);
         radBtFemale.setOnClickListener(btOnClick);
         radBtThird.setOnClickListener(btOnClick);
         ibtRegister.setOnClickListener(btOnClick);
+        btQuickEnter.setOnClickListener(btOnClick);
     }
 
     private void sendVerificationCode(String phone) {

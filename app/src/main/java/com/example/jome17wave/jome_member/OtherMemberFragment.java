@@ -48,7 +48,7 @@ public class OtherMemberFragment extends Fragment {
     private TextView tvFDataName, tvAverageScore, tvFriendCount, tvAssembleCount, tvJointCount;
     private ImageButton ibtFriendStory, ibtOtherMessage, ibtFriendAdd, ibtFriendPandding, ibtFriendDelete;
     private MemberImageTask memberImageTask;
-    private CommonTask socialTask;
+    private CommonTask socialTask, friendCountTask;
     private JomeMember friend;
     private int relationCode = -1;
 
@@ -181,11 +181,12 @@ public class OtherMemberFragment extends Fragment {
                         break;
                 }
                 FriendListBean afterRelation = null;
+                String url = Common.URL_SERVER + "FriendServlet";
+                String jsonIn = "";
                 if (connectServer == true){
                     if (Common.networkConnected(activity)){
-                        String url = Common.URL_SERVER + "FriendServlet";
                         jsonObject.addProperty("action", socialAction);
-                        String jsonIn = "";
+                        jsonObject.addProperty("friendId", friend.getMemberId());
                         socialTask = new CommonTask(url, jsonObject.toString());
                         try {
                             jsonIn = socialTask.execute().get();
@@ -215,6 +216,7 @@ public class OtherMemberFragment extends Fragment {
                                 e.printStackTrace();
                             }
                         }
+                        friend.setFriendCount(jsonObject.get("friendCount").getAsString());
                     }
                     showMember(relationCode);
                 }
