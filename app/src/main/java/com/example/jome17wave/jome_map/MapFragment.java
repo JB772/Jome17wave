@@ -198,14 +198,15 @@ public class MapFragment extends Fragment {
                 for (int i = 0; i < 3; i++){
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
-                    int finalI = i;
-                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            rvMap.smoothScrollToPosition(finalI);
-                            return false;
-                        }
-                    });
+                    rvMap.smoothScrollToPosition(i);
+//                    int finalI = i;
+//                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                        @Override
+//                        public boolean onMarkerClick(Marker marker) {
+//                            rvMap.smoothScrollToPosition(finalI);
+//                            return false;
+//                        }
+//                    });
                 }
                 break;
             case R.id.eastSide:
@@ -214,14 +215,15 @@ public class MapFragment extends Fragment {
                 for (int i = 3; i < 6; i++) {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
-                    int finalI = i;
-                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            rvMap.smoothScrollToPosition(finalI);
-                            return false;
-                        }
-                    });
+                    rvMap.smoothScrollToPosition(i);
+//                    int finalI = i;
+//                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                        @Override
+//                        public boolean onMarkerClick(Marker marker) {
+//                            rvMap.smoothScrollToPosition(finalI);
+//                            return false;
+//                        }
+//                    });
                 }
                 break;
             case R.id.southSide:
@@ -230,14 +232,15 @@ public class MapFragment extends Fragment {
                 for (int i = 6; i < 8; i++) {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
-                    int finalI = i;
-                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            rvMap.smoothScrollToPosition(finalI);
-                            return false;
-                        }
-                    });
+                    rvMap.smoothScrollToPosition(i);
+//                    int finalI = i;
+//                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                        @Override
+//                        public boolean onMarkerClick(Marker marker) {
+//                            rvMap.smoothScrollToPosition(finalI);
+//                            return false;
+//                        }
+//                    });
                 }
                 break;
             case R.id.westSide:
@@ -246,14 +249,15 @@ public class MapFragment extends Fragment {
                 for (int i = 8; i < 10; i++) {
                     LatLng latLng = new LatLng(maps.get(i).getLatitude(), maps.get(i).getLongitude());
                     addMarker(latLng, maps.get(i).getName());
-                    int finalI = i;
-                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            rvMap.smoothScrollToPosition(finalI);
-                            return false;
-                        }
-                    });
+                    rvMap.smoothScrollToPosition(i);
+//                    int finalI = i;
+//                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//                        @Override
+//                        public boolean onMarkerClick(Marker marker) {
+//                            rvMap.smoothScrollToPosition(finalI);
+//                            return false;
+//                        }
+//                    });
                 }
                 break;
             case R.id.allSurfPoint:
