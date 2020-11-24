@@ -258,6 +258,7 @@ public class FindNewFriendFragment extends Fragment {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     private void showNewFriendProfile(final JomeMember newFriend) {
         int imageSize;
         imageSize = getResources().getDisplayMetrics().widthPixels/4;
@@ -320,6 +321,8 @@ public class FindNewFriendFragment extends Fragment {
                 case "myself":
                     btAddNewFriend.setVisibility(View.GONE);
                     tvWasFriend.setText(R.string.myself);
+//                    tvWasFriend.setBackgroundColor(R.color.colorWhite);
+//                    tvWasFriend.setTextColor(R.color.colorPurple);
                     tvWasFriend.setVisibility(View.VISIBLE);
                     answerLinearLayout.setVisibility(View.GONE);
                     break;

@@ -198,7 +198,7 @@ public class mainFragment extends Fragment {
 
     private void showGroups(List<PersonalGroupBean> groups) {
         if (groups == null || groups.isEmpty()) {
-            Common.showToast(activity, R.string.textNoGroupsFound);
+//            Common.showToast(activity, R.string.textNoGroupsFound);
         }
         GroupAdapter groupAdapter = (GroupAdapter) rvNewGroup.getAdapter();
         if (groupAdapter == null) {

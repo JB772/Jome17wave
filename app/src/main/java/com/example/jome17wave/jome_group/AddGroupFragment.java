@@ -98,8 +98,8 @@ public class AddGroupFragment extends Fragment implements DatePickerDialog.OnDat
         BtFast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addGroupName.setText("大家一起出來浪");
-                addGroupPeople.setText("4");
+                addGroupName.setText("Let's go surfing");
+                addGroupPeople.setText("2");
                 addGroupNotice.setText("請自備盥洗用具以及毛巾");
             }
         });
