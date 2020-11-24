@@ -268,6 +268,7 @@ public class GroupAttenderFragment extends Fragment {
             if (selfRole == 1){
                 myViewHolder.ibtMemberExit.setVisibility(View.VISIBLE);
             }else if (selfRole == 2){
+                myViewHolder.clAuditMember.setVisibility(View.GONE);
                 if (selfId.equals(attenderId) && selfRole == 2){
                     myViewHolder.ibtMemberExit.setVisibility(View.VISIBLE);
                 }else{
