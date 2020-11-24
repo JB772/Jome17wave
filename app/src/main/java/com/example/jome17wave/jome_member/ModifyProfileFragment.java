@@ -272,10 +272,7 @@ public class ModifyProfileFragment extends Fragment {
                     Common.showToast(activity, R.string.successModify);
                     //反回前頁
                     Navigation.findNavController(imageModify).popBackStack();
-                }else {
-                    Common.showToast(activity, R.string.no_network_connection_available);
                 }
-
                 break;
             default:
                 break;

@@ -1,6 +1,7 @@
 package com.example.jome17wave.jome_member;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -109,17 +111,41 @@ public class MemberProfileFragment extends Fragment {
                         break;
 
                     case R.id.btLogOut:
-                        //清空preferences檔
-                        if (new File(activity.getFilesDir(), "imageProfile").exists()){
-                            activity.deleteFile("imageProfile");
-                        }
-                        boolean preferencesClear = false;
-                        preferencesClear = activity.deleteSharedPreferences(Common.PREF_FILE);
-                        if (preferencesClear == true){
-                            Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
-                            startActivity(intentLoginActivity);
-                            new MemberProfileFragment().onDestroy();
-                        }
+                        new AlertDialog.Builder(activity)
+                                /* 設定標題 */
+                                .setTitle(R.string.logout)
+                                /* 設定圖示 */
+                                .setIcon(R.drawable.add_requst_icon)
+                                /* 設定訊息文字 */
+                                .setMessage(R.string.realleylogout)
+                                /* 設定positive與negative按鈕上面的文字與點擊事件監聽器 */
+                                .setPositiveButton(R.string.trueLogOut, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        /* 登出的動作 */
+                                        //清空preferences檔
+                                        if (new File(activity.getFilesDir(), "imageProfile").exists()){
+                                            activity.deleteFile("imageProfile");
+                                        }
+                                        boolean preferencesClear = false;
+                                        preferencesClear = activity.deleteSharedPreferences(Common.PREF_FILE);
+                                        if (preferencesClear == true){
+                                            Intent intentLoginActivity = new Intent(activity, LoginActivity.class);
+                                            startActivity(intentLoginActivity);
+                                            new MemberProfileFragment().onDestroy();
+                                        }
+                                    }
+                                })
+                                .setNegativeButton(R.string.falseLogOut, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        /* 關閉對話視窗 */
+                                        dialog.cancel();
+                                    }
+                                })
+                                .setCancelable(false) // 必須點擊按鈕方能關閉，預設為true
+                                .show();
+
                         break;
                     case R.id.clFriendList:
                         Navigation.findNavController(view).navigate(R.id.action_memberProfileFragment_to_friendsListFragment);
