@@ -147,6 +147,10 @@
     <string name="containUs">請與我們聯絡</string>
     <string name="ourEmail">Email</string>
     <string name="textNo">離開App</string>
+    <string name="logout">登出</string>
+    <string name="realleylogout">你是真心要離開嗎?</string>
+    <string name="trueLogOut">確定登出</string>
+    <string name="falseLogOut">先不要</string>
     <string-array name="textGenderArray">
         <item>男生</item>
         <item>女生</item>
